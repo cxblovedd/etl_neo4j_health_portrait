@@ -14,13 +14,6 @@ if errorlevel 1 (
     exit /b 1
 )
 
-REM Check dependencies
-echo Checking dependencies...
-pip list | findstr \"neo4j psycopg2 pyodbc requests Flask\" >nul 2>&1
-if errorlevel 1 (
-    echo Warning: Some dependencies may not be installed, please run: pip install -r requirements.txt
-)
-
 echo.
 echo Select startup mode:
 echo 1. Run ETL data processing (single execution)
@@ -37,6 +30,7 @@ if \"%choice%\"==\"1\" (
     python main.py
     goto end
 )
+
 if \"%choice%\"==\"2\" (
     echo Starting ETL scheduler...
     echo ETL task will run periodically, press Ctrl+C to stop
@@ -45,6 +39,7 @@ if \"%choice%\"==\"2\" (
     python -c \"from scheduler.scheduler import ETLScheduler; scheduler = ETLScheduler(); scheduler.start(!hours!)\"
     goto end
 )
+
 if \"%choice%\"==\"3\" (
     echo Starting API service...
     echo Service will start at http://localhost:5000
@@ -52,6 +47,7 @@ if \"%choice%\"==\"3\" (
     python app.py
     goto end
 )
+
 if \"%choice%\"==\"4\" (
     echo Project status:
     echo - Config file: config\\settings.py
@@ -64,15 +60,18 @@ if \"%choice%\"==\"4\" (
     )
     goto end
 )
+
 if \"%choice%\"==\"5\" (
     echo Validating project configuration...
     python check_config.py
     goto end
 )
+
 if \"%choice%\"==\"6\" (
     echo Recent log files:
-    if exist \"logs\\\" (
-        dir /b logs\\n    ) else (
+    if exist \"logs\" (
+        dir /b logs
+    ) else (
         echo No log directory found
     )
     echo.
