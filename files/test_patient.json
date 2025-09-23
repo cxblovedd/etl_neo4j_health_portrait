@@ -1,0 +1,409 @@
+{
+    "code": 0,
+    "msg": "操作成功",
+    "data": {
+        "patientId": "75481",
+        "empi": "D004105921",
+        "idCard": "35021119600103151X",
+        "name": "陈永斌",
+        "birthDate": "1960-01-03",
+        "gender": "男性",
+        "contactInfo": {
+            "phone": null,
+            "address": ""
+        },
+        "contactInfoStr": "{\"phone\" : null, \"address\" : \"\"}",
+        "occupation": "",
+        "encounters": [
+            {
+                "encounterId": "4376637",
+                "encounterType": "1",
+                "visitStartTime": "2025-04-14 09:01:56.0",
+                "visitEndTime": null,
+                "hospitalId": "42504942400",
+                "hospitalName": "弘爱",
+                "departmentId": "8801",
+                "departmentName": "耳鼻喉科",
+                "attendingProviderId": "104482",
+                "attendingProviderName": "肖战",
+                "diagnosesStr": "[{\"diseaseCode\": \"H66.900x002\", \"diseaseName\": \"急性中耳炎\"}]",
+                "diagnoses": [
+                    {
+                        "diseaseName": "急性中耳炎",
+                        "diseaseCode": "H66.900x002"
+                    }
+                ],
+                "labTests": [],
+                "examinations": []
+            },
+            {
+                "encounterId": "4486535",
+                "encounterType": "1",
+                "visitStartTime": "2025-05-27 14:11:21.0",
+                "visitEndTime": null,
+                "hospitalId": "42504942400",
+                "hospitalName": "弘爱",
+                "departmentId": "8801",
+                "departmentName": "耳鼻喉科",
+                "attendingProviderId": "104484",
+                "attendingProviderName": "王一博",
+                "diagnosesStr": "[{\"diseaseCode\": \"H61.200x001\", \"diseaseName\": \"外耳道耵聍栓塞（双）\"}]",
+                "diagnoses": [
+                    {
+                        "diseaseName": "外耳道耵聍栓塞（双）",
+                        "diseaseCode": "H61.200x001"
+                    }
+                ],
+                "labTests": [],
+                "examinations": []
+            },
+            {
+                "encounterId": "9113",
+                "encounterType": "2",
+                "visitStartTime": "2025-03-31 14:32:54.0",
+                "visitEndTime": null,
+                "hospitalId": "42504942400",
+                "hospitalName": "弘爱",
+                "departmentId": "8409",
+                "departmentName": "骨科住院部",
+                "attendingProviderId": "104724",
+                "attendingProviderName": "吴亦凡",
+                "diagnosesStr": "[{\"diseaseCode\": \"T09.300\", \"diseaseName\": \"脊髓损伤\"}]",
+                "diagnoses": [
+                    {
+                        "diseaseName": "脊髓损伤",
+                        "diseaseCode": "T09.300"
+                    }
+                ],
+                "labTests": [],
+                "examinations": [
+                    {
+                        "reportId": "7701684",
+                        "findings": [
+                            {
+                                "physiologicalSystem": "神经系统",
+                                "diagnosisId": "18962",
+                                "diagnosisCode": "",
+                                "diagnosisResult": "脊髓神经根粘连",
+                                "bodyPart": "颈"
+                            },
+                            {
+                                "physiologicalSystem": "运动与骨骼",
+                                "diagnosisId": "18961",
+                                "diagnosisCode": "",
+                                "diagnosisResult": "颈椎退行性变",
+                                "bodyPart": "颈"
+                            }
+                        ],
+                        "fullReport": "颈椎后路单开门椎管减压术+脊髓神经根粘连松解术后改变。\r\n颈椎退行性变。\r\n",
+                        "timestamp": "2025-05-15 18:13:11"
+                    }
+                ]
+            },
+            {
+                "encounterId": "143990",
+                "encounterType": "2",
+                "visitStartTime": "2025-03-31 14:29:09.0",
+                "visitEndTime": null,
+                "hospital": "42504942410",
+                "department": null,
+                "attendingProviderId": null,
+                "diagnosesStr": "[{\"diseaseCode\": \"T09.300\", \"diseaseName\": \"脊髓损伤\"}]",
+                "diagnoses": [
+                    {
+                        "diseaseName": "脊髓损伤",
+                        "diseaseCode": "T09.300"
+                    }
+                ],
+                "labTests": [],
+                "examinations": []
+            },
+            {
+                "encounterId": "4518702",
+                "encounterType": "1",
+                "visitStartTime": "2025-06-10 08:08:14.0",
+                "visitEndTime": null,
+                "hospital": "42504942400",
+                "department": null,
+                "attendingProviderId": null,
+                "diagnosesStr": "[{\"diseaseCode\": \"H65.900x001\", \"diseaseName\": \"分泌性中耳炎（左）\"}]",
+                "diagnoses": [
+                    {
+                        "diseaseName": "分泌性中耳炎（左）",
+                        "diseaseCode": "H65.900x001"
+                    }
+                ],
+                "labTests": [],
+                "examinations": []
+            },
+            {
+                "encounterId": "9113",
+                "encounterType": "2",
+                "visitStartTime": "2025-06-16 10:58:03.0",
+                "visitEndTime": null,
+                "hospital": "42504942410",
+                "department": null,
+                "attendingProviderId": null,
+                "diagnosesStr": "[{\"diseaseCode\": \"G24.902\", \"diseaseName\": \"运动障碍\"}]",
+                "diagnoses": [
+                    {
+                        "diseaseName": "运动障碍",
+                        "diseaseCode": "G24.902"
+                    }
+                ],
+                "labTests": [],
+                "examinations": [
+                    {
+                        "reportId": "7701684",
+                        "findings": [
+                            {
+                                "physiologicalSystem": "运动与骨骼",
+                                "diagnosisId": "18961",
+                                "diagnosisCode": "",
+                                "diagnosisResult": "颈椎退行性变",
+                                "bodyPart": "颈"
+                            },
+                            {
+                                "physiologicalSystem": "神经系统",
+                                "diagnosisId": "18962",
+                                "diagnosisCode": "",
+                                "diagnosisResult": "脊髓神经根粘连",
+                                "bodyPart": "颈"
+                            }
+                        ],
+                        "fullReport": "颈椎后路单开门椎管减压术+脊髓神经根粘连松解术后改变。\r\n颈椎退行性变。\r\n",
+                        "timestamp": "2025-05-15 18:13:11"
+                    }
+                ]
+            },
+            {
+                "encounterId": "9113",
+                "encounterType": "2",
+                "visitStartTime": "2025-03-31 18:55:37.0",
+                "visitEndTime": null,
+                "hospital": "42504942410",
+                "department": null,
+                "attendingProviderId": null,
+                "diagnosesStr": "[{\"diseaseCode\": \"FD002\", \"diseaseName\": \"运动功能障碍\"}]",
+                "diagnoses": [
+                    {
+                        "diseaseName": "运动功能障碍",
+                        "diseaseCode": "FD002"
+                    }
+                ],
+                "labTests": [],
+                "examinations": [
+                    {
+                        "reportId": "7701684",
+                        "findings": [
+                            {
+                                "physiologicalSystem": "运动与骨骼",
+                                "diagnosisId": "18961",
+                                "diagnosisCode": "",
+                                "diagnosisResult": "颈椎退行性变",
+                                "bodyPart": "颈"
+                            },
+                            {
+                                "physiologicalSystem": "神经系统",
+                                "diagnosisId": "18962",
+                                "diagnosisCode": "",
+                                "diagnosisResult": "脊髓神经根粘连",
+                                "bodyPart": "颈"
+                            }
+                        ],
+                        "fullReport": "颈椎后路单开门椎管减压术+脊髓神经根粘连松解术后改变。\r\n颈椎退行性变。\r\n",
+                        "timestamp": "2025-05-15 18:13:11"
+                    }
+                ]
+            },
+            {
+                "encounterId": "4500786",
+                "encounterType": "1",
+                "visitStartTime": "2025-06-03 09:30:10.0",
+                "visitEndTime": null,
+                "hospital": "42504942400",
+                "department": null,
+                "attendingProviderId": null,
+                "diagnosesStr": "[{\"diseaseCode\": \"H65.900x001\", \"diseaseName\": \"分泌性中耳炎（左）\"}]",
+                "diagnoses": [
+                    {
+                        "diseaseName": "分泌性中耳炎（左）",
+                        "diseaseCode": "H65.900x001"
+                    }
+                ],
+                "labTests": [],
+                "examinations": []
+            }
+        ],
+        "conditions": [
+            {
+                "conditionName": "分泌性中耳炎（左）",
+                "type": "Diagnosis",
+                "icdCode": "H65.900x001",
+                "status": "Active",
+                "firstReportedDate": "2025-06-10 08:08:14.0"
+            },
+            {
+                "conditionName": "急性中耳炎",
+                "type": "Diagnosis",
+                "icdCode": "H66.900x002",
+                "status": "Active",
+                "firstReportedDate": "2025-04-14 09:01:56.0"
+            },
+            {
+                "conditionName": "外耳道耵聍栓塞（双）",
+                "type": "Diagnosis",
+                "icdCode": "H61.200x001",
+                "status": "Active",
+                "firstReportedDate": "2025-05-27 14:11:21.0"
+            },
+            {
+                "conditionName": "运动障碍",
+                "type": "Diagnosis",
+                "icdCode": "G24.902",
+                "status": "Active",
+                "firstReportedDate": "2025-06-16 10:58:03.0"
+            },
+            {
+                "conditionName": "运动功能障碍",
+                "type": "Diagnosis",
+                "icdCode": "FD002",
+                "status": "Active",
+                "firstReportedDate": "2025-03-31 18:55:37.0"
+            },
+            {
+                "conditionName": "脊髓损伤",
+                "type": "Diagnosis",
+                "icdCode": "T09.300",
+                "status": "Active",
+                "firstReportedDate": "2025-03-31 14:32:54.0"
+            }
+        ],
+        "familyHistoryList": [],
+        "height": null,
+        "weight": null,
+        "allergyProfilesList": [],
+        "maritalReproductiveList": [
+            {
+                "maritalReproductiveId": 5821,
+                "patientId": 75481,
+                "maritalStatusCode": null,
+                "maritalStatus": "已婚",
+                "spouseHealthStatusCode": null,
+                "spouseHealthStatus": "良好",
+                "childrenCount": "1",
+                "childHealth": null,
+                "childDetail": null,
+                "recordedAt": "2025-03-31 14:37:53",
+                "sourceRecordedBy": "医生站",
+                "sourceRecordedMode": "住院病历",
+                "sourceRecordedId": "198362_ZYBL",
+                "createdAt": "2025-06-19T17:09:20.516",
+                "createdBy": null,
+                "updatedAt": "2025-06-19T17:09:20.516",
+                "updatedBy": null
+            }
+        ],
+        "pastBloodTransfusionsList": [],
+        "pastInfectiousDiseasesList": [],
+        "pastSurgeriesList": [
+            {
+                "pastSurgeriestId": 16422,
+                "empiNo": null,
+                "patientId": 75481,
+                "patId": "",
+                "visitType": "",
+                "yqdm": null,
+                "surgeryCode": "03.6",
+                "surgeryName": "脊髓神经根粘连松解术",
+                "bodySite": "脊髓神经根",
+                "surgeryDate": "2025-03-20",
+                "complications": null,
+                "notes": null,
+                "createdAt": "2025-06-19T17:07:22.995",
+                "updateTime": null
+            },
+            {
+                "pastSurgeriestId": 16421,
+                "empiNo": null,
+                "patientId": 75481,
+                "patId": "",
+                "visitType": "",
+                "yqdm": null,
+                "surgeryCode": "03.09",
+                "surgeryName": "颈椎后路单开门椎管减压术",
+                "bodySite": "颈椎",
+                "surgeryDate": "2025-03-20",
+                "complications": null,
+                "notes": null,
+                "createdAt": "2025-06-19T17:07:22.673",
+                "updateTime": null
+            }
+        ],
+        "pastTraumasList": [
+            {
+                "pastTraumasId": 11301,
+                "patientId": 75481,
+                "patId": "",
+                "visitType": "",
+                "yqdm": null,
+                "traumaType": "OTHER",
+                "severity": "SEVERE",
+                "bodySite": "颈部脊髓",
+                "burnDegree": "OTHER",
+                "healed": "false",
+                "traumasDate": null,
+                "createdAt": "2025-06-19T17:07:57.257",
+                "updateTime": null
+            }
+        ],
+        "pastVaccinationsList": [],
+        "personalAlcoholHistoryList": [
+            {
+                "personalAlcoholHistoryId": 16401,
+                "patientId": 75481,
+                "patId": "",
+                "visitType": "",
+                "yqdm": null,
+                "frequency": "DAILY",
+                "drinksPerDay": "",
+                "beverageType": null,
+                "hasBinge": "false",
+                "drinksFlag": "true",
+                "yearsOfDrinks": "",
+                "historyDetails": "出生地福建省厦门市集美区，生长于福建省厦门市集美区日东路10号之一405，退（离）休人员。有吸烟史；有饮酒史。否认疫水接触史，否认疫区久居史。否认工业毒物、粉尘、放射性物质接触史。否认冶游史。",
+                "historyDate": "2025-03-31 14:37:53",
+                "createdAt": "2025-06-19T17:08:27.777",
+                "updateTime": null
+            }
+        ],
+        "personalSmokingHistoryList": [
+            {
+                "personalSmokingHistoryId": 10421,
+                "patientId": 75481,
+                "patId": "",
+                "visitType": "",
+                "yqdm": null,
+                "status": "OTHER",
+                "smokingDuration": null,
+                "packsPerDay": null,
+                "quitAttempts": null,
+                "quitDuration": null,
+                "beforeQuit": null,
+                "cessationMethod": null,
+                "beforePacksPerDay": null,
+                "smokingFlag": null,
+                "historyDetails": "出生地福建省厦门市集美区，生长于福建省厦门市集美区日东路10号之一405，退（离）休人员。有吸烟史；有饮酒史。否认疫水接触史，否认疫区久居史。否认工业毒物、粉尘、放射性物质接触史。否认冶游史。",
+                "createdAt": "2025-06-19T17:08:14.974",
+                "updateTime": null
+            }
+        ],
+        "physicalTraitsList": [],
+        "dietHabitsList": [],
+        "healthStatusList": [],
+        "medicationInfoList": [],
+        "menstruationHistoryList": [],
+        "sleepAssessmentList": [],
+        "physicalActivityList": []
+    }
+}

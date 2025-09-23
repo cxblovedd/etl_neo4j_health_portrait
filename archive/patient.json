@@ -1,0 +1,671 @@
+{
+    "patientId": "1701",
+    "idCard": "350203196510091019",
+    "name": "林*雄",
+    "birthDate": "1965-10-09",
+    "gender": "男",
+    "contactInfo": {
+        "phone": null,
+        "address": ""
+    },
+    "contactInfoStr": "{\"phone\" : null, \"address\" : \"\"}",
+    "occupation": "",
+    "maritalAndReproductiveHistory": null,
+    "conditions": [
+        {
+            "conditionName": "原发性高血压",
+            "type": "Diagnosis",
+            "icdCode": "I10",
+            "status": "Active",
+            "firstReportedDate": "2025-03-21 09:40:38"
+        }
+    ],
+         "personalHistory": [
+            {
+                "type": "工业毒物接触",
+                "status": "none",
+                "details": null,
+                "sourceRecordId": "201"
+            },
+            {
+                "type": "饮酒史",
+                "status": "none",
+                "details": "出生于当地，生长于当地。从事个体工作。有吸烟史16年，平均20支/日；有饮酒史16年，平均500ml/日，已戒3年余。否认药物嗜好。否认疫水疫区接触史。无工业毒物、粉尘、放射性物质接触史。无冶游史。",
+                "sourceRecordId": "122"
+            },
+            {
+                "type": "吸烟史",
+                "status": "none",
+                "details": "出生于当地，生长于当地。从事个体工作。有吸烟史16年，平均20支/日；有饮酒史16年，平均500ml/日，已戒3年余。否认药物嗜好。否认疫水疫区接触史。无工业毒物、粉尘、放射性物质接触史。无冶游史。",
+                "sourceRecordId": "121"
+            }
+        ],
+        "familyHistory": [
+            {
+                "relative": "父亲",
+                "conditionName": "前列腺恶性肿瘤",
+                "details": "",
+                "sourceRecordId": "641"
+            },
+            {
+                "relative": "二哥",
+                "conditionName": "肝和肝内胆管恶性肿瘤",
+                "details": "",
+                "sourceRecordId": "642"
+            }
+        ],
+        "allergies": [
+            {
+                "allergen": "特治星",
+                "reaction": "未知",
+                "severity": "阳性",
+                "sourceRecordId": "142"
+            },
+            {
+                "allergen": "花生",
+                "reaction": "未知",
+                "severity": "阳性",
+                "sourceRecordId": "141"
+            },
+            {
+                "allergen": "青霉素",
+                "reaction": "皮试剂阳性",
+                "severity": "未知",
+                "sourceRecordId": "101"
+            }
+        ],
+    "encounters": [
+        {
+            "encounterId": "4318982",
+            "type": "消化内科门诊",
+            "encounterDate": "2025-03-21 11:12:22",
+            "dischargeDate": "",
+            "department": "消化内科门诊",
+            "attendingProviderId": "100625",
+            "diagnosesRecorded": [
+                {
+                    "icdCode": "R10.402",
+                    "conditionName": "腹痛"
+                }
+            ],
+            "labResultsRecorded": [
+                {
+                    "reportId": "23486568_KET                 ",
+                    "testCode": "KET                 ",
+                    "testName": "酮体(KET)",
+                    "value": "+-",
+                    "textValue": "",
+                    "unit": "                    ",
+                    "referenceRange": "阴性",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "23486568_UF-WBC              ",
+                    "testCode": "UF-WBC              ",
+                    "testName": "白细胞(WBC)",
+                    "value": "19.60",
+                    "textValue": "",
+                    "unit": "/μL                ",
+                    "referenceRange": "0～10.00",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "23486568_BLD                 ",
+                    "testCode": "BLD                 ",
+                    "testName": "隐血(BLD)",
+                    "value": "3+",
+                    "textValue": "",
+                    "unit": "                    ",
+                    "referenceRange": "阴性",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "23486568_UF-RBC              ",
+                    "testCode": "UF-RBC              ",
+                    "testName": "红细胞(RBC)",
+                    "value": "4836.10",
+                    "textValue": "",
+                    "unit": "/μL                ",
+                    "referenceRange": "0～8.00",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "23486111_AG                  ",
+                    "testCode": "AG                  ",
+                    "testName": "阴离子间隙(AG)",
+                    "value": "7.7",
+                    "textValue": "",
+                    "unit": "mmol/L              ",
+                    "referenceRange": "8.0～16.0",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "23485416_WBC                 ",
+                    "testCode": "WBC                 ",
+                    "testName": "白细胞计数(WBC)",
+                    "value": "11.15",
+                    "textValue": "",
+                    "unit": "10^9/L              ",
+                    "referenceRange": "3.50～9.50",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "23486568_JJ-WBC              ",
+                    "testCode": "JJ-WBC              ",
+                    "testName": "镜检白细胞",
+                    "value": "10-15",
+                    "textValue": "",
+                    "unit": "/HPF                ",
+                    "referenceRange": "0～5",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "23486111_GLU                 ",
+                    "testCode": "GLU                 ",
+                    "testName": "葡萄糖(Glu)",
+                    "value": "7.62",
+                    "textValue": "",
+                    "unit": "mmol/L              ",
+                    "referenceRange": "3.90～6.10",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "23486111_B:C                 ",
+                    "testCode": "B:C                 ",
+                    "testName": "尿素：肌酐(B:C)",
+                    "value": "24.45",
+                    "textValue": "",
+                    "unit": "                    ",
+                    "referenceRange": "12.00～20.00",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "23485416_GRAN#               ",
+                    "testCode": "GRAN#               ",
+                    "testName": "中性粒细胞计数(GRAN)",
+                    "value": "7.98",
+                    "textValue": "",
+                    "unit": "10^9/L              ",
+                    "referenceRange": "1.80～6.30",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "23485416_P-LCR               ",
+                    "testCode": "P-LCR               ",
+                    "testName": "大血小板比例(P-LCR)",
+                    "value": "15.3",
+                    "textValue": "",
+                    "unit": "%                   ",
+                    "referenceRange": "19.7～42.4",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "23486568_CAOXM               ",
+                    "testCode": "CAOXM               ",
+                    "testName": "一水合草酸钙结晶",
+                    "value": "3.0",
+                    "textValue": "",
+                    "unit": "/μL                ",
+                    "referenceRange": "0～2.0",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "23486568_JJCRC2              ",
+                    "testCode": "JJCRC2              ",
+                    "testName": "镜检草酸钙结晶",
+                    "value": "1+",
+                    "textValue": "",
+                    "unit": "/HPF                ",
+                    "referenceRange": null,
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "23486568_U-PRO               ",
+                    "testCode": "U-PRO               ",
+                    "testName": "尿蛋白(PRO)",
+                    "value": "1+",
+                    "textValue": "",
+                    "unit": "                    ",
+                    "referenceRange": "阴性",
+                    "interpretation": ""
+                }
+            ],
+            "examinationsPerformed": [
+                {
+                    "reportId": "7426708",
+                    "findings": [
+                        {
+                            "findingId": "161",
+                            "icdCode": "K57.30",
+                            "suggestedConditionName": "结肠憩室病，不伴有出血或穿孔",
+                            "location": "腹",
+                            "details": "1、结肠多发憩室。\r\n2、前列腺钙化灶。\r\n3、双肾周围渗出，左侧输尿管上段结石。左肾低密度隆起，必要时增强扫描。\r\n",
+                            "finding": "1、结肠多发憩室。\r\n2、前列腺钙化灶。\r\n3、双肾周围渗出，左侧输尿管上段结石。左肾低密度隆起，必要时增强扫描。\r\n",
+                            "suggestedConditionType": "K57.30"
+                        }
+                    ],
+                    "examId": "",
+                    "type": "消化系统",
+                    "timestamp": "2025-03-21 10:00:17"
+                },
+                {
+                    "reportId": "7426708",
+                    "findings": [
+                        {
+                            "findingId": "163",
+                            "icdCode": "N20.0",
+                            "suggestedConditionName": "肾结石",
+                            "location": "腹",
+                            "details": "1、结肠多发憩室。\r\n2、前列腺钙化灶。\r\n3、双肾周围渗出，左侧输尿管上段结石。左肾低密度隆起，必要时增强扫描。\r\n",
+                            "finding": "1、结肠多发憩室。\r\n2、前列腺钙化灶。\r\n3、双肾周围渗出，左侧输尿管上段结石。左肾低密度隆起，必要时增强扫描。\r\n",
+                            "suggestedConditionType": "N20.0"
+                        },
+                        {
+                            "findingId": "164",
+                            "icdCode": "N13.2",
+                            "suggestedConditionName": "肾盂积水伴有肾和输尿管结石梗阻",
+                            "location": "腹",
+                            "details": "1、结肠多发憩室。\r\n2、前列腺钙化灶。\r\n3、双肾周围渗出，左侧输尿管上段结石。左肾低密度隆起，必要时增强扫描。\r\n",
+                            "finding": "1、结肠多发憩室。\r\n2、前列腺钙化灶。\r\n3、双肾周围渗出，左侧输尿管上段结石。左肾低密度隆起，必要时增强扫描。\r\n",
+                            "suggestedConditionType": "N13.2"
+                        }
+                    ],
+                    "examId": "",
+                    "type": "泌尿系统",
+                    "timestamp": "2025-03-21 10:00:17"
+                },
+                {
+                    "reportId": "7426708",
+                    "findings": [
+                        {
+                            "findingId": "162",
+                            "icdCode": "N42.1",
+                            "suggestedConditionName": "前列腺钙化",
+                            "location": "其他",
+                            "details": "1、结肠多发憩室。\r\n2、前列腺钙化灶。\r\n3、双肾周围渗出，左侧输尿管上段结石。左肾低密度隆起，必要时增强扫描。\r\n",
+                            "finding": "1、结肠多发憩室。\r\n2、前列腺钙化灶。\r\n3、双肾周围渗出，左侧输尿管上段结石。左肾低密度隆起，必要时增强扫描。\r\n",
+                            "suggestedConditionType": "N42.1"
+                        }
+                    ],
+                    "examId": "",
+                    "type": "生殖系统",
+                    "timestamp": "2025-03-21 10:00:17"
+                }
+            ]
+        },
+        {
+            "encounterId": "3177767",
+            "type": "急诊内科",
+            "encounterDate": "2023-11-17 12:24:32",
+            "dischargeDate": "",
+            "department": "急诊内科",
+            "attendingProviderId": "100615",
+            "diagnosesRecorded": [
+                {
+                    "icdCode": "J03.901",
+                    "conditionName": "急性化脓性扁桃体炎"
+                }
+            ],
+            "labResultsRecorded": [
+                {
+                    "reportId": "18306679_LYM%                ",
+                    "testCode": "LYM%                ",
+                    "testName": "淋巴细胞比值(LYM%)",
+                    "value": "19.8",
+                    "textValue": "",
+                    "unit": "%                   ",
+                    "referenceRange": "20.0～50.0",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "18306679_GRAN#               ",
+                    "testCode": "GRAN#               ",
+                    "testName": "中性粒细胞计数(GRAN)",
+                    "value": "11.77",
+                    "textValue": "",
+                    "unit": "10^9/L              ",
+                    "referenceRange": "1.80～6.30",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "18306679_WBC                 ",
+                    "testCode": "WBC                 ",
+                    "testName": "白细胞计数(WBC)",
+                    "value": "16.70",
+                    "textValue": "",
+                    "unit": "10^9/L              ",
+                    "referenceRange": "3.50～9.50",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "18306679_RBC                 ",
+                    "testCode": "RBC                 ",
+                    "testName": "红细胞计数(RBC)",
+                    "value": "5.85",
+                    "textValue": "",
+                    "unit": "10^12/L             ",
+                    "referenceRange": "4.30～5.80",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "18306679_MONO#               ",
+                    "testCode": "MONO#               ",
+                    "testName": "单核细胞计数(MONO)",
+                    "value": "1.46",
+                    "textValue": "",
+                    "unit": "10^9/L              ",
+                    "referenceRange": "0.10～0.60",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "18306679_LYM#                ",
+                    "testCode": "LYM#                ",
+                    "testName": "淋巴细胞计数(LYM)",
+                    "value": "3.31",
+                    "textValue": "",
+                    "unit": "10^9/L              ",
+                    "referenceRange": "1.10～3.20",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "18306679_HCT                 ",
+                    "testCode": "HCT                 ",
+                    "testName": "红细胞压积(HCT)",
+                    "value": "52.70",
+                    "textValue": "",
+                    "unit": "%                   ",
+                    "referenceRange": "40.00～50.00",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "18306679_P-LCR               ",
+                    "testCode": "P-LCR               ",
+                    "testName": "大血小板比例(P-LCR)",
+                    "value": "17.5",
+                    "textValue": "",
+                    "unit": "                    ",
+                    "referenceRange": "19.7～42.4",
+                    "interpretation": ""
+                }
+            ],
+            "examinationsPerformed": [
+            ]
+        },
+        {
+            "encounterId": "2790827",
+            "type": "急诊内科",
+            "encounterDate": "2023-06-07 14:15:00",
+            "dischargeDate": "",
+            "department": "急诊内科",
+            "attendingProviderId": "101369",
+            "diagnosesRecorded": [
+                {
+                    "icdCode": "J03.900",
+                    "conditionName": "急性扁桃体炎"
+                }
+            ],
+            "labResultsRecorded": [
+                {
+                    "reportId": "16559613_MONO#               ",
+                    "testCode": "MONO#               ",
+                    "testName": "单核细胞计数(MONO)",
+                    "value": "0.80",
+                    "textValue": "",
+                    "unit": "10^9/L              ",
+                    "referenceRange": "0.10～0.60",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "16559613_GRAN#               ",
+                    "testCode": "GRAN#               ",
+                    "testName": "中性粒细胞计数(GRAN)",
+                    "value": "12.33",
+                    "textValue": "",
+                    "unit": "10^9/L              ",
+                    "referenceRange": "1.80～6.30",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "16559613_P-LCR               ",
+                    "testCode": "P-LCR               ",
+                    "testName": "大血小板比例(P-LCR)",
+                    "value": "18.3",
+                    "textValue": "",
+                    "unit": "                    ",
+                    "referenceRange": "19.7～42.4",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "16559613_WBC                 ",
+                    "testCode": "WBC                 ",
+                    "testName": "白细胞计数(WBC)",
+                    "value": "15.92",
+                    "textValue": "",
+                    "unit": "10^9/L              ",
+                    "referenceRange": "3.50～9.50",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "16559613_GRAN%               ",
+                    "testCode": "GRAN%               ",
+                    "testName": "中性粒细胞比值(GRAN%)",
+                    "value": "77.5",
+                    "textValue": "",
+                    "unit": "%                   ",
+                    "referenceRange": "40.0～75.0",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "16559613_EO%                 ",
+                    "testCode": "EO%                 ",
+                    "testName": "嗜酸性粒细胞比值(EO%)",
+                    "value": "0.2",
+                    "textValue": "",
+                    "unit": "%                   ",
+                    "referenceRange": "0.4～8.0",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "16559613_LYM%                ",
+                    "testCode": "LYM%                ",
+                    "testName": "淋巴细胞比值(LYM%)",
+                    "value": "17.1",
+                    "textValue": "",
+                    "unit": "%                   ",
+                    "referenceRange": "20.0～50.0",
+                    "interpretation": ""
+                }
+            ],
+            "examinationsPerformed": [
+            ]
+        },
+        {
+            "encounterId": "4319702",
+            "type": "泌尿外科门诊",
+            "encounterDate": "2025-03-21 11:32:13",
+            "dischargeDate": "",
+            "department": "泌尿外科门诊",
+            "attendingProviderId": "108017",
+            "diagnosesRecorded": [
+                {
+                    "icdCode": "N20.100",
+                    "conditionName": "左侧输尿管结石"
+                }
+            ],
+            "labResultsRecorded": [
+            ],
+            "examinationsPerformed": [
+            ]
+        },
+        {
+            "encounterId": "4388785",
+            "type": "泌尿外科门诊",
+            "encounterDate": "2025-04-18 11:02:08",
+            "dischargeDate": "",
+            "department": "泌尿外科门诊",
+            "attendingProviderId": "108017",
+            "diagnosesRecorded": [
+                {
+                    "icdCode": "N20.100",
+                    "conditionName": "左侧输尿管结石术后"
+                }
+            ],
+            "labResultsRecorded": [
+                {
+                    "reportId": "23769771_BLD                 ",
+                    "testCode": "BLD                 ",
+                    "testName": "隐血(BLD)",
+                    "value": "3+",
+                    "textValue": "",
+                    "unit": "                    ",
+                    "referenceRange": "阴性",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "23769771_UF-RBC              ",
+                    "testCode": "UF-RBC              ",
+                    "testName": "红细胞(RBC)",
+                    "value": "279.80",
+                    "textValue": "",
+                    "unit": "/μL                ",
+                    "referenceRange": "0～8.00",
+                    "interpretation": ""
+                }
+            ],
+            "examinationsPerformed": [
+            ]
+        },
+        {
+            "encounterId": "2793430",
+            "type": "急诊内科",
+            "encounterDate": "2023-06-08 14:21:00",
+            "dischargeDate": "",
+            "department": "急诊内科",
+            "attendingProviderId": "101486",
+            "diagnosesRecorded": [
+                {
+                    "icdCode": "J03.900",
+                    "conditionName": "急性扁桃体炎"
+                }
+            ],
+            "labResultsRecorded": [
+            ],
+            "examinationsPerformed": [
+            ]
+        },
+        {
+            "encounterId": "3253967",
+            "type": "急诊内科",
+            "encounterDate": "2023-12-16 10:19:18",
+            "dischargeDate": "",
+            "department": "急诊内科",
+            "attendingProviderId": "107835",
+            "diagnosesRecorded": [
+                {
+                    "icdCode": "J03.900",
+                    "conditionName": "急性扁桃体炎"
+                }
+            ],
+            "labResultsRecorded": [
+                {
+                    "reportId": "18683541_LYM#                ",
+                    "testCode": "LYM#                ",
+                    "testName": "淋巴细胞计数(LYM)",
+                    "value": "3.80",
+                    "textValue": "",
+                    "unit": "10^9/L              ",
+                    "referenceRange": "1.10～3.20",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "18683541_WBC                 ",
+                    "testCode": "WBC                 ",
+                    "testName": "白细胞计数(WBC)",
+                    "value": "10.98",
+                    "textValue": "",
+                    "unit": "10^9/L              ",
+                    "referenceRange": "3.50～9.50",
+                    "interpretation": ""
+                },
+                {
+                    "reportId": "18683541_MONO#               ",
+                    "testCode": "MONO#               ",
+                    "testName": "单核细胞计数(MONO)",
+                    "value": "0.66",
+                    "textValue": "",
+                    "unit": "10^9/L              ",
+                    "referenceRange": "0.10～0.60",
+                    "interpretation": ""
+                }
+            ],
+            "examinationsPerformed": [
+            ]
+        },
+        {
+            "encounterId": "2795717",
+            "type": "急诊内科",
+            "encounterDate": "2023-06-09 14:02:00",
+            "dischargeDate": "",
+            "department": "急诊内科",
+            "attendingProviderId": "100051",
+            "diagnosesRecorded": [
+                {
+                    "icdCode": "J03.900",
+                    "conditionName": "急性扁桃体炎"
+                }
+            ],
+            "labResultsRecorded": [
+            ],
+            "examinationsPerformed": [
+            ]
+        },
+        {
+            "encounterId": "3549401",
+            "type": "皮肤科门诊",
+            "encounterDate": "2024-04-21 08:34:53",
+            "dischargeDate": "",
+            "department": "皮肤科门诊",
+            "attendingProviderId": "102081",
+            "diagnosesRecorded": [
+                {
+                    "icdCode": "L40.900",
+                    "conditionName": "银屑病"
+                }
+            ],
+            "labResultsRecorded": [
+            ],
+            "examinationsPerformed": [
+            ]
+        },
+        {
+            "encounterId": "4337090",
+            "type": "泌尿外科门诊",
+            "encounterDate": "2025-03-28 10:10:44",
+            "dischargeDate": "",
+            "department": "泌尿外科门诊",
+            "attendingProviderId": "108017",
+            "diagnosesRecorded": [
+                {
+                    "icdCode": "N20.100",
+                    "conditionName": "左侧输尿管结石"
+                }
+            ],
+            "labResultsRecorded": [
+                {
+                    "reportId": "23564403_s.g                 ",
+                    "testCode": "s.g                 ",
+                    "testName": "比重(s.g)",
+                    "value": "1.001",
+                    "textValue": "",
+                    "unit": "                    ",
+                    "referenceRange": "1.003～1.030",
+                    "interpretation": ""
+                }
+            ],
+            "examinationsPerformed": [
+            ]
+        }
+    ],
+    "height": 180,
+    "weight": 70
+}

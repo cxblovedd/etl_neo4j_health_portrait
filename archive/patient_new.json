@@ -1,0 +1,978 @@
+{
+    "code": 0,
+    "msg": "操作成功",
+    "data": {
+        "patientId": 52183,
+        "empiNo": "T001371305",
+        "birthDate": "1998-03-16",
+        "gender": "女性",
+        "idCardType": "01",
+        "careerCode": null,
+        "careerName": null,
+        "career": null,
+        "maritalStatus": "未婚",
+        "createdAt": "2025-05-19T13:15:21",
+        "updateTime": "2025-06-10T14:13:46",
+        "allergyProfilesList": [
+            {
+                "allergyId": 4101,
+                "patientId": 52183,
+                "allergenType": "环境",
+                "allergen": "尘螨",
+                "reaction": "未知",
+                "reactionType": "未知",
+                "recordedAt": "2025-01-05 10:33:23",
+                "createdAt": "2025-05-18T17:30:18.813"
+            }
+        ],
+        "diagnosesList": [
+            {
+                "diagnosisId": 53644,
+                "patientId": 52183,
+                "patId": "1115530",
+                "visitType": "1",
+                "yqdm": "42504942400",
+                "jzlsh": null,
+                "chronicRefractoryDiseaseFlag": "0",
+                "diseaseCode": "Z54.000",
+                "diseaseName": "右胫骨平台骨折手术后恢复期",
+                "diagnosisDate": "2024-06-03 15:52:24.0",
+                "createdAt": "2025-06-10T11:04:00.585"
+            },
+            {
+                "diagnosisId": 53643,
+                "patientId": 52183,
+                "patId": "77363",
+                "visitType": "2",
+                "yqdm": "42504942400",
+                "jzlsh": null,
+                "chronicRefractoryDiseaseFlag": "0",
+                "diseaseCode": "Z47.001",
+                "diseaseName": "取除骨折内固定装置",
+                "diagnosisDate": "2025-01-14 15:09:53.0",
+                "createdAt": "2025-06-10T11:04:00.458"
+            },
+            {
+                "diagnosisId": 53642,
+                "patientId": 52183,
+                "patId": "77363",
+                "visitType": "2",
+                "yqdm": "42504942400",
+                "jzlsh": null,
+                "chronicRefractoryDiseaseFlag": "0",
+                "diseaseCode": "S82.100x087",
+                "diseaseName": "胫骨平台骨折",
+                "diagnosisDate": "2023-10-23 17:18:49.0",
+                "createdAt": "2025-06-10T11:04:00.263"
+            },
+            {
+                "diagnosisId": 53641,
+                "patientId": 52183,
+                "patId": "1115530",
+                "visitType": "1",
+                "yqdm": "42504942400",
+                "jzlsh": null,
+                "chronicRefractoryDiseaseFlag": "0",
+                "diseaseCode": "Z47.000x002",
+                "diseaseName": "取出内固定装置",
+                "diagnosisDate": "2025-01-07 10:34:44.0",
+                "createdAt": "2025-06-10T11:04:00.016"
+            }
+        ],
+        "familyHistoryList": [
+            {
+                "familyHistoryId": 10981,
+                "patientId": 52183,
+                "relativeName": null,
+                "relativeRelationshipType": null,
+                "relativeRelationship": "其他",
+                "relativeDiseaseType": "不详",
+                "relativeDisease": "不详",
+                "onsetAge": "不详",
+                "recordedAt": "2025-04-15 09:30:24",
+                "createdAt": "2025-05-17T15:28:45.282"
+            }
+        ],
+        "maritalReproductiveList": [
+            {
+                "maritalReproductiveId": 5601,
+                "patientId": 52183,
+                "maritalStatusCode": null,
+                "maritalStatus": "未婚",
+                "spouseHealthStatusCode": null,
+                "spouseHealthStatus": "未知",
+                "childrenCount": "0",
+                "childHealth": null,
+                "childDetail": null,
+                "recordedAt": "2023-11-06 11:49:41",
+                "sourceRecordedBy": "医生站",
+                "sourceRecordedMode": "住院病历",
+                "sourceRecordedId": "121706_ZYBL",
+                "createdAt": "2025-06-10T14:17:24.501",
+                "createdBy": null,
+                "updatedAt": "2025-06-10T14:17:24.501",
+                "updatedBy": null
+            }
+        ],
+        "pastBloodTransfusionsList": [
+            {
+                "pastBloodTransfusionsId": 28701,
+                "patientId": 52183,
+                "patId": "",
+                "visitType": "",
+                "yqdm": null,
+                "volumeMl": null,
+                "donorId": null,
+                "bloodTransfusionsDate": null,
+                "bloodTransfusionsAddress": null,
+                "createdAt": "2025-06-10T14:15:05.768",
+                "updateTime": null,
+                "haveHistory": null
+            },
+            {
+                "pastBloodTransfusionsId": 28681,
+                "patientId": 52183,
+                "patId": "",
+                "visitType": "",
+                "yqdm": null,
+                "volumeMl": null,
+                "donorId": null,
+                "bloodTransfusionsDate": null,
+                "bloodTransfusionsAddress": null,
+                "createdAt": "2025-06-10T11:39:22.583",
+                "updateTime": null,
+                "haveHistory": null
+            },
+            {
+                "pastBloodTransfusionsId": 28661,
+                "patientId": 52183,
+                "patId": "",
+                "visitType": "",
+                "yqdm": null,
+                "volumeMl": null,
+                "donorId": null,
+                "bloodTransfusionsDate": null,
+                "bloodTransfusionsAddress": null,
+                "createdAt": "2025-06-10T11:30:16.957",
+                "updateTime": null,
+                "haveHistory": null
+            },
+            {
+                "pastBloodTransfusionsId": 28641,
+                "patientId": 52183,
+                "patId": "",
+                "visitType": "",
+                "yqdm": null,
+                "volumeMl": null,
+                "donorId": null,
+                "bloodTransfusionsDate": null,
+                "bloodTransfusionsAddress": null,
+                "createdAt": "2025-06-10T11:05:54.315",
+                "updateTime": null,
+                "haveHistory": null
+            }
+        ],
+        "pastInfectiousDiseasesList": [],
+        "pastSurgeriesList": [
+            {
+                "pastSurgeriestId": 16301,
+                "empiNo": null,
+                "patientId": 52183,
+                "patId": "59032",
+                "visitType": "1",
+                "yqdm": null,
+                "surgeryCode": "27.69",
+                "surgeryName": "UPPP",
+                "bodySite": "咽部",
+                "surgeryDate": "",
+                "complications": null,
+                "notes": null,
+                "createdAt": "2025-05-18T08:39:33.254",
+                "updateTime": null
+            }
+        ],
+        "pastTraumasList": [
+            {
+                "pastTraumasId": 11242,
+                "patientId": 52183,
+                "patId": "216233",
+                "visitType": "1",
+                "yqdm": null,
+                "traumaType": "FRACTURE",
+                "severity": "MODERATE",
+                "bodySite": "左尺骨",
+                "burnDegree": "OTHER",
+                "healed": "true",
+                "traumasDate": null,
+                "createdAt": "2025-05-21T03:19:19.554",
+                "updateTime": null
+            },
+            {
+                "pastTraumasId": 11241,
+                "patientId": 52183,
+                "patId": "216233",
+                "visitType": "1",
+                "yqdm": null,
+                "traumaType": "FRACTURE",
+                "severity": "SEVERE",
+                "bodySite": "左股骨",
+                "burnDegree": "OTHER",
+                "healed": "true",
+                "traumasDate": null,
+                "createdAt": "2025-05-21T03:19:19.365",
+                "updateTime": null
+            }
+        ],
+        "pastVaccinationsList": [
+            {
+                "pastVaccinationsId": 41041,
+                "patientId": 52183,
+                "patId": "6816",
+                "visitType": "1",
+                "yqdm": null,
+                "vaccineCode": "J20160034",
+                "vaccineName": "流感疫苗",
+                "vaccineDate": "2023-10-20",
+                "doseNumber": "1",
+                "lotNumber": "FLU-2023-XYZ456",
+                "manufacturer": "上海生物",
+                "createdAt": "2025-05-17T07:56:38.039",
+                "updateTime": null
+            }
+        ],
+        "personalAlcoholHistoryList": [
+            {
+                "personalAlcoholHistoryId": 16221,
+                "patientId": 52183,
+                "patId": "",
+                "visitType": "",
+                "yqdm": null,
+                "frequency": "NEVER",
+                "drinksPerDay": "",
+                "beverageType": null,
+                "hasBinge": "false",
+                "drinksFlag": "false",
+                "yearsOfDrinks": "",
+                "historyDetails": "出生地河南省平顶山市郏县，生长于原籍，职员。否认吸烟史；无饮酒史。否认疫水接触史，否认疫区久居史。否认工业毒物、粉尘、放射性物质接触史。否认冶游史。家住1层，家内无门槛；家附近有无障碍设施。照料者为其父母。",
+                "historyDate": "2023-11-06 11:49:41",
+                "createdAt": "2025-06-10T11:06:54.27",
+                "updateTime": null
+            }
+        ],
+        "personalSmokingHistoryList": [
+            {
+                "personalSmokingHistoryId": 10261,
+                "patientId": 52183,
+                "patId": "",
+                "visitType": "",
+                "yqdm": null,
+                "status": "NEVER",
+                "smokingDuration": null,
+                "packsPerDay": null,
+                "quitAttempts": null,
+                "quitDuration": null,
+                "beforeQuit": null,
+                "cessationMethod": null,
+                "beforePacksPerDay": null,
+                "smokingFlag": null,
+                "historyDetails": "出生地河南省平顶山市郏县，生长于原籍，职员。否认吸烟史；无饮酒史。否认疫水接触史，否认疫区久居史。否认工业毒物、粉尘、放射性物质接触史。否认冶游史。家住1层，家内无门槛；家附近有无障碍设施。照料者为其父母。",
+                "createdAt": "2025-06-10T14:16:04.973",
+                "updateTime": null
+            }
+        ],
+        "physicalTraitsList": [
+            {
+                "physicalTraitsId": 98361,
+                "patientId": 52183,
+                "bmi": "22.86",
+                "heightCm": "175",
+                "weightKg": "70",
+                "patId": null,
+                "visitType": null,
+                "yqdm": null,
+                "jzlsh": null,
+                "recordedAt": "2025-03-18 10:03:44",
+                "createdAt": "2025-05-17T08:01:48.218",
+                "createdBy": "ai",
+                "sourceRecordedBy": "医生站",
+                "sourceRecordedMode": "门诊病历",
+                "sourceRecordedId": "4311025"
+            }
+        ],
+        "dietHabitsList": [
+            {
+                "personalDietHabitsId": 241,
+                "patientId": 52183,
+                "flavorType": "辛辣,清淡",
+                "dietType": "荤素均衡",
+                "recordedAt": null,
+                "sourceRecordedBy": "体检系统",
+                "sourceRecordedMode": "体检问卷",
+                "sourceRecordedId": "https://mp.cndcare.com/front-questionnaire-service/questionnaire?randomCode=EJ4Lqo247803",
+                "createdAt": "2025-05-28T09:52:19.751"
+            }
+        ],
+        "healthStatusList": [
+            {
+                "personalHealthStatusId": 261,
+                "patientId": 52183,
+                "healthStatus": "好",
+                "recordedAt": null,
+                "sourceRecordedBy": "体检系统",
+                "sourceRecordedMode": "体检问卷",
+                "sourceRecordedId": "https://mp.cndcare.com/front-questionnaire-service/questionnaire?randomCode=227254bbC8td",
+                "createdAt": "2025-05-28T09:53:37.136"
+            }
+        ],
+        "medicationInfoList": [],
+        "menstruationHistoryList": [
+            {
+                "personalMenstruationHistoryId": 41,
+                "patientId": 52183,
+                "menopauseStatus": "否",
+                "menopauseAge": "否",
+                "recordedAt": null,
+                "sourceRecordedBy": "体检系统",
+                "sourceRecordedMode": "体检问卷",
+                "sourceRecordedId": "https://mp.cndcare.com/front-questionnaire-service/questionnaire?randomCode=EJ4Lqo247803",
+                "createdAt": "2025-05-28T09:52:20.181"
+            }
+        ],
+        "sleepAssessmentList": [
+            {
+                "personalSleepAssessmentId": 241,
+                "patientId": 52183,
+                "sleepDuration": "7～9小时",
+                "sleepQuality": "较好",
+                "recordedAt": "2025-05-27 17:59:44.534",
+                "sourceRecordedBy": "体检系统",
+                "sourceRecordedMode": "体检问卷",
+                "sourceRecordedId": "https://mp.cndcare.com/front-questionnaire-service/questionnaire?randomCode=355083YF1s",
+                "createdAt": "2025-05-28T14:14:54.767"
+            }
+        ],
+        "physicalActivityList": [
+            {
+                "personalPhysicalActivityId": 261,
+                "patientId": 52183,
+                "activityFrequency": "1～2次/周",
+                "sedentaryHours": "＜8小时",
+                "recordedAt": null,
+                "sourceRecordedBy": "体检系统",
+                "sourceRecordedMode": "体检问卷",
+                "sourceRecordedId": "https://mp.cndcare.com/front-questionnaire-service/questionnaire?randomCode=UBxUCK330479",
+                "createdAt": "2025-05-28T09:53:37.423"
+            }
+        ],
+        "jcList": [
+            {
+                "jcsj": "右侧胫骨平台可见骨质断裂，断端稍移位，右侧腓骨骨质完整，未见明显骨折征象，诸关节间隙未见明显异常。关节未见明显脱位，周围软组织未见明显异常密度影。\r\n",
+                "jcjg": "右侧胫骨平台骨折。\r\n",
+                "jcxmmc": "右侧胫腓骨正侧位",
+                "bgfbsj": "2023-10-23 10:30:42",
+                "jcbw": null
+            },
+            {
+                "jcsj": "右侧胫骨平台及股骨外侧髁骨髓内可见斑片状异常信号影，T1WI稍低信号，T2WI压脂稍高信号，边界不清，以胫骨平台明显，局部骨质碎裂关节面不平整，间隙无明显变窄，关节腔内可见大量积液，以髌上囊较多并见脂液分层，内、外侧半月板前后角形态正常，未见明显异常信号影；髌韧带下缘及外侧副韧带增粗肿胀，信号不均，边缘模糊，前后交叉韧带及内侧副韧带无明显增粗变形，信号均匀，边界清楚。膝关节周围软组织肿胀，脂肪间隙变模糊。\r\n",
+                "jcjg": "1、右侧胫骨平台粉碎性骨折、股骨外侧髁骨挫伤伴关节积脂血症。\r\n2、右侧髌韧带及外侧副韧带撕裂。\r\n",
+                "jcxmmc": "右膝关节MRI平扫",
+                "bgfbsj": "2023-10-24 09:04:12",
+                "jcbw": "四肢关节"
+            }
+        ],
+        "jyList": [
+            {
+                "jyjgdw": "μmol/L             ",
+                "jyxmmc": "尿酸(UA)",
+                "jyzcfw": "154.70～357.00",
+                "jyxmdm": "UA                  ",
+                "jyjg": "141.11",
+                "bgfbsj": "2023-10-28 07:57:12"
+            },
+            {
+                "jyjgdw": "mmol/L              ",
+                "jyxmmc": "尿素(UREA)",
+                "jyzcfw": "成人：2.8-7.6",
+                "jyxmdm": "BUN                 ",
+                "jyjg": "2.46",
+                "bgfbsj": "2023-10-28 07:57:12"
+            },
+            {
+                "jyjgdw": "%                   ",
+                "jyxmmc": "嗜酸性粒细胞比值(EO%)",
+                "jyzcfw": "0.4～8.0",
+                "jyxmdm": "EO%                 ",
+                "jyjg": "0.3",
+                "bgfbsj": "2023-10-24 08:04:14"
+            },
+            {
+                "jyjgdw": "mIU/mL              ",
+                "jyxmmc": "乙肝表面抗体(HBsAb)",
+                "jyzcfw": "阴性-[<10]/阳性+[≥10]",
+                "jyxmdm": "HBsAb               ",
+                "jyjg": "阳性[59.18]",
+                "bgfbsj": "2023-10-24 10:33:15"
+            },
+            {
+                "jyjgdw": "10^9/L              ",
+                "jyxmmc": "淋巴细胞计数(LYM)",
+                "jyzcfw": "1.10～3.20",
+                "jyxmdm": "LYM#                ",
+                "jyjg": "0.96",
+                "bgfbsj": "2023-10-28 07:33:02"
+            },
+            {
+                "jyjgdw": "10^9/L              ",
+                "jyxmmc": "单核细胞计数(MONO)",
+                "jyzcfw": "0.10～0.60",
+                "jyxmdm": "MONO#               ",
+                "jyjg": "0.69",
+                "bgfbsj": "2023-10-24 08:04:14"
+            },
+            {
+                "jyjgdw": "sec                 ",
+                "jyxmmc": "凝血酶原时间(PT)",
+                "jyzcfw": "9.0～13.0",
+                "jyxmdm": "PT                  ",
+                "jyjg": "13.5",
+                "bgfbsj": "2023-10-28 08:00:07"
+            },
+            {
+                "jyjgdw": "g/L                 ",
+                "jyxmmc": "载脂蛋白B(APOB)",
+                "jyzcfw": "0.60～1.20",
+                "jyxmdm": "APOB                ",
+                "jyjg": "0.57",
+                "bgfbsj": "2023-10-24 11:08:05"
+            },
+            {
+                "jyjgdw": "10^9/L              ",
+                "jyxmmc": "白细胞计数(WBC)",
+                "jyzcfw": "3.50～9.50",
+                "jyxmdm": "WBC                 ",
+                "jyjg": "9.77",
+                "bgfbsj": "2023-10-28 07:33:02"
+            },
+            {
+                "jyjgdw": "mg/L                ",
+                "jyxmmc": "C反应蛋白(CRP)",
+                "jyzcfw": "<5.0",
+                "jyxmdm": "CRP                 ",
+                "jyjg": "33.74",
+                "bgfbsj": "2023-10-28 07:57:12"
+            },
+            {
+                "jyjgdw": "μmol/L             ",
+                "jyxmmc": "间接胆红素(IBIL)",
+                "jyzcfw": "0～17.00",
+                "jyxmdm": "IBIL                ",
+                "jyjg": "23.92",
+                "bgfbsj": "2023-10-24 11:08:05"
+            },
+            {
+                "jyjgdw": "μmol/L             ",
+                "jyxmmc": "肌酐(Crea)",
+                "jyzcfw": "49.00～90.00",
+                "jyxmdm": "CREA                ",
+                "jyjg": "37.40",
+                "bgfbsj": "2023-10-28 07:57:12"
+            },
+            {
+                "jyjgdw": "g/L                 ",
+                "jyxmmc": "纤维蛋白原(Fib)",
+                "jyzcfw": "1.80～3.50",
+                "jyxmdm": "FIB                 ",
+                "jyjg": "4.72",
+                "bgfbsj": "2023-10-28 08:00:07"
+            },
+            {
+                "jyjgdw": "10^9/L              ",
+                "jyxmmc": "嗜酸性粒细胞计数(EO)",
+                "jyzcfw": "0.02～0.52",
+                "jyxmdm": "EO#                 ",
+                "jyjg": "0",
+                "bgfbsj": "2023-10-28 07:33:02"
+            },
+            {
+                "jyjgdw": "U/L                 ",
+                "jyxmmc": "肌酸激酶(CK)",
+                "jyzcfw": "成年女性：40-200",
+                "jyxmdm": "CK                  ",
+                "jyjg": "511.0",
+                "bgfbsj": "2023-10-28 07:57:12"
+            },
+            {
+                "jyjgdw": "mg/L                ",
+                "jyxmmc": "D-二聚体(D-D)",
+                "jyzcfw": "0～0.55",
+                "jyxmdm": "D-D                 ",
+                "jyjg": "4.35",
+                "bgfbsj": "2023-10-24 09:36:59"
+            },
+            {
+                "jyjgdw": "%                   ",
+                "jyxmmc": "中性粒细胞比值(GRAN%)",
+                "jyzcfw": "40.0～75.0",
+                "jyxmdm": "GRAN%               ",
+                "jyjg": "83.0",
+                "bgfbsj": "2023-10-28 07:33:02"
+            },
+            {
+                "jyjgdw": "10^9/L              ",
+                "jyxmmc": "单核细胞计数(MONO)",
+                "jyzcfw": "0.10～0.60",
+                "jyxmdm": "MONO#               ",
+                "jyjg": "0.68",
+                "bgfbsj": "2023-10-28 07:33:02"
+            },
+            {
+                "jyjgdw": "μmol/L             ",
+                "jyxmmc": "间接胆红素(IBIL)",
+                "jyzcfw": "0～17.00",
+                "jyxmdm": "IBIL                ",
+                "jyjg": "17.55",
+                "bgfbsj": "2023-10-28 07:57:12"
+            },
+            {
+                "jyjgdw": "mOsm/kg·H2O        ",
+                "jyxmmc": "渗透压(OSM)",
+                "jyzcfw": "275.0～300.0",
+                "jyxmdm": "OSM                 ",
+                "jyjg": "268.2",
+                "bgfbsj": "2023-10-28 07:57:12"
+            },
+            {
+                "jyjgdw": "mmol/L              ",
+                "jyxmmc": "镁(Mg)",
+                "jyzcfw": "0.77～1.03",
+                "jyxmdm": "MG                  ",
+                "jyjg": "0.74",
+                "bgfbsj": "2023-10-28 07:57:12"
+            },
+            {
+                "jyjgdw": "mg/L                ",
+                "jyxmmc": "D-二聚体(D-D)",
+                "jyzcfw": "0～0.55",
+                "jyxmdm": "D-D                 ",
+                "jyjg": "2.12",
+                "bgfbsj": "2023-10-28 08:00:07"
+            },
+            {
+                "jyjgdw": "mmol/L              ",
+                "jyxmmc": "钾(K)",
+                "jyzcfw": "3.50～5.30",
+                "jyxmdm": "K                   ",
+                "jyjg": "3.49",
+                "bgfbsj": "2023-10-24 11:08:05"
+            },
+            {
+                "jyjgdw": "g/l                 ",
+                "jyxmmc": "血红蛋白(HGB)",
+                "jyzcfw": "115.0～150.0",
+                "jyxmdm": "HGB                 ",
+                "jyjg": "104.0",
+                "bgfbsj": "2023-10-28 07:33:02"
+            },
+            {
+                "jyjgdw": "10^9/L              ",
+                "jyxmmc": "中性粒细胞计数(GRAN)",
+                "jyzcfw": "1.80～6.30",
+                "jyxmdm": "GRAN#               ",
+                "jyjg": "6.54",
+                "bgfbsj": "2023-10-24 08:04:14"
+            },
+            {
+                "jyjgdw": "mg/L                ",
+                "jyxmmc": "C反应蛋白(CRP)",
+                "jyzcfw": "<5.0",
+                "jyxmdm": "CRP                 ",
+                "jyjg": "14.85",
+                "bgfbsj": "2023-10-24 11:08:05"
+            },
+            {
+                "jyjgdw": "mmol/L              ",
+                "jyxmmc": "钠(Na)",
+                "jyzcfw": "137.00～147.00",
+                "jyxmdm": "NA                  ",
+                "jyjg": "134.50",
+                "bgfbsj": "2023-10-24 11:08:05"
+            },
+            {
+                "jyjgdw": "10^9/L              ",
+                "jyxmmc": "中性粒细胞计数(GRAN)",
+                "jyzcfw": "1.80～6.30",
+                "jyxmdm": "GRAN#               ",
+                "jyjg": "8.11",
+                "bgfbsj": "2023-10-28 07:33:02"
+            },
+            {
+                "jyjgdw": "%                   ",
+                "jyxmmc": "红细胞压积(HCT)",
+                "jyzcfw": "35.00～45.00",
+                "jyxmdm": "HCT                 ",
+                "jyjg": "31.80",
+                "bgfbsj": "2023-10-28 07:33:02"
+            },
+            {
+                "jyjgdw": "mmol/L              ",
+                "jyxmmc": "阴离子间隙(AG)",
+                "jyzcfw": "8.0～16.0",
+                "jyxmdm": "AG                  ",
+                "jyjg": "7.4",
+                "bgfbsj": "2023-10-28 07:57:12"
+            },
+            {
+                "jyjgdw": "mmol/L              ",
+                "jyxmmc": "钠(Na)",
+                "jyzcfw": "137.00～147.00",
+                "jyxmdm": "NA                  ",
+                "jyjg": "134.70",
+                "bgfbsj": "2023-10-28 07:57:12"
+            },
+            {
+                "jyjgdw": "g/L                 ",
+                "jyxmmc": "总蛋白(TP)",
+                "jyzcfw": "67.50～87.50",
+                "jyxmdm": "TP                  ",
+                "jyjg": "61.60",
+                "bgfbsj": "2023-10-28 07:57:12"
+            },
+            {
+                "jyjgdw": "μmol/L             ",
+                "jyxmmc": "直接胆红素(DBIL)",
+                "jyzcfw": "0～3.40",
+                "jyxmdm": "DBIL                ",
+                "jyjg": "5.18",
+                "bgfbsj": "2023-10-24 11:08:05"
+            },
+            {
+                "jyjgdw": "mmol/L              ",
+                "jyxmmc": "葡萄糖(Glu)",
+                "jyzcfw": "3.90～6.10",
+                "jyxmdm": "GLU                 ",
+                "jyjg": "6.15",
+                "bgfbsj": "2023-10-28 07:57:12"
+            },
+            {
+                "jyjgdw": "10^12/L             ",
+                "jyxmmc": "红细胞计数(RBC)",
+                "jyzcfw": "3.80～5.10",
+                "jyxmdm": "RBC                 ",
+                "jyjg": "3.68",
+                "bgfbsj": "2023-10-28 07:33:02"
+            },
+            {
+                "jyjgdw": "%                   ",
+                "jyxmmc": "嗜酸性粒细胞比值(EO%)",
+                "jyzcfw": "0.4～8.0",
+                "jyxmdm": "EO%                 ",
+                "jyjg": "0",
+                "bgfbsj": "2023-10-28 07:33:02"
+            },
+            {
+                "jyjgdw": "mOsm/kg·H2O        ",
+                "jyxmmc": "渗透压(OSM)",
+                "jyzcfw": "275.0～300.0",
+                "jyxmdm": "OSM                 ",
+                "jyjg": "267.7",
+                "bgfbsj": "2023-10-24 11:08:05"
+            },
+            {
+                "jyjgdw": "μmol/L             ",
+                "jyxmmc": "总胆红素(TBIL)",
+                "jyzcfw": "0～21.00",
+                "jyxmdm": "TBIL                ",
+                "jyjg": "29.10",
+                "bgfbsj": "2023-10-24 11:08:05"
+            },
+            {
+                "jyjgdw": "U/L                 ",
+                "jyxmmc": "胆碱酯酶(CHE)",
+                "jyzcfw": "5300～11300",
+                "jyxmdm": "CHE                 ",
+                "jyjg": "4628",
+                "bgfbsj": "2023-10-28 07:57:12"
+            },
+            {
+                "jyjgdw": "%                   ",
+                "jyxmmc": "淋巴细胞比值(LYM%)",
+                "jyzcfw": "20.0～50.0",
+                "jyxmdm": "LYM%                ",
+                "jyjg": "9.8",
+                "bgfbsj": "2023-10-28 07:33:02"
+            },
+            {
+                "jyjgdw": "μmol/L             ",
+                "jyxmmc": "肌酐(Crea)",
+                "jyzcfw": "49.00～90.00",
+                "jyxmdm": "CREA                ",
+                "jyjg": "46.30",
+                "bgfbsj": "2023-10-24 11:08:05"
+            },
+            {
+                "jyjgdw": "U/L                 ",
+                "jyxmmc": "胆碱酯酶(CHE)",
+                "jyzcfw": "5300～11300",
+                "jyxmdm": "CHE                 ",
+                "jyjg": "4968",
+                "bgfbsj": "2025-01-17 07:51:20"
+            },
+            {
+                "jyjgdw": "%                   ",
+                "jyxmmc": "中性粒细胞比值(GRAN%)",
+                "jyzcfw": "40.0～75.0",
+                "jyxmdm": "GRAN%               ",
+                "jyjg": "78.3",
+                "bgfbsj": "2025-01-17 07:06:28"
+            },
+            {
+                "jyjgdw": "                    ",
+                "jyxmmc": "白细胞(LEU)",
+                "jyzcfw": "阴性",
+                "jyxmdm": "LEU                 ",
+                "jyjg": "3+",
+                "bgfbsj": "2025-01-15 08:34:38"
+            },
+            {
+                "jyjgdw": "%                   ",
+                "jyxmmc": "淋巴细胞比值(LYM%)",
+                "jyzcfw": "20.0～50.0",
+                "jyxmdm": "LYM%                ",
+                "jyjg": "19.5",
+                "bgfbsj": "2025-01-14 11:49:12"
+            },
+            {
+                "jyjgdw": "mmol/L              ",
+                "jyxmmc": "阴离子间隙(AG)",
+                "jyzcfw": "8.0～16.0",
+                "jyxmdm": "AG                  ",
+                "jyjg": "6.8",
+                "bgfbsj": "2025-01-17 07:51:20"
+            },
+            {
+                "jyjgdw": "10^9/L              ",
+                "jyxmmc": "嗜碱性粒细胞计数(BASO)",
+                "jyzcfw": "0～0.06",
+                "jyxmdm": "BASO#               ",
+                "jyjg": "0.07",
+                "bgfbsj": "2025-01-14 11:49:12"
+            },
+            {
+                "jyjgdw": "10^9/L              ",
+                "jyxmmc": "中性粒细胞计数(GRAN)",
+                "jyzcfw": "1.80～6.30",
+                "jyxmdm": "GRAN#               ",
+                "jyjg": "8.59",
+                "bgfbsj": "2025-01-17 07:06:28"
+            },
+            {
+                "jyjgdw": "sec                 ",
+                "jyxmmc": "凝血酶原时间(PT)",
+                "jyzcfw": "9.0～13.0",
+                "jyxmdm": "PT                  ",
+                "jyjg": "13.4",
+                "bgfbsj": "2025-01-17 07:39:04"
+            },
+            {
+                "jyjgdw": "                    ",
+                "jyxmmc": "隐血试验(OB)",
+                "jyzcfw": "阴性(灵敏度100ng/ml)",
+                "jyxmdm": "OB                  ",
+                "jyjg": "阳性",
+                "bgfbsj": "2025-01-15 09:00:27"
+            },
+            {
+                "jyjgdw": "mIU/mL              ",
+                "jyxmmc": "乙肝表面抗体(HBsAb)",
+                "jyzcfw": "阴性-[<10.00]/阳性+[≥10.00]",
+                "jyxmdm": "HBsAb               ",
+                "jyjg": "阳性[26.08]",
+                "bgfbsj": "2025-01-14 13:04:30"
+            },
+            {
+                "jyjgdw": "%                   ",
+                "jyxmmc": "红细胞压积(HCT)",
+                "jyzcfw": "35.00～45.00",
+                "jyxmdm": "HCT                 ",
+                "jyjg": "34.40",
+                "bgfbsj": "2025-01-17 07:06:28"
+            },
+            {
+                "jyjgdw": "mmol/L              ",
+                "jyxmmc": "尿素(UREA)",
+                "jyzcfw": "2.60～7.50",
+                "jyxmdm": "BUN                 ",
+                "jyjg": "2.17",
+                "bgfbsj": "2025-01-14 12:59:30"
+            },
+            {
+                "jyjgdw": "mmol/L              ",
+                "jyxmmc": "尿素(UREA)",
+                "jyzcfw": "2.60～7.50",
+                "jyxmdm": "BUN                 ",
+                "jyjg": "2.58",
+                "bgfbsj": "2025-01-17 07:51:20"
+            },
+            {
+                "jyjgdw": "%                   ",
+                "jyxmmc": "嗜酸性粒细胞比值(EO%)",
+                "jyzcfw": "0.4～8.0",
+                "jyxmdm": "EO%                 ",
+                "jyjg": "0.1",
+                "bgfbsj": "2025-01-17 07:06:28"
+            },
+            {
+                "jyjgdw": "%                   ",
+                "jyxmmc": "淋巴细胞比值(LYM%)",
+                "jyzcfw": "20.0～50.0",
+                "jyxmdm": "LYM%                ",
+                "jyjg": "15.1",
+                "bgfbsj": "2025-01-17 07:06:28"
+            },
+            {
+                "jyjgdw": "10^9/L              ",
+                "jyxmmc": "单核细胞计数(MONO)",
+                "jyzcfw": "0.10～0.60",
+                "jyxmdm": "MONO#               ",
+                "jyjg": "0.69",
+                "bgfbsj": "2025-01-17 07:06:28"
+            },
+            {
+                "jyjgdw": "10^9/L              ",
+                "jyxmmc": "嗜酸性粒细胞计数(EO)",
+                "jyzcfw": "0.02～0.52",
+                "jyxmdm": "EO#                 ",
+                "jyjg": "0.01",
+                "bgfbsj": "2025-01-17 07:06:28"
+            },
+            {
+                "jyjgdw": "个/uL               ",
+                "jyxmmc": "白细胞(WBC)",
+                "jyzcfw": "0～23.00",
+                "jyxmdm": "UF-WBC              ",
+                "jyjg": "133.50",
+                "bgfbsj": "2025-01-15 08:34:38"
+            },
+            {
+                "jyjgdw": "mOsm/kg·H2O        ",
+                "jyxmmc": "渗透压(OSM)",
+                "jyzcfw": "275.0～300.0",
+                "jyxmdm": "OSM                 ",
+                "jyjg": "272.9",
+                "bgfbsj": "2025-01-14 12:59:30"
+            },
+            {
+                "jyjgdw": "fL                  ",
+                "jyxmmc": "红细胞分布宽度SD值(RDW-SD)",
+                "jyzcfw": "38.4～47.0",
+                "jyxmdm": "RDW-SD              ",
+                "jyjg": "38.3",
+                "bgfbsj": "2025-01-17 07:06:28"
+            },
+            {
+                "jyjgdw": "mmol/L              ",
+                "jyxmmc": "阴离子间隙(AG)",
+                "jyzcfw": "8.0～16.0",
+                "jyxmdm": "AG                  ",
+                "jyjg": "7.9",
+                "bgfbsj": "2025-01-14 12:59:30"
+            },
+            {
+                "jyjgdw": "g/L                 ",
+                "jyxmmc": "总蛋白(TP)",
+                "jyzcfw": "67.50～87.50",
+                "jyxmdm": "TP                  ",
+                "jyjg": "59.80",
+                "bgfbsj": "2025-01-17 07:51:20"
+            },
+            {
+                "jyjgdw": "U/L                 ",
+                "jyxmmc": "天门冬氨酸氨基转移酶(AST)",
+                "jyzcfw": "13.0～35.0",
+                "jyxmdm": "AST                 ",
+                "jyjg": "12.5",
+                "bgfbsj": "2025-01-17 07:51:20"
+            },
+            {
+                "jyjgdw": "mg/L                ",
+                "jyxmmc": "D-二聚体(D-D)",
+                "jyzcfw": "0～0.55",
+                "jyxmdm": "D-D                 ",
+                "jyjg": "0.57",
+                "bgfbsj": "2025-01-17 07:39:04"
+            },
+            {
+                "jyjgdw": "mmol/L              ",
+                "jyxmmc": "高密度脂蛋白胆固醇(HDL-C)",
+                "jyzcfw": "理想范围:>1.04;升高:≥1.55;降低:<1.04",
+                "jyxmdm": "HDL                 ",
+                "jyjg": "1.64",
+                "bgfbsj": "2025-01-14 12:59:30"
+            },
+            {
+                "jyjgdw": "                    ",
+                "jyxmmc": "尿素：肌酐(B:C)",
+                "jyzcfw": "12.00～20.00",
+                "jyxmdm": "B:C                 ",
+                "jyjg": "10.85",
+                "bgfbsj": "2025-01-14 12:59:30"
+            },
+            {
+                "jyjgdw": "10^9/L              ",
+                "jyxmmc": "中性粒细胞计数(GRAN)",
+                "jyzcfw": "1.80～6.30",
+                "jyxmdm": "GRAN#               ",
+                "jyjg": "6.62",
+                "bgfbsj": "2025-01-14 11:49:12"
+            },
+            {
+                "jyjgdw": "mOsm/kg·H2O        ",
+                "jyxmmc": "渗透压(OSM)",
+                "jyzcfw": "275.0～300.0",
+                "jyxmdm": "OSM                 ",
+                "jyjg": "272.7",
+                "bgfbsj": "2025-01-17 07:51:20"
+            },
+            {
+                "jyjgdw": "g/L                 ",
+                "jyxmmc": "白蛋白(Alb)",
+                "jyzcfw": "40.00～55.00",
+                "jyxmdm": "ALB                 ",
+                "jyjg": "38.30",
+                "bgfbsj": "2025-01-17 07:51:20"
+            },
+            {
+                "jyjgdw": "mmol/L              ",
+                "jyxmmc": "钾(K)",
+                "jyzcfw": "3.50～5.30",
+                "jyxmdm": "K                   ",
+                "jyjg": "3.47",
+                "bgfbsj": "2025-01-14 12:59:30"
+            },
+            {
+                "jyjgdw": "sec                 ",
+                "jyxmmc": "凝血酶原时间(PT)",
+                "jyzcfw": "9.0～13.0",
+                "jyxmdm": "PT                  ",
+                "jyjg": "13.1",
+                "bgfbsj": "2025-01-14 12:16:52"
+            },
+            {
+                "jyjgdw": "10^9/L              ",
+                "jyxmmc": "白细胞计数(WBC)",
+                "jyzcfw": "3.50～9.50",
+                "jyxmdm": "WBC                 ",
+                "jyjg": "10.96",
+                "bgfbsj": "2025-01-17 07:06:28"
+            },
+            {
+                "jyjgdw": "U/L                 ",
+                "jyxmmc": "乳酸脱氢酶(LDH)",
+                "jyzcfw": "120.0～250.0",
+                "jyxmdm": "LDH                 ",
+                "jyjg": "112.3",
+                "bgfbsj": "2025-01-14 12:59:30"
+            }
+        ]
+    }
+}

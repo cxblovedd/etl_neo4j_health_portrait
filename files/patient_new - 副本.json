@@ -1,0 +1,435 @@
+{
+    "code": 0,
+    "msg": "操作成功",
+    "data": {
+        "patientId": 52183,
+        "name": "刘敏敏",
+        "empiNo": "T001371305",
+        "birthDate": "1998-03-16",
+        "gender": "女性",
+        "idCard": "410425199803166087",
+        "idCardType": "01",
+        "contactInfo": null,
+        "careerCode": null,
+        "careerName": null,
+        "career": null,
+        "maritalStatus": "未婚",
+        "createdAt": "2025-05-19T13:15:21",
+        "updateTime": "2025-06-10T14:13:46",
+        "encounters": [
+            {
+                "encounterId": "122448",
+                "encounterType": "2",
+                "visitStartTime": "2023-10-23 11:38:08",
+                "visitEndTime": "2023-11-06 10:00:00",
+                "department": "骨科住院",
+                "hospital": "厦门弘爱医院",
+                "attendingProviderId": "DOC008",
+                "diagnoses": [
+                    {
+                        "diagnosisId": 53642,
+                        "diseaseCode": "S82.100x087",
+                        "diseaseName": "胫骨平台骨折",
+                        "diagnosisDate": "2023-10-23 17:18:49.0"
+                    }
+                ],
+                "examinations": [
+                    {
+                        "reportId": "5070416",
+                        "timestamp": "2023-10-23 11:18:00",
+                        "findings": [
+                            {
+                                "diagnosisId": 18661,
+                                "diagnosisCode": "S82.1",
+                                "diagnosisResult": "胫骨平台骨折",
+                                "bodyPart": "下肢"
+                            }
+                        ],
+                        "fullReport": "检查结论: 右侧胫骨平台骨折。\r\n检查所见: 右侧胫骨平台可见骨质断裂，断端稍移位，右侧腓骨骨质完整，未见明显骨折征象，诸关节间隙未见明显异常。关节未见明显脱位，周围软组织未见明显异常密度影。\r\n"
+                    },
+                    {
+                        "reportId": "5072118",
+                        "timestamp": "2023-10-24 12:32:25",
+                        "findings": [
+                            {
+                                "diagnosisId": 18701,
+                                "diagnosisCode": "S82.101",
+                                "diagnosisResult": "右侧胫骨平台粉碎性骨折",
+                                "bodyPart": "下肢"
+                            },
+                            {
+                                "diagnosisId": 18702,
+                                "diagnosisCode": "M23.401",
+                                "diagnosisResult": "股骨外侧髁骨挫伤伴关节积脂血症",
+                                "bodyPart": "下肢"
+                            },
+                            {
+                                "diagnosisId": 18703,
+                                "diagnosisCode": "S83.401",
+                                "diagnosisResult": "右侧髌韧带撕裂",
+                                "bodyPart": "下肢"
+                            }
+                        ],
+                        "fullReport": "检查结论: 1、右侧胫骨平台粉碎性骨折、股骨外侧髁骨挫伤伴关节积脂血症。\r\n2、右侧髌韧带及外侧副韧带撕裂。\r\n检查所见: 右侧胫骨平台及股骨外侧髁骨髓内可见斑片状异常信号影...膝关节周围软组织肿胀，脂肪间隙变模糊。\r\n"
+                    }
+                ],
+                "labTests": [
+                    {
+                        "reportId": "18050205",
+                        "items": [
+                            {
+                                "testId": 132783,
+                                "labtestIndexCode": "WBC                 ",
+                                "labtestIndexName": "白细胞计数(WBC)",
+                                "value": 445,
+                                "textValue": null,
+                                "unit": "umol/L",
+                                "referenceRange": "150-420",
+                                "interpretation": "偏高",
+                                "timestamp": "2024-05-15T10:00:00Z"
+                            },
+                            {
+                                "testId": 132787,
+                                "labtestIndexCode": "HGB                 ",
+                                "labtestIndexName": "血红蛋白(HGB)",
+                                "value": 445,
+                                "textValue": null,
+                                "unit": "umol/L",
+                                "referenceRange": "150-420",
+                                "interpretation": "偏高",
+                                "timestamp": "2024-05-15T10:00:00Z"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "encounterId": "162864",
+                "encounterType": "2",
+                "visitStartTime": "2025-01-14 10:59:38",
+                "visitEndTime": "2025-01-18 10:00:00",
+                "department": "骨科住院",
+                "hospital": "厦门弘爱医院",
+                "attendingProviderId": "DOC008",
+                "diagnoses": [
+                    {
+                        "diagnosisId": 53643,
+                        "diseaseCode": "Z47.001",
+                        "diseaseName": "取除骨折内固定装置",
+                        "diagnosisDate": "2025-01-14 15:09:53.0"
+                    }
+                ],
+                "examinations": [],
+                "labTests": [
+                    {
+                        "reportId": "22880893",
+                        "items": [
+                             {
+                                "testId": 132823,
+                                "labtestIndexCode": "HBsAb               ",
+                                "labtestIndexName": "乙肝表面抗体(HBsAb)"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "allergyProfilesList": [
+            {
+                "allergyId": 4101,
+                "patientId": 52183,
+                "allergenType": "环境",
+                "allergen": "尘螨",
+                "reaction": "未知",
+                "reactionType": "未知",
+                "recordedAt": "2025-01-05 10:33:23",
+                "createdAt": "2025-05-18T17:30:18.813"
+            }
+        ],
+        "familyHistoryList": [
+            {
+                "familyHistoryId": 10981,
+                "patientId": 52183,
+                "relativeName": null,
+                "relativeRelationshipType": null,
+                "relativeRelationship": "其他",
+                "relativeDiseaseType": "不详",
+                "relativeDisease": "不详",
+                "onsetAge": "不详",
+                "recordedAt": "2025-04-15 09:30:24",
+                "createdAt": "2025-05-17T15:28:45.282"
+            }
+        ],
+        "maritalReproductiveList": [
+            {
+                "maritalReproductiveId": 5601,
+                "patientId": 52183,
+                "maritalStatusCode": null,
+                "maritalStatus": "未婚",
+                "spouseHealthStatusCode": null,
+                "spouseHealthStatus": "未知",
+                "childrenCount": "0",
+                "childHealth": null,
+                "childDetail": null,
+                "recordedAt": "2023-11-06 11:49:41",
+                "sourceRecordedBy": "医生站",
+                "sourceRecordedMode": "住院病历",
+                "sourceRecordedId": "121706_ZYBL",
+                "createdAt": "2025-06-10T14:17:24.501",
+                "createdBy": null,
+                "updatedAt": "2025-06-10T14:17:24.501",
+                "updatedBy": null
+            }
+        ],
+        "pastBloodTransfusionsList": [
+            {
+                "pastBloodTransfusionsId": 28701,
+                "patientId": 52183,
+                "patId": "",
+                "visitType": "",
+                "yqdm": null,
+                "volumeMl": null,
+                "donorId": null,
+                "bloodTransfusionsDate": null,
+                "bloodTransfusionsAddress": null,
+                "createdAt": "2025-06-10T14:15:05.768",
+                "updateTime": null,
+                "haveHistory": null
+            },
+            {
+                "pastBloodTransfusionsId": 28681,
+                "patientId": 52183,
+                "patId": "",
+                "visitType": "",
+                "yqdm": null,
+                "volumeMl": null,
+                "donorId": null,
+                "bloodTransfusionsDate": null,
+                "bloodTransfusionsAddress": null,
+                "createdAt": "2025-06-10T11:39:22.583",
+                "updateTime": null,
+                "haveHistory": null
+            },
+            {
+                "pastBloodTransfusionsId": 28661,
+                "patientId": 52183,
+                "patId": "",
+                "visitType": "",
+                "yqdm": null,
+                "volumeMl": null,
+                "donorId": null,
+                "bloodTransfusionsDate": null,
+                "bloodTransfusionsAddress": null,
+                "createdAt": "2025-06-10T11:30:16.957",
+                "updateTime": null,
+                "haveHistory": null
+            },
+            {
+                "pastBloodTransfusionsId": 28641,
+                "patientId": 52183,
+                "patId": "",
+                "visitType": "",
+                "yqdm": null,
+                "volumeMl": null,
+                "donorId": null,
+                "bloodTransfusionsDate": null,
+                "bloodTransfusionsAddress": null,
+                "createdAt": "2025-06-10T11:05:54.315",
+                "updateTime": null,
+                "haveHistory": null
+            }
+        ],
+        "pastInfectiousDiseasesList": [],
+        "pastSurgeriesList": [
+            {
+                "pastSurgeriestId": 16301,
+                "empiNo": null,
+                "patientId": 52183,
+                "patId": "59032",
+                "visitType": "1",
+                "yqdm": null,
+                "surgeryCode": "27.69",
+                "surgeryName": "UPPP",
+                "bodySite": "咽部",
+                "surgeryDate": "",
+                "complications": null,
+                "notes": null,
+                "createdAt": "2025-05-18T08:39:33.254",
+                "updateTime": null
+            }
+        ],
+        "pastTraumasList": [
+            {
+                "pastTraumasId": 11242,
+                "patientId": 52183,
+                "patId": "216233",
+                "visitType": "1",
+                "yqdm": null,
+                "traumaType": "FRACTURE",
+                "severity": "MODERATE",
+                "bodySite": "左尺骨",
+                "burnDegree": "OTHER",
+                "healed": "true",
+                "traumasDate": null,
+                "createdAt": "2025-05-21T03:19:19.554",
+                "updateTime": null
+            },
+            {
+                "pastTraumasId": 11241,
+                "patientId": 52183,
+                "patId": "216233",
+                "visitType": "1",
+                "yqdm": null,
+                "traumaType": "FRACTURE",
+                "severity": "SEVERE",
+                "bodySite": "左股骨",
+                "burnDegree": "OTHER",
+                "healed": "true",
+                "traumasDate": null,
+                "createdAt": "2025-05-21T03:19:19.365",
+                "updateTime": null
+            }
+        ],
+        "pastVaccinationsList": [
+            {
+                "pastVaccinationsId": 41041,
+                "patientId": 52183,
+                "patId": "6816",
+                "visitType": "1",
+                "yqdm": null,
+                "vaccineCode": "J20160034",
+                "vaccineName": "流感疫苗",
+                "vaccineDate": "2023-10-20",
+                "doseNumber": "1",
+                "lotNumber": "FLU-2023-XYZ456",
+                "manufacturer": "上海生物",
+                "createdAt": "2025-05-17T07:56:38.039",
+                "updateTime": null
+            }
+        ],
+        "personalAlcoholHistoryList": [
+            {
+                "personalAlcoholHistoryId": 16221,
+                "patientId": 52183,
+                "patId": "",
+                "visitType": "",
+                "yqdm": null,
+                "frequency": "NEVER",
+                "drinksPerDay": "",
+                "beverageType": null,
+                "hasBinge": "false",
+                "drinksFlag": "false",
+                "yearsOfDrinks": "",
+                "historyDetails": "出生地河南省平顶山市郏县，生长于原籍，职员。否认吸烟史；无饮酒史。否认疫水接触史，否认疫区久居史。否认工业毒物、粉尘、放射性物质接触史。否认冶游史。家住1层，家内无门槛；家附近有无障碍设施。照料者为其父母。",
+                "historyDate": "2023-11-06 11:49:41",
+                "createdAt": "2025-06-10T11:06:54.27",
+                "updateTime": null
+            }
+        ],
+        "personalSmokingHistoryList": [
+            {
+                "personalSmokingHistoryId": 10261,
+                "patientId": 52183,
+                "patId": "",
+                "visitType": "",
+                "yqdm": null,
+                "status": "NEVER",
+                "smokingDuration": null,
+                "packsPerDay": null,
+                "quitAttempts": null,
+                "quitDuration": null,
+                "beforeQuit": null,
+                "cessationMethod": null,
+                "beforePacksPerDay": null,
+                "smokingFlag": null,
+                "historyDetails": "出生地河南省平顶山市郏县，生长于原籍，职员。否认吸烟史；无饮酒史。否认疫水接触史，否认疫区久居史。否认工业毒物、粉尘、放射性物质接触史。否认冶游史。家住1层，家内无门槛；家附近有无障碍设施。照料者为其父母。",
+                "createdAt": "2025-06-10T14:16:04.973",
+                "updateTime": null
+            }
+        ],
+        "physicalTraitsList": [
+            {
+                "physicalTraitsId": 98361,
+                "patientId": 52183,
+                "bmi": "22.86",
+                "heightCm": "175",
+                "weightKg": "70",
+                "patId": null,
+                "visitType": null,
+                "yqdm": null,
+                "jzlsh": null,
+                "recordedAt": "2025-03-18 10:03:44",
+                "createdAt": "2025-05-17T08:01:48.218",
+                "createdBy": "ai",
+                "sourceRecordedBy": "医生站",
+                "sourceRecordedMode": "门诊病历",
+                "sourceRecordedId": "4311025"
+            }
+        ],
+        "dietHabitsList": [
+            {
+                "personalDietHabitsId": 241,
+                "patientId": 52183,
+                "flavorType": "辛辣,清淡",
+                "dietType": "荤素均衡",
+                "recordedAt": null,
+                "sourceRecordedBy": "体检系统",
+                "sourceRecordedMode": "体检问卷",
+                "sourceRecordedId": "https://mp.cndcare.com/front-questionnaire-service/questionnaire?randomCode=EJ4Lqo247803",
+                "createdAt": "2025-05-28T09:52:19.751"
+            }
+        ],
+        "healthStatusList": [
+            {
+                "personalHealthStatusId": 261,
+                "patientId": 52183,
+                "healthStatus": "好",
+                "recordedAt": null,
+                "sourceRecordedBy": "体检系统",
+                "sourceRecordedMode": "体检问卷",
+                "sourceRecordedId": "https://mp.cndcare.com/front-questionnaire-service/questionnaire?randomCode=227254bbC8td",
+                "createdAt": "2025-05-28T09:53:37.136"
+            }
+        ],
+        "medicationInfoList": [],
+        "menstruationHistoryList": [
+            {
+                "personalMenstruationHistoryId": 41,
+                "patientId": 52183,
+                "menopauseStatus": "否",
+                "menopauseAge": "否",
+                "recordedAt": null,
+                "sourceRecordedBy": "体检系统",
+                "sourceRecordedMode": "体检问卷",
+                "sourceRecordedId": "https://mp.cndcare.com/front-questionnaire-service/questionnaire?randomCode=EJ4Lqo247803",
+                "createdAt": "2025-05-28T09:52:20.181"
+            }
+        ],
+        "sleepAssessmentList": [
+            {
+                "personalSleepAssessmentId": 241,
+                "patientId": 52183,
+                "sleepDuration": "7～9小时",
+                "sleepQuality": "较好",
+                "recordedAt": "2025-05-27 17:59:44.534",
+                "sourceRecordedBy": "体检系统",
+                "sourceRecordedMode": "体检问卷",
+                "sourceRecordedId": "https://mp.cndcare.com/front-questionnaire-service/questionnaire?randomCode=355083YF1s",
+                "createdAt": "2025-05-28T14:14:54.767"
+            }
+        ],
+        "physicalActivityList": [
+            {
+                "personalPhysicalActivityId": 261,
+                "patientId": 52183,
+                "activityFrequency": "1～2次/周",
+                "sedentaryHours": "＜8小时",
+                "recordedAt": null,
+                "sourceRecordedBy": "体检系统",
+                "sourceRecordedMode": "体检问卷",
+                "sourceRecordedId": "https://mp.cndcare.com/front-questionnaire-service/questionnaire?randomCode=UBxUCK330479",
+                "createdAt": "2025-05-28T09:53:37.423"
+            }
+        ]
+    }
+}

@@ -1,0 +1,213 @@
+// --- 1. 约束和索引（确保数据唯一性和查询效率） ---
+// 确保患者身份证号唯一
+CREATE CONSTRAINT patient_idCard_unique IF NOT EXISTS FOR (p:Patient) REQUIRE p.idCard IS UNIQUE;
+
+// 为患者姓名创建索引以加快查找速度
+CREATE INDEX patient_name_index IF NOT EXISTS FOR (p:Patient) ON (p.name);
+
+// 为病症名称创建索引
+CREATE INDEX condition_name_index IF NOT EXISTS FOR (c:Condition) ON (c.name);
+
+// 为实验室检查名称创建索引
+CREATE INDEX labtest_name_index IF NOT EXISTS FOR (lt:LabTest) ON (lt.name);
+// 为实验室检查代码创建索引（若使用代码）
+// CREATE INDEX labtest_code_index IF NOT EXISTS FOR (lt:LabTest) ON (lt.code);
+
+// 为身体部位名称创建索引
+CREATE INDEX bodypart_name_index IF NOT EXISTS FOR (bp:BodyPart) ON (bp.name);
+
+// 为身体系统名称创建索引
+CREATE INDEX bodysystem_name_index IF NOT EXISTS FOR (bs:BodySystem) ON (bs.name);
+
+// --- 2. 创建参考数据（身体部位、系统、实验室检查） ---
+// 身体系统
+MERGE (bs_endo:BodySystem {name: '内分泌系统'}); // 内分泌系统
+MERGE (bs_cvs:BodySystem {name: '心血管系统'}); // 心血管系统
+MERGE (bs_digest:BodySystem {name: '消化系统'}); // 消化系统
+MERGE (bs_nerv:BodySystem {name: '神经系统'}); // 神经系统
+MERGE (bs_resp:BodySystem {name: '呼吸系统'}); // 呼吸系统
+MERGE (bs_urin:BodySystem {name: '泌尿系统'}); // 泌尿系统
+MERGE (bs_repr:BodySystem {name: '生殖系统'}); // 生殖系统
+MERGE (bs_immune:BodySystem {name: '免疫系统'}); // 免疫系统
+MERGE (bs_musc:BodySystem {name: '运动与骨骼'}); // 运动与骨骼系统
+MERGE (bs_sens:BodySystem {name: '感官器官'}); // 感官器官系统
+
+// 身体部位
+MERGE (bp_head:BodyPart {name: '头'});
+MERGE (bp_neck:BodyPart {name: '颈'});
+MERGE (bp_thyroid:BodyPart {name: '甲状腺'});
+MERGE (bp_chest:BodyPart {name: '胸'});
+MERGE (bp_abdomen:BodyPart {name: '腹'});
+MERGE (bp_upperlimb:BodyPart {name: '上肢'});
+MERGE (bp_lowerlimb:BodyPart {name: '下肢'});
+MERGE (bp_leftkidney:BodyPart {name: '左肾'});
+MERGE (bp_other:BodyPart {name: '其他'});
+
+// 建立甲状腺与颈部的位置关系
+MATCH (bp_thyroid:BodyPart {name: '甲状腺'})
+MATCH (bp_neck:BodyPart {name: '颈'})
+MERGE (bp_thyroid)-[:LOCATED_IN]->(bp_neck);
+
+// 将身体部位与身体系统关联（示例）
+MERGE (bp_thyroid)-[:PART_OF_SYSTEM]->(bs_endo);
+MERGE (bp_leftkidney)-[:PART_OF_SYSTEM]->(bs_urin);
+MERGE (bp_neck)-[:PART_OF_SYSTEM]->(bs_musc); // 颈部有肌肉/骨骼
+MERGE (bp_neck)-[:PART_OF_SYSTEM]->(bs_endo); // 包含甲状腺/甲状旁腺
+MERGE (bp_neck)-[:PART_OF_SYSTEM]->(bs_nerv); // 包含神经
+MERGE (bp_neck)-[:PART_OF_SYSTEM]->(bs_cvs);  // 包含血管
+
+// 实验室检查
+MERGE (lt_tg:LabTest {name: '甘油三酯', system: '血液系统'}); // 甘油三酯
+MERGE (lt_ua:LabTest {name: '尿酸', system: '血液系统'});   // 尿酸
+MERGE (lt_bp:LabTest {name: '血压', system: '心血管系统'}); // 血压（严格来说不是实验室检查）
+
+// --- 3. 创建示例患者数据（模拟界面数据） ---
+// 创建患者李珍珍
+MERGE (p:Patient {idCard: '110101199001011234'}) // 使用虚拟身份证号
+ON CREATE SET
+  p.name = '李珍珍',
+  p.birthDate = date('1990-01-01'), // 示例出生日期
+  p.gender = 'Female'
+ON MATCH SET // 若患者已存在，按需更新姓名
+  p.name = '李珍珍',
+  p.birthDate = date('1990-01-01'),
+  p.gender = 'Female';
+
+// 添加生命体征（身高、体重、BMI）
+MATCH (p:Patient {idCard: '110101199001011234'}) // 先找到患者
+CREATE (vs_h:VitalSign {type: 'Height', value: 160, unit: 'cm'})
+CREATE (vs_w:VitalSign {type: 'Weight', value: 45, unit: 'kg'})
+CREATE (vs_bmi:VitalSign {type: 'BMI', value: 22.4, unit: 'kg/m²'}) // 注意：BMI 通常是计算得出的
+CREATE (p)-[:HAS_VITAL_SIGN {timestamp: datetime()}]->(vs_h)
+CREATE (p)-[:HAS_VITAL_SIGN {timestamp: datetime()}]->(vs_w)
+CREATE (p)-[:HAS_VITAL_SIGN {timestamp: datetime()}]->(vs_bmi);
+
+// 添加异常实验室检查结果（甘油三酯）
+MATCH (p:Patient {idCard: '110101199001011234'}) // 找到患者
+MATCH (lt:LabTest {name: '甘油三酯'}) // 找到实验室检查
+CREATE (lr_tg:LabResult {
+  value: 2.73,
+  unit: 'mmol/L',
+  referenceRange: '0-2.3',
+  interpretation: '偏高', // 偏高
+  timestamp: datetime()
+})
+CREATE (p)-[:HAS_LAB_RESULT {timestamp: datetime()}]->(lr_tg)
+CREATE (lr_tg)-[:RESULT_OF]->(lt);
+
+// 添加疾病风险（高尿酸血症、高血压）
+MATCH (p:Patient {idCard: '110101199001011234'}) // 找到患者
+MERGE (c_hyperuricemia:Condition {name: '高尿酸血症', type: 'Risk'}) // 高尿酸血症
+MERGE (c_hypertension:Condition {name: '高血压', type: 'Risk'})     // 高血压
+MERGE (p)-[:HAS_CONDITION {status: 'Risk Identified', detectedDate: date()}]->(c_hyperuricemia) // 若需要，对关系也使用 MERGE 避免重复
+MERGE (p)-[:HAS_CONDITION {status: 'Risk Identified', detectedDate: date()}]->(c_hypertension);
+
+// 将实验室检查结果与风险关联（可选但有信息价值）
+MATCH (lr:LabResult {value: 2.73, unit: 'mmol/L'})-[:RESULT_OF]->(:LabTest {name: '甘油三酯'}) // 更精确地找到特定结果
+MERGE (c_hyperlipidemia:Condition {name: '高血脂风险', type: 'Risk'}) // 创建或查找风险节点
+MERGE (lr)-[:INDICATES_CONDITION]->(c_hyperlipidemia); // 将甘油三酯结果与风险关联
+
+// 添加个人史（饮酒、吸烟 - 来自健康评估部分）
+MATCH (p:Patient {idCard: '110101199001011234'}) // 找到患者
+MERGE (ph_alcohol:PersonalHistoryItem {type: 'Alcohol', status: 'Current', details: '社交性饮酒'}) // 社交性饮酒者
+MERGE (ph_smoking:PersonalHistoryItem {type: 'Smoking', status: 'Former', details: '已戒烟5年'}) // 前吸烟者，已戒烟5年
+MERGE (p)-[:HAS_PERSONAL_HISTORY]->(ph_alcohol) // 使用 MERGE 避免重复运行时产生重复关系
+MERGE (p)-[:HAS_PERSONAL_HISTORY]->(ph_smoking);
+
+// 将个人史与风险关联（示例）
+MATCH (ph_s:PersonalHistoryItem {type: 'Smoking'})<-[:HAS_PERSONAL_HISTORY]-(:Patient {idCard: '110101199001011234'}) // 找到特定患者的历史
+MATCH (c_ht:Condition {name: '高血压'})
+MERGE (ph_s)-[:RISK_FACTOR_FOR]->(c_ht);
+
+MATCH (ph_a:PersonalHistoryItem {type: 'Alcohol'})<-[:HAS_PERSONAL_HISTORY]-(:Patient {idCard: '110101199001011234'}) // 找到特定患者的历史
+MATCH (c_hu:Condition {name: '高尿酸血症'})
+MERGE (ph_a)-[:RISK_FACTOR_FOR]->(c_hu);
+
+// 添加检查和发现（甲状腺结节4类）
+MATCH (p:Patient {idCard: '110101199001011234'}) // 找到患者
+MATCH (bp_t:BodyPart {name: '甲状腺'})
+MATCH (bs_e:BodySystem {name: '内分泌系统'})
+// 创建特定病症节点
+MERGE (c_thyroid_nodule:Condition {name: '甲状腺结节4类', type: 'Finding'}) // 甲状腺结节4类
+ON CREATE SET c_thyroid_nodule.description = 'TI-RADS 4 classification, suspicious nodule.'
+// 创建检查记录（假设为颈部超声）
+CREATE (ex_thyroid_us:Examination {type: '颈部超声', bodyPartExamined: '颈部/甲状腺', timestamp: datetime()})
+// 创建检查中的结构化发现
+CREATE (ef_nodule:ExaminationFinding {finding: '甲状腺结节', location: '甲状腺', details: 'TI-RADS 4类'})
+// 关联所有内容
+MERGE (p)-[:UNDERWENT_EXAMINATION {timestamp: ex_thyroid_us.timestamp}]->(ex_thyroid_us) // 对关系使用 MERGE，可能有唯一时间戳
+MERGE (ex_thyroid_us)-[:REVEALED_FINDING]->(ef_nodule)
+MERGE (ef_nodule)-[:LOCATED_IN]->(bp_t)
+MERGE (ef_nodule)-[:ASSOCIATED_CONDITION]->(c_thyroid_nodule) // 将发现实例与病症类型关联
+MERGE (p)-[:HAS_CONDITION {status: 'Active Finding', diagnosedDate: date()}]->(c_thyroid_nodule) // 患者有此病症/发现
+MERGE (c_thyroid_nodule)-[:AFFECTS_BODY_PART]->(bp_t) // 病症影响甲状腺
+MERGE (c_thyroid_nodule)-[:PART_OF_SYSTEM]->(bs_e); // 甲状腺结节是内分泌系统问题
+
+// 添加另一个示例：检查发现（肾结石）
+MATCH (p:Patient {idCard: '110101199001011234'}) // 找到患者
+MATCH (bp_lk:BodyPart {name: '左肾'})
+MATCH (bs_u:BodySystem {name: '泌尿系统'})
+MERGE (c_kidneystone:Condition {name: '肾结石', type: 'Diagnosis'})
+CREATE (ex_kidney_us:Examination {type: '腹部超声', bodyPartExamined: '腹部/肾脏', timestamp: datetime()})
+CREATE (ef_stone:ExaminationFinding {finding: '肾结石', location: '左肾', details: '大小约 5mm'})
+MERGE (p)-[:UNDERWENT_EXAMINATION {timestamp: ex_kidney_us.timestamp}]->(ex_kidney_us)
+MERGE (ex_kidney_us)-[:REVEALED_FINDING]->(ef_stone)
+MERGE (ef_stone)-[:LOCATED_IN]->(bp_lk)
+MERGE (ef_stone)-[:ASSOCIATED_CONDITION]->(c_kidneystone)
+MERGE (p)-[:HAS_CONDITION {status: 'Active', diagnosedDate: date()}]->(c_kidneystone)
+MERGE (c_kidneystone)-[:AFFECTS_BODY_PART]->(bp_lk)
+MERGE (c_kidneystone)-[:PART_OF_SYSTEM]->(bs_u);
+
+// 添加示例医疗史（手术史）
+MATCH (p:Patient {idCard: '110101199001011234'}) // 找到患者
+MERGE (mh_surgery:MedicalHistoryEvent {type: 'Surgery', description: '阑尾切除术', date: date('2010-05-15')}) // 阑尾切除术
+MERGE (p)-[:HAS_HISTORY_EVENT {date: mh_surgery.date}]->(mh_surgery); // MERGE 关系
+
+// 添加示例过敏史
+MATCH (p:Patient {idCard: '110101199001011234'}) // 找到患者
+MERGE (a_penicillin:Allergy {allergen: '青霉素', reaction: '皮疹', severity: 'Moderate'}) // 青霉素过敏
+MERGE (p)-[:HAS_ALLERGY]->(a_penicillin); // MERGE 关系
+
+// 添加示例家族史
+MATCH (p:Patient {idCard: '110101199001011234'}) // 找到患者
+MERGE (fh_father_diabetes:FamilyHistory {relative: '父亲', conditionName: '糖尿病', details: 'II型，胰岛素治疗'}) // 父亲，II型糖尿病
+MERGE (p)-[:HAS_FAMILY_HISTORY]->(fh_father_diabetes); // MERGE 关系
+
+// 添加示例婚育史
+MATCH (p:Patient {idCard: '110101199001011234'}) // 找到患者
+MERGE (ms:MaritalStatus {status: '已婚', spouseHealth: '健康', childrenCount: 1, childrenHealth: '健康'})
+MERGE (p)-[:HAS_MARITAL_INFO]->(ms); // MERGE 关系
+
+// --- 4. 验证查询（示例） ---
+// 找到患者李珍珍和她的基本信息及生命体征
+MATCH (p:Patient {name: '李珍珍'})-[r:HAS_VITAL_SIGN]->(vs:VitalSign) // 明确 vs 是 VitalSign 节点，r 是关系
+RETURN p.name,                     // 患者姓名
+       p.birthDate,              // 出生日期
+       date().year - p.birthDate.year AS age, // 计算年龄
+       vs.type AS vitalType,       // 获取 vs 节点的 type 属性（正确方式）
+       vs.value,                   // 生命体征值
+       vs.unit;                    // 生命体征单位
+
+// 找到李珍珍的异常实验室检查结果
+MATCH (p:Patient {name: '李珍珍'})-[:HAS_LAB_RESULT]->(lr)-[:RESULT_OF]->(lt)
+WHERE lr.interpretation <> 'Normal' // 找到非正常结果
+RETURN p.name, lt.name, lr.value, lr.unit, lr.interpretation, lr.referenceRange;
+
+// 找到李珍珍的病症/风险
+MATCH (p:Patient {name: '李珍珍'})-[r:HAS_CONDITION]->(c:Condition)
+RETURN p.name, c.name, c.type, r.status;
+
+// 找到与颈部相关的病症
+MATCH (p:Patient {name: '李珍珍'})-[:HAS_CONDITION]->(c:Condition)-[:AFFECTS_BODY_PART]->(bp_affected)
+// 检查受影响的部位是否是“颈”，或者是位于“颈”内部的部位（层级关系）
+WHERE bp_affected.name = '颈' OR (bp_affected)-[:LOCATED_IN*0..1]->(:BodyPart {name: '颈'}) // *0..1 包含直接是颈或下一层是颈
+RETURN DISTINCT p.name, c.name AS conditionAffectingNeckRegion, bp_affected.name as specificPartAffected;
+
+// 找到李珍珍与内分泌系统相关的病症
+MATCH (bs:BodySystem {name: '内分泌系统'})<-[:PART_OF_SYSTEM]-(c:Condition)<-[r:HAS_CONDITION]-(p:Patient {name: '李珍珍'})
+RETURN p.name, c.name AS endocrineCondition;
+
+// 找到李珍珍的检查发现
+MATCH (p:Patient {name: '李珍珍'})-[:UNDERWENT_EXAMINATION]->(ex)-[:REVEALED_FINDING]->(ef)-[:LOCATED_IN]->(bp)
+OPTIONAL MATCH (ef)-[:ASSOCIATED_CONDITION]->(c)
+RETURN p.name, ex.type AS examType, ef.finding, ef.location, bp.name AS bodyPart, ef.details, c.name AS relatedCondition;    

@@ -1,0 +1,125 @@
+{
+    "patientId": "PAT_WJ002",
+    "idCard": "11011219720320XXXX",
+    "name": "王建华",
+    "birthDate": "1972-03-20",
+    "gender": "Male",
+    "height": 178,
+    "weight": 86,
+    "contactInfo": {
+        "phone": "13912345678",
+        "address": "北京市朝阳区建国路 100 号"
+    },
+    "occupation": "工程师",
+    "maritalAndReproductiveHistory": {
+        "maritalStatus": "已婚",
+        "spouseHealthStatus": "健康",
+        "hasChildren": true,
+        "numberOfChildren": 1,
+        "parentingSituation": "子女上大学",
+        "childrenHealthStatus": "健康",
+        "sourceRecordId": "WJH_MARITAL_REC_01"
+    },
+    "medicalHistory": [],
+    "personalHistory": [
+        {
+            "type": "Smoking",
+            "status": "Former",
+            "details": "已戒烟10年",
+            "sourceRecordId": "WJH_SMOKE_REC_01"
+        },
+        {
+            "type": "Alcohol",
+            "status": "Social",
+            "details": "社交场合饮酒，每周约1 - 2次",
+            "sourceRecordId": "WJH_ALC_REC_01"
+        },
+        {
+            "type": "Exercise",
+            "status": "Regular",
+            "details": "每周跑步3次，每次5公里",
+            "sourceRecordId": "WJH_EXER_REC_01"
+        }
+    ],
+    "familyHistory": [
+        {
+            "relative": "无",
+            "conditionName": "无特殊记载",
+            "details": "父母体健，无明确遗传病史",
+            "sourceRecordId": "WJH_FAM_REC_01"
+        }
+    ],
+    "allergies": [],
+    "encounters": [
+        {
+            "encounterId": "ENC_WJ002_05",
+            "type": "门诊复诊",
+            "encounterDate": "2024-05-15",
+            "dischargeDate": null,
+            "department": "内分泌科",
+            "attendingProviderId": "DOC008",
+            "diagnosesRecorded": [
+                {
+                    "icdCode": "EDA12384",
+                    "conditionName": "轻度非增殖性糖尿病视网膜病变",
+                    "type": "Finding",
+                    "status": "Noted"
+                }
+            ],
+            "vitalSignsRecorded": [
+                {
+                    "vitalId": "VT_WJ002_05_BP",
+                    "type": "BloodPressure",
+                    "systolic": 142,
+                    "diastolic": 90,
+                    "value": null,
+                    "unit": "mmHg",
+                    "timestamp": "2024-05-15T14:00:00Z"
+                }
+            ],
+            "labResultsRecorded": [
+                {
+                    "resultId": "LR_WJ002_05_1",
+                    "testCode": "HBA1C",
+                    "testName": "糖化血红蛋白",
+                    "value": 7.7,
+                    "textValue": null,
+                    "unit": "%",
+                    "referenceRange": "4.0-6.0",
+                    "interpretation": "控制欠佳",
+                    "timestamp": "2024-05-15T10:00:00Z"
+                },
+                {
+                    "resultId": "LR_WJ002_05_2",
+                    "testCode": "CHEM0030",
+                    "testName": "尿酸",
+                    "value": 445,
+                    "textValue": null,
+                    "unit": "umol/L",
+                    "referenceRange": "150-420",
+                    "interpretation": "偏高",
+                    "timestamp": "2024-05-15T10:00:00Z"
+                }
+            ],
+            "examinationsPerformed": [
+                {
+                    "examId": "EX_WJ002_05_1",
+                    "type": "眼底检查",
+                    "timestamp": "2024-05-15T14:30:00Z",
+                    "reportId": "RPT_FUNDUS_67890",
+                    "findings": [
+                        {
+                            "findingId": "EF_WJ002_05_1",
+                            "finding": "微血管瘤，少量点状出血",
+                            "location": "头",
+                            "details": "双眼背景期改变",
+                            "suggestedConditionName": "轻度非增殖性糖尿病视网膜病变",
+                            "icdCode": "EDA12384",
+                            "suggestedConditionType": "Finding"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,99 @@
+<!-- templates/graph_display.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>患者健康画像图谱 - {{ patient_id }}</title>
+    <style type="text/css">
+        html, body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+        #viz-container {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+        }
+        .info-panel {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid #ccc;
+            z-index: 10;
+        }
+        /* 【新增】调试面板的样式 */
+        .debug-panel {
+            border: 2px solid red;
+            background-color: #fff5f5;
+            padding: 10px;
+            margin-top: 20px;
+        }
+        .debug-panel code {
+            background-color: #eee;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        h1, h2 { margin: 0 0 10px 0; }
+        p { margin: 5px 0; }
+    </style>
+    <!-- 我们依然需要这个库，但暂时不调用它 -->
+    <script src="/static/neovis.js"></script>
+</head>
+<body>
+    <div class="info-panel">
+        <h1>患者健康画像图谱</h1>
+        <p><strong>患者ID:</strong> {{ patient_id }}</p>
+        <p><strong>患者姓名:</strong> {{ patient_name }}</p>
+        
+        <!-- 【新增】调试信息面板 -->
+        <div class="debug-panel">
+            <h2>前端JS接收到的配置 (请检查!)</h2>
+            <p>连接地址 (URI): <code id="debug-uri"></code></p>
+            <p>用户名 (User): <code id="debug-user"></code></p>
+            <p>密码 (Password): <code id="debug-password"></code></p>
+            <p><em>如果这里显示的密码与您在 app.py 中设置的不一致，说明服务没有被正确重启。</em></p>
+        </div>
+    </div>
+
+    <div id="viz-container"></div>
+
+    <script type="text/javascript">
+        // 1. 从后端Flask传入的配置
+        const config = {
+            container_id: "viz-container",
+            server_url: "{{ neo4j_uri }}",
+            server_user: "{{ neo4j_user }}",
+            server_password: "{{ neo4j_password }}",
+            // ... 其他配置暂时不重要
+        };
+
+        // 2. 【新增】将收到的配置显示在页面上
+        document.getElementById('debug-uri').textContent = config.server_url;
+        document.getElementById('debug-user').textContent = config.server_user;
+        document.getElementById('debug-password').textContent = config.server_password;
+
+        // 3. 【重要】暂时注释掉绘图代码，以防止它报错
+        /*
+        let viz;
+        function draw() {
+            viz = new NeoVis.default(config);
+            viz.render();
+
+            viz.on("clickNode", (node) => {
+                console.log("Clicked node:", node);
+            });
+        }
+        document.addEventListener("DOMContentLoaded", draw);
+        */
+    </script>
+</body>
+</html>
