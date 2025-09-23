@@ -3,79 +3,79 @@ chcp 65001 > nul
 setlocal enabledelayedexpansion
 
 echo ======================================
-echo     健康画像ETL项目启动脚本
+echo     Health Portrait ETL Startup Script
 echo ======================================
 
-REM 检查Python环境
+REM Check Python environment
 python --version >nul 2>&1
 if errorlevel 1 (
-    echo 错误: 未找到Python环境
+    echo Error: Python environment not found
     pause
     exit /b 1
 )
 
-REM 检查依赖
-echo 检查依赖包...
+REM Check dependencies
+echo Checking dependencies...
 pip list | findstr "neo4j psycopg2 pyodbc requests Flask" >nul 2>&1
 if errorlevel 1 (
-    echo 警告: 部分依赖包可能未安装，请运行: pip install -r requirements.txt
+    echo Warning: Some dependencies may not be installed, please run: pip install -r requirements.txt
 )
 
 echo.
-echo 请选择启动模式:
-echo 1. 运行ETL数据处理 (单次执行)
-echo 2. 启动ETL定时调度 (持续运行)
-echo 3. 启动API服务
-echo 4. 查看项目状态
-echo 5. 验证项目配置
-echo 6. 查看日志
+echo Select startup mode:
+echo 1. Run ETL data processing (single execution)
+echo 2. Start ETL scheduler (continuous)
+echo 3. Start API service
+echo 4. View project status
+echo 5. Validate project configuration
+echo 6. View logs
 echo.
-set /p choice=请输入选项 (1-6): 
+set /p choice=Please enter option (1-6): 
 
 if "%choice%"=="1" (
-    echo 启动ETL数据处理 (单次执行)...
+    echo Starting ETL data processing (single execution)...
     python main.py
 ) else if "%choice%"=="2" (
-    echo 启动ETL定时调度...
-    echo ETL任务将定时执行，按 Ctrl+C 停止
-    set /p hours=请输入调度间隔小时数 (默认24小时): 
+    echo Starting ETL scheduler...
+    echo ETL task will run periodically, press Ctrl+C to stop
+    set /p hours=Enter schedule interval in hours (default 24): 
     if "!hours!"=="" set hours=24
     python -c "from scheduler.scheduler import ETLScheduler; scheduler = ETLScheduler(); scheduler.start(!hours!)"
 ) else if "%choice%"=="3" (
-    echo 启动API服务...
-    echo 服务将在 http://localhost:5000 启动
-    echo API文档地址: http://localhost:5000/api/docs
+    echo Starting API service...
+    echo Service will start at http://localhost:5000
+    echo API docs: http://localhost:5000/api/docs
     python app.py
 ) else if "%choice%"=="4" (
-    echo 项目状态:
-    echo - 配置文件: config\settings.py
-    echo - ETL状态: config\etl_state.json
+    echo Project status:
+    echo - Config file: config\settings.py
+    echo - ETL state: config\etl_state.json
     if exist "config\etl_state.json" (
-        echo - 最后执行时间:
+        echo - Last execution time:
         type "config\etl_state.json"
     ) else (
-        echo - ETL尚未执行
+        echo - ETL not executed yet
     )
 ) else if "%choice%"=="5" (
-    echo 验证项目配置...
+    echo Validating project configuration...
     python check_config.py
 ) else if "%choice%"=="6" (
-    echo 最近的日志文件:
-    dir /b logs\ 2>nul | head -10
+    echo Recent log files:
+    for /f "tokens=*" %%i in ('dir /b logs\ 2^>nul') do echo   %%i
     echo.
-    set /p logfile=输入要查看的日志文件名 (例如: main.log): 
+    set /p logfile=Enter log filename to view (e.g. main.log): 
     if exist "logs\!logfile!" (
-        echo 显示最后50行:
+        echo Showing last 50 lines:
         powershell "Get-Content 'logs\!logfile!' | Select-Object -Last 50"
     ) else (
-        echo 日志文件不存在
+        echo Log file does not exist
     )
 ) else (
-    echo 无效选项
+    echo Invalid option
     pause
     exit /b 1
 )
 
 echo.
-echo 操作完成!
+echo Operation completed!
 pause
