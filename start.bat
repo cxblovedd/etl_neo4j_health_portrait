@@ -16,7 +16,7 @@ if errorlevel 1 (
 
 REM Check dependencies
 echo Checking dependencies...
-pip list | findstr "neo4j psycopg2 pyodbc requests Flask" >nul 2>&1
+pip list | findstr \"neo4j psycopg2 pyodbc requests Flask\" >nul 2>&1
 if errorlevel 1 (
     echo Warning: Some dependencies may not be installed, please run: pip install -r requirements.txt
 )
@@ -32,50 +32,65 @@ echo 6. View logs
 echo.
 set /p choice=Please enter option (1-6): 
 
-if "%choice%"=="1" (
-    echo Starting ETL data processing (single execution)...
+if \"%choice%\"==\"1\" (
+    echo Starting ETL data processing...
     python main.py
-) else if "%choice%"=="2" (
+    goto end
+)
+if \"%choice%\"==\"2\" (
     echo Starting ETL scheduler...
     echo ETL task will run periodically, press Ctrl+C to stop
     set /p hours=Enter schedule interval in hours (default 24): 
-    if "!hours!"=="" set hours=24
-    python -c "from scheduler.scheduler import ETLScheduler; scheduler = ETLScheduler(); scheduler.start(!hours!)"
-) else if "%choice%"=="3" (
+    if \"!hours!\"==\"\" set hours=24
+    python -c \"from scheduler.scheduler import ETLScheduler; scheduler = ETLScheduler(); scheduler.start(!hours!)\"
+    goto end
+)
+if \"%choice%\"==\"3\" (
     echo Starting API service...
     echo Service will start at http://localhost:5000
     echo API docs: http://localhost:5000/api/docs
     python app.py
-) else if "%choice%"=="4" (
+    goto end
+)
+if \"%choice%\"==\"4\" (
     echo Project status:
-    echo - Config file: config\settings.py
-    echo - ETL state: config\etl_state.json
-    if exist "config\etl_state.json" (
+    echo - Config file: config\\settings.py
+    echo - ETL state: config\\etl_state.json
+    if exist \"config\\etl_state.json\" (
         echo - Last execution time:
-        type "config\etl_state.json"
+        type \"config\\etl_state.json\"
     ) else (
         echo - ETL not executed yet
     )
-) else if "%choice%"=="5" (
+    goto end
+)
+if \"%choice%\"==\"5\" (
     echo Validating project configuration...
     python check_config.py
-) else if "%choice%"=="6" (
+    goto end
+)
+if \"%choice%\"==\"6\" (
     echo Recent log files:
-    for /f "tokens=*" %%i in ('dir /b logs\ 2^>nul') do echo   %%i
+    if exist \"logs\\\" (
+        dir /b logs\\n    ) else (
+        echo No log directory found
+    )
     echo.
     set /p logfile=Enter log filename to view (e.g. main.log): 
-    if exist "logs\!logfile!" (
-        echo Showing last 50 lines:
-        powershell "Get-Content 'logs\!logfile!' | Select-Object -Last 50"
+    if exist \"logs\\!logfile!\" (
+        echo Showing last 20 lines:
+        powershell \"Get-Content 'logs\\!logfile!' | Select-Object -Last 20\"
     ) else (
         echo Log file does not exist
     )
-) else (
-    echo Invalid option
-    pause
-    exit /b 1
+    goto end
 )
 
+echo Invalid option
+pause
+exit /b 1
+
+:end
 echo.
 echo Operation completed!
 pause
