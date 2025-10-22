@@ -121,6 +121,7 @@ class SQLServerConnection:
             if last_update_time:
                 query += f" WHERE {Config.SQL_UPDATE_TIME_COLUMN} > ?"
                 params.append(last_update_time)
+                query += f" ORDER BY patient_id ASC "
                 logger.info(f"加载{last_update_time}之后更新的患者ID")
             else:
                 logger.info("加载所有患者ID")

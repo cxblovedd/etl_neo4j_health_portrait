@@ -27,7 +27,7 @@ class Config:
     
     # 大数平台API配置
     # BIGDATA_API_BASE_URL = "http://10.51.28.117:7080" # 测试地址
-    BIGDATA_API_BASE_URL = "http://10.52.10.113:30784" # 正式地址
+    BIGDATA_API_BASE_URL = "http://inside.whitelist.com:1115" # 正式地址
     BIGDATA_API_TIMEOUT = 10000
     
     # 调度配置

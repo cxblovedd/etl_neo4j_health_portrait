@@ -10,7 +10,7 @@ class HealthPortraitAPI:
         self.base_url = Config.BIGDATA_API_BASE_URL
     
     def get_health_portrait(self, patientId):
-        url = f"{self.base_url}/datafactory/getHealthPortrait"
+        url = f"{self.base_url}/api/data-center-api/datafactory/getHealthPortrait"
         try:
             response = self.session.get(
                 url, 
