@@ -377,16 +377,15 @@ venv\Scripts\activate     # Windows
 pip install -r requirements.txt
 
 # 4. 配置环境
-cp config/settings.py.example config/settings.py
-# 编辑 config/settings.py 修改配置
+# 编辑 core/config.py 修改配置
 
 # 5. 验证环境
-python check_config.py
+python scripts/check_config.py
 ```
 
 ### 调试技巧
 
-1. **增加日志级别**：在`config/settings.py`中设置`LOG_LEVEL = "DEBUG"`
+1. **增加日志级别**：在`core/config.py`中设置`LOG_LEVEL = "DEBUG"`
 2. **单步调试**：使用`python -m pdb main.py`进行单步调试
 3. **小批量测试**：设置`BATCH_SIZE = 1`进行单个患者测试
 4. **API调试**：使用Postman或curl测试API接口
@@ -439,7 +438,7 @@ grep "Neo4j" logs/main.log | tail -5
 
 1. **日志清理**：定期清理过期日志文件(自动轮转)
 2. **数据库维护**：定期备份Neo4j数据库
-3. **配置检查**：定期运行`check_config.py`验证配置
+3. **配置检查**：定期运行`scripts/check_config.py`验证配置
 4. **依赖更新**：定期检查和更新Python依赖包
 
 ### 常见问题
@@ -451,7 +450,7 @@ telnet neo4j.haxm.local 7687
 telnet 10.52.8.78 1433
 
 # 调整超时配置
-# 在 config/settings.py 中增加：
+# 在 core/config.py 中增加：
 CONNECTION_TIMEOUT = 60
 QUERY_TIMEOUT = 600
 ```
@@ -499,7 +498,7 @@ set PYTHONIOENCODING=utf-8     # Windows
 ### 故障排查流程
 
 1. **检查日志**：查看最新的错误日志
-2. **验证配置**：运行`python check_config.py`
+2. **验证配置**：运行`python scripts/check_config.py`
 3. **测试连接**：检查数据库和API连接
 4. **检查资源**：监控CPU、内存和磁盘使用情况
 5. **重启服务**：必要时重启相关服务

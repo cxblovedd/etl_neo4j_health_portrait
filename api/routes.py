@@ -82,34 +82,101 @@ def api_docs():
 @app.route('/api/patients/<string:patient_id>/family-graph', methods=['GET'])
 @neo4j_session
 def get_family_graph(session, patient_id):
-    """获取患者家族关系图谱"""
+    """获取患者家族关系图谱（支持 depth 参数，默认深度2）"""
     try:
         depth = int(request.args.get('depth', 2))
         if not 1 <= depth <= 5: raise ValueError()
     except ValueError: return jsonify({"error": "查询参数 'depth' 必须是1到5之间的整数。"}), 400
-    pass
+
+    query = """
+    MATCH path = (p:Patient {patientId: $patientId})-[_:PARENT_OF|SPOUSE_OF|HAS_REPORTED_RELATIONSHIP*..%d]-(relative:Patient)
+    UNWIND relationships(path) AS r
+    RETURN DISTINCT r, startNode(r) AS startNode, endNode(r) AS endNode
+    """ % depth
+
+    results = session.execute_read(lambda tx: list(tx.run(query, patientId=patient_id)))
+
+    nodes = {}
+    edges = {}
+    for record in results:
+        edge_record = record['r']
+        start_node = record['startNode']
+        end_node = record['endNode']
+
+        start_node_id = start_node.get('patientId')
+        end_node_id = end_node.get('patientId')
+        if not start_node_id or not end_node_id:
+            continue
+
+        if start_node_id not in nodes:
+            nodes[start_node_id] = {
+                "id": start_node_id,
+                "label": start_node.get('name', f"患者 {start_node_id}"),
+                "type": 'MainPatient' if start_node_id == patient_id else 'Relative',
+                "properties": {
+                    "gender": start_node.get('gender'),
+                    "birthDate": serialize_value(start_node.get('birthDate')),
+                    "idType": start_node.get('idType'),
+                    "idValue": start_node.get('idValue')
+                }
+            }
+
+        if end_node_id not in nodes:
+            nodes[end_node_id] = {
+                "id": end_node_id,
+                "label": end_node.get('name', f"患者 {end_node_id}"),
+                "type": 'MainPatient' if end_node_id == patient_id else 'Relative',
+                "properties": {
+                    "gender": end_node.get('gender'),
+                    "birthDate": serialize_value(end_node.get('birthDate')),
+                    "idType": end_node.get('idType'),
+                    "idValue": end_node.get('idValue')
+                }
+            }
+
+        edge_id = edge_record.element_id
+        if edge_id not in edges:
+            edge_type = edge_record.type
+            style_type = 'PRECISE' if edge_type in ('PARENT_OF', 'SPOUSE_OF') else 'REPORTED'
+            edges[edge_id] = {
+                "id": edge_id,
+                "source": start_node_id,
+                "target": end_node_id,
+                "label": edge_record.get('relationshipName', edge_record.get('type', edge_type)),
+                "type": style_type
+            }
+
+    if patient_id not in nodes:
+        abort(404, description=f"未找到ID为 '{patient_id}' 的患者。")
+
+    return jsonify({
+        "code": 0,
+        "msg": "成功",
+        "data": {
+            "nodes": list(nodes.values()),
+            "edges": list(edges.values())
+        }
+    })
 
 @app.route('/api/patients/<string:patient_id>/dashboard', methods=['GET'])
 @neo4j_session
 def get_patient_dashboard(session, patient_id):
-    """获取患者仪表盘概览信息 (已适配)"""
-    basic_info_query = """
+    """获取患者仪表盘概览信息"""
+    # 合并基本信息与最新就诊诊断为一次查询，减少网络往返
+    overview_query = """
     MATCH (p:Patient {patientId: $patientId})
-    RETURN p.name AS name, p.birthDate AS birthDate, p.gender AS gender
+    OPTIONAL MATCH (p)-[:HAD_ENCOUNTER]->(e:Encounter)
+      WHERE e.visitStartTime IS NOT NULL
+    WITH p, e ORDER BY e.visitStartTime DESC
+    WITH p, head(collect(e)) AS latestEnc
+    OPTIONAL MATCH (latestEnc)-[:RECORDED_DIAGNOSIS]->(c:Condition)
+    RETURN
+        p.name AS name, p.birthDate AS birthDate, p.gender AS gender,
+        collect({conditionName: c.name, date: latestEnc.visitStartTime})[0..5] AS keyConditions
     """
-    basic_result = session.execute_read(lambda tx: tx.run(basic_info_query, patientId=patient_id).single())
-    if not basic_result:
+    overview = session.execute_read(lambda tx: tx.run(overview_query, patientId=patient_id).single())
+    if not overview or overview['name'] is None:
         abort(404, description="未找到患者")
-
-    latest_condition_query = """
-    MATCH (p:Patient {patientId: $patientId})-[:HAD_ENCOUNTER]->(e:Encounter)
-    WHERE e.visitStartTime IS NOT NULL
-    WITH e ORDER BY e.visitStartTime DESC LIMIT 1
-    MATCH (e)-[:RECORDED_DIAGNOSIS]->(c:Condition)
-    RETURN c.name AS conditionName, e.visitStartTime as date
-    LIMIT 5
-    """
-    conditions = session.execute_read(lambda tx: list(tx.run(latest_condition_query, patientId=patient_id)))
 
     abnormal_labs_query = """
     MATCH (p:Patient {patientId: $patientId})-[:HAD_ENCOUNTER]->()-[:HAD_LAB_TEST]->(ltr:LabTestReport)-[r:HAS_ITEM]->(li:LabTestItem)
@@ -119,21 +186,20 @@ def get_patient_dashboard(session, patient_id):
     """
     abnormal_labs = session.execute_read(lambda tx: list(tx.run(abnormal_labs_query, patientId=patient_id)))
 
-    dashboard_data = {
+    return jsonify({
         "patientId": patient_id,
-        "name": basic_result["name"],
-        "age": calculate_age(basic_result["birthDate"]),
-        "gender": basic_result["gender"],
-        "keyConditions": [serialize_record(r) for r in conditions],
+        "name": overview["name"],
+        "age": calculate_age(overview["birthDate"]),
+        "gender": overview["gender"],
+        "keyConditions": [serialize_value(c) for c in overview["keyConditions"]],
         "recentAbnormalIndicators": [serialize_record(r) for r in abnormal_labs],
         "recentAbnormalIndicatorCount": len(abnormal_labs)
-    }
-    return jsonify(dashboard_data)
+    })
 
 @app.route('/api/patients/<string:patient_id>/encounters', methods=['GET'])
 @neo4j_session
 def get_encounters(session, patient_id):
-    """获取患者就诊记录列表 (已适配)"""
+    """获取患者就诊记录列表（支持分页 ?page=1&limit=10）"""
     try:
         page = int(request.args.get('page', 1)); limit = int(request.args.get('limit', 10))
         skip = (page - 1) * limit
@@ -155,10 +221,14 @@ def get_encounters(session, patient_id):
         d.name AS departmentName,
         diagnoses
     """
+    # count 与 data 独立查询：分页场景下 count 查询走索引极快，
+    # 避免在 Cypher 侧 collect 全量数据再切片造成内存峰值
     query_count = "MATCH (p:Patient {patientId: $patientId})-[:HAD_ENCOUNTER]->(e:Encounter) RETURN count(e) AS totalCount"
-    
-    results = session.execute_read(lambda tx: list(tx.run(query_data, patientId=patient_id, skip=skip, limit=limit)))
-    count_result = session.execute_read(lambda tx: tx.run(query_count, patientId=patient_id).single())
+
+    results, count_result = (
+        session.execute_read(lambda tx: list(tx.run(query_data, patientId=patient_id, skip=skip, limit=limit))),
+        session.execute_read(lambda tx: tx.run(query_count, patientId=patient_id).single()),
+    )
     total_count = count_result['totalCount'] if count_result else 0
 
     return jsonify({
@@ -170,7 +240,7 @@ def get_encounters(session, patient_id):
 @app.route('/api/patients/<string:patient_id>/history/medical', methods=['GET'])
 @neo4j_session
 def get_medical_history(session, patient_id):
-    """获取患者既往医疗史事件列表 (已适配)"""
+    """获取患者既往医疗史事件列表（手术/外伤/输血/疫苗）"""
     query = """
     MATCH (p:Patient {patientId: $patientId})-[]->(e:PastMedicalEvent)
     RETURN 
@@ -185,7 +255,7 @@ def get_medical_history(session, patient_id):
 @app.route('/api/patients/<string:patient_id>/history/personal', methods=['GET'])
 @neo4j_session
 def get_personal_history(session, patient_id):
-    """获取患者个人史条目列表 (已适配)"""
+    """获取患者个人史与生活方式条目列表"""
     query = "MATCH (p:Patient {patientId: $patientId})-[:HAS_LIFESTYLE_FACT]->(lf:LifestyleFact) RETURN lf"
     results = session.execute_read(lambda tx: [r['lf'] for r in tx.run(query, patientId=patient_id)])
     return jsonify([serialize_value(r) for r in results])
@@ -193,7 +263,7 @@ def get_personal_history(session, patient_id):
 @app.route('/api/patients/<string:patient_id>/history/family', methods=['GET'])
 @neo4j_session
 def get_family_history(session, patient_id):
-    """获取患者家族史条目列表 (已适配)"""
+    """获取患者家族史条目列表"""
     query = """
     MATCH (p:Patient {patientId: $patientId})-[r:HAS_FAMILY_HISTORY]->(c:Condition)
     RETURN c.name as conditionName, r.relationship as relative, r.onsetAge as onsetAge, r.recordedAt as recordedDate
@@ -205,7 +275,7 @@ def get_family_history(session, patient_id):
 @app.route('/api/patients/<string:patient_id>/allergies', methods=['GET'])
 @neo4j_session
 def get_allergies(session, patient_id):
-    """获取患者过敏史列表 (已适配)"""
+    """获取患者过敏史列表"""
     query = """
     MATCH (p:Patient {patientId: $patientId})-[r:HAS_ALLERGY_TO]->(a:Allergen)
     RETURN a.name AS allergen, r.reaction as reaction, r.severity as severity, r.recordedAt as recordedDate
@@ -217,7 +287,7 @@ def get_allergies(session, patient_id):
 @app.route('/api/patients/<string:patient_id>/marital_info', methods=['GET'])
 @neo4j_session
 def get_marital_info(session, patient_id):
-    """获取患者婚育史信息 (已适配)"""
+    """获取患者婚育史信息"""
     query = "MATCH (p:Patient {patientId: $patientId}) RETURN p.maritalStatus as status"
     result = session.execute_read(lambda tx: tx.run(query, patientId=patient_id).single())
     return jsonify(serialize_record(result)) if result else jsonify({})

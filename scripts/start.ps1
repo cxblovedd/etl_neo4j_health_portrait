@@ -63,17 +63,17 @@ function Invoke-API {
     Write-Host "Starting API service..." -ForegroundColor Green
     Write-Host "Service will start at http://localhost:5000" -ForegroundColor Cyan
     Write-Host "API docs: http://localhost:5000/api/docs" -ForegroundColor Cyan
-    python app.py
+    python run_api.py
 }
 
 function Show-Status {
     Write-Host "Project status:" -ForegroundColor Green
-    Write-Host "- Config file: config\settings.py"
-    Write-Host "- ETL state: config\etl_state.json"
+    Write-Host "- Config file: core\config.py"
+    Write-Host "- ETL state: data\state\etl_state.json"
     
-    if (Test-Path "config\etl_state.json") {
+    if (Test-Path "data\state\etl_state.json") {
         Write-Host "- Last execution time:" -ForegroundColor Green
-        Get-Content "config\etl_state.json" | ConvertFrom-Json | Format-List
+        Get-Content "data\state\etl_state.json" | ConvertFrom-Json | Format-List
     } else {
         Write-Host "- ETL not executed yet" -ForegroundColor Yellow
     }
@@ -81,7 +81,7 @@ function Show-Status {
 
 function Invoke-ConfigValidation {
     Write-Host "Validating project configuration..." -ForegroundColor Green
-    python check_config.py
+    python scripts/check_config.py
 }
 
 function Show-Logs {

@@ -4,6 +4,7 @@ import json
 import datetime
 import logging
 import os
+from datetime import timezone, timedelta
 from core.config import Config
 from core.logger import setup_logger
 from etl.extractors.sqlserver import SQLServerConnection
@@ -25,21 +26,40 @@ class ETLScheduler:
             try:
                 with open(self.state_file_path, 'r') as f:
                     state = json.load(f)
-                    last_run_time = state.get('last_run_time')
-                    if last_run_time:
-                        return datetime.datetime.fromisoformat(last_run_time)
+                    timestamp_str = state.get("last_successful_load_time")
+                    if timestamp_str:
+                        try:
+                            if ' (Beijing)' in timestamp_str:
+                                beijing_tz = timezone(timedelta(hours=8))
+                                clean_timestamp = timestamp_str.replace(' (Beijing)', '')
+                                dt = datetime.datetime.strptime(clean_timestamp, '%Y-%m-%d %H:%M:%S')
+                                return dt.replace(tzinfo=beijing_tz)
+                            return datetime.datetime.fromisoformat(timestamp_str)
+                        except ValueError:
+                            return datetime.datetime.fromisoformat(timestamp_str)
+
+                    # 向后兼容旧状态字段
+                    legacy_last_run_time = state.get('last_run_time')
+                    if legacy_last_run_time:
+                        return datetime.datetime.fromisoformat(legacy_last_run_time)
             except (json.JSONDecodeError, ValueError) as e:
                 logger.error(f"读取状态文件出错: {e}")
         return None
         
     def _save_last_run_time(self):
         """保存当前运行时间到状态文件"""
-        now = datetime.datetime.now()
-        state = {'last_run_time': now.isoformat()}
+        beijing_tz = timezone(timedelta(hours=8))
+        now = datetime.datetime.now(tz=beijing_tz)
+        beijing_time_str = now.strftime('%Y-%m-%d %H:%M:%S') + ' (Beijing)'
+        state = {
+            'last_successful_load_time': beijing_time_str,
+            # 向后兼容旧字段，便于旧逻辑读取
+            'last_run_time': now.isoformat()
+        }
         try:
             with open(self.state_file_path, 'w') as f:
                 json.dump(state, f)
-            logger.info(f"已保存运行时间: {now.isoformat()}")
+            logger.info(f"已保存运行时间: {beijing_time_str}")
         except Exception as e:
             logger.error(f"保存状态文件出错: {e}")
             
@@ -59,6 +79,7 @@ class ETLScheduler:
         
         if not patient_ids:
             logger.info("没有需要处理的患者数据")
+            self._save_last_run_time()
             return
             
         logger.info(f"获取到{len(patient_ids)}个患者ID，开始处理...")

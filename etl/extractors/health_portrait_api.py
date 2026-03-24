@@ -1,7 +1,6 @@
 import requests
-import json
 from core.config import Config
-from .logger import setup_logger
+from core.logger import setup_logger
 
 logger = setup_logger('api')
 

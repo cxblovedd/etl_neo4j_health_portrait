@@ -123,15 +123,19 @@ def import_patient_core(tx, patient_id, data):
     # 就把当前 ETL 的 patient_id 赋予它。
     # 这一步是连接预建节点和正式节点的关键。
     if id_type and id_value:
+        # 认领条件扩展为两种情况：
+        # 1. patientId 为 NULL（标准预建节点）
+        # 2. patientId 为整数（旧版本遗留数据，类型未统一时创建的）
+        # 统一将 patientId 刷新为字符串类型，确保后续 MERGE key 类型一致
         claim_query = """
         MATCH (p:Patient {idType: $idType, idValue: $idValue})
-        WHERE p.patientId IS NULL
+        WHERE p.patientId IS NULL OR (p.patientId <> $patientId AND toString(p.patientId) = $patientId)
         SET p.patientId = $patientId
         """
         tx.run(claim_query, 
                idType=id_type, 
                idValue=id_value, 
-               patientId=patient_id)
+               patientId=str(patient_id))
 
     # 步骤 2: 主查询 (合并与更新)
     # 经过步骤1，现在可以安全地通过 patientId 来合并节点，不会产生重复。
@@ -663,11 +667,13 @@ def import_family_members(tx, main_patient_id, family_members_list):
         rel_type = RELATIONSHIP_MAP[rel_code]
         
         # 准备要设置到节点上的所有属性
+        raw_pid = member.get("patientId")
         properties_to_set = {
             "name": member.get("name"),
             "gender": GENDER_MAP.get(str(member.get("gender"))),
             "birthDate": member.get("birthDate"),
-            "patientId": member.get("patientId") # 包含patientId，即使它可能为null
+            # 强制转为字符串，与主流程 MERGE (p:Patient {patientId: $patientId}) 的类型保持一致
+            "patientId": str(raw_pid) if raw_pid is not None else None
         }
         # 过滤掉值为None的属性，避免覆盖已有数据为null
         properties_to_set = {k: v for k, v in properties_to_set.items() if v is not None}

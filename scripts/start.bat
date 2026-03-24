@@ -44,17 +44,17 @@ if \"%choice%\"==\"3\" (
     echo Starting API service...
     echo Service will start at http://localhost:5000
     echo API docs: http://localhost:5000/api/docs
-    python app.py
+    python run_api.py
     goto end
 )
 
 if \"%choice%\"==\"4\" (
     echo Project status:
-    echo - Config file: config\\settings.py
-    echo - ETL state: config\\etl_state.json
-    if exist \"config\\etl_state.json\" (
+    echo - Config file: core\\config.py
+    echo - ETL state: data\\state\\etl_state.json
+    if exist \"data\\state\\etl_state.json\" (
         echo - Last execution time:
-        type \"config\\etl_state.json\"
+        type \"data\\state\\etl_state.json\"
     ) else (
         echo - ETL not executed yet
     )
@@ -63,7 +63,7 @@ if \"%choice%\"==\"4\" (
 
 if \"%choice%\"==\"5\" (
     echo Validating project configuration...
-    python check_config.py
+    python scripts/check_config.py
     goto end
 )
 

@@ -48,11 +48,11 @@ case $choice in
         ;;
     3)
         echo "ETL调度状态:"
-        echo "- 配置文件: config/settings.py"
-        echo "- 状态文件: config/etl_state.json"
-        if [ -f "config/etl_state.json" ]; then
+        echo "- 配置文件: core/config.py"
+        echo "- 状态文件: data/state/etl_state.json"
+        if [ -f "data/state/etl_state.json" ]; then
             echo "- 最后执行时间:"
-            cat config/etl_state.json | python -m json.tool 2>/dev/null || cat config/etl_state.json
+            cat data/state/etl_state.json | python -m json.tool 2>/dev/null || cat data/state/etl_state.json
         else
             echo "- ETL尚未执行"
         fi

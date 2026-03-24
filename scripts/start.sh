@@ -48,25 +48,29 @@ case $choice in
         echo "启动API服务..."
         echo "服务将在 http://localhost:5000 启动"
         echo "API文档地址: http://localhost:5000/api/docs"
-        python app.py
+        python run_api.py
         ;;
     4)
         echo "项目状态:"
-        echo "- 配置文件: config/settings.py"
-        echo "- ETL状态: config/etl_state.json"
-        if [ -f "config/etl_state.json" ]; then
+        echo "- 配置文件: core/config.py"
+        echo "- ETL状态: data/state/etl_state.json"
+        if [ -f "data/state/etl_state.json" ]; then
             echo "- 最后执行时间:"
-            cat config/etl_state.json
+            cat data/state/etl_state.json
         else
             echo "- ETL尚未执行"
         fi
         ;;
-    4)
+    5)
+        echo "验证项目配置..."
+        python scripts/check_config.py
+        ;;
+    6)
         echo "最近的日志文件:"
         ls -la logs/ | head -10
         echo ""
         read -p "输入要查看的日志文件名 (例如: main.log): " logfile
-        if exist "logs/$logfile"; then
+        if [ -f "logs/$logfile" ]; then
             tail -50 "logs/$logfile"
         else
             echo "日志文件不存在"

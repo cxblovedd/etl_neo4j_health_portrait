@@ -47,17 +47,24 @@ if "%choice%"=="1" (
     python -c "from scheduler.scheduler import ETLScheduler; scheduler = ETLScheduler(); scheduler.run_once()"
 ) else if "%choice%"=="3" (
     echo ETL调度状态:
-    echo - 配置文件: config\settings.py
-    echo - 状态文件: config\etl_state.json
-    if exist "config\etl_state.json" (
+    echo - 配置文件: core\config.py
+    echo - 状态文件: data\state\etl_state.json
+    if exist "data\state\etl_state.json" (
         echo - 最后执行时间:
-        type "config\etl_state.json"
+        type "data\state\etl_state.json"
     ) else (
         echo - ETL尚未执行
     )
     echo.
     echo 最近的日志文件:
-    dir /b logs\*scheduler*.log logs\*main*.log 2>nul | head -5
+    set /a count=0
+    for /f "delims=" %%f in ('dir /b /o-d logs\*scheduler*.log logs\*main*.log 2^>nul') do (
+        if !count! lss 5 (
+            echo %%f
+            set /a count+=1
+        )
+    )
+    if !count! equ 0 echo 未找到日志文件
 ) else (
     echo 无效选项
     pause
