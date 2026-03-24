@@ -2,10 +2,11 @@ import schedule
 import time
 import json
 import datetime
+import logging
 import os
-from config.settings import Config
-from etl.utils.logger import setup_logger
-from etl.utils.sqlserver import SQLServerConnection
+from core.config import Config
+from core.logger import setup_logger
+from etl.extractors.sqlserver import SQLServerConnection
 from scheduler.job_manager import JobManager
 
 logger = setup_logger('scheduler')

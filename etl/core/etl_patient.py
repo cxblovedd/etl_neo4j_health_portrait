@@ -2,7 +2,7 @@
 
 import json
 from datetime import datetime
-from etl.utils.logger import setup_logger
+from core.logger import setup_logger
 
 logger = setup_logger('etl_patient_core') 
 
@@ -26,6 +26,29 @@ def parse_datetime(dt_str):
             continue
     logger.warning(f"Could not parse date string: {dt_str} with any known format.")
     return None
+
+def pre_create_conditions_tx(tx, conditions_list):
+    if not conditions_list:
+        return
+        
+    with_code = [c for c in conditions_list if c.get('code')]
+    without_code = [c for c in conditions_list if not c.get('code') and c.get('name')]
+    
+    if with_code:
+        query = """
+        UNWIND $conditions AS cond
+        MERGE (c:Condition {code: cond.code})
+        ON CREATE SET c.name = cond.name
+        ON MATCH SET c.name = COALESCE(cond.name, c.name)
+        """
+        tx.run(query, conditions=with_code)
+        
+    if without_code:
+        query = """
+        UNWIND $conditions AS cond
+        MERGE (c:Condition {name: cond.name})
+        """
+        tx.run(query, conditions=without_code)
 
 def import_patient_data_from_json(tx, patient_json_data):
     """
@@ -259,42 +282,6 @@ def import_encounters(tx, patient_id, encounters_list):
             import_lab_tests_from_encounter(tx, encounter_id, lab_tests)
 
 def import_diagnoses_from_encounter(tx, encounter_id, diagnoses_list):
-    """
-    导入诊断信息 - 优化版：避免死锁
-    """
-    # 【关键优化】先批量创建所有不存在的 Condition 节点
-    unique_conditions = {}
-    for diagnosis in diagnoses_list:
-        disease_code = diagnosis.get('diagnosisNo')
-        disease_name = diagnosis.get('diagnosisName')
-        if disease_code or disease_name:
-            key = disease_code or disease_name
-            unique_conditions[key] = {
-                'code': disease_code,
-                'name': disease_name
-            }
-    
-    # 批量创建 Condition 节点（避免并发冲突）
-    if unique_conditions:
-        batch_create_query = """
-        UNWIND $conditions AS cond
-        MERGE (c:Condition {code: cond.code})
-        ON CREATE SET c.name = cond.name
-        ON MATCH SET c.name = COALESCE(cond.name, c.name)
-        """
-        tx.run(batch_create_query, 
-               conditions=[v for v in unique_conditions.values() if v['code']])
-        
-        # 处理没有code的情况
-        name_only_query = """
-        UNWIND $conditions AS cond
-        MERGE (c:Condition {name: cond.name})
-        """
-        name_only_conditions = [v for v in unique_conditions.values() if not v['code']]
-        if name_only_conditions:
-            tx.run(name_only_query, conditions=name_only_conditions)
-    
-    # 【第二步】批量创建关系（此时节点已存在，无锁竞争）
     relationships = []
     for diagnosis in diagnoses_list:
         disease_code = diagnosis.get('diagnosisNo')
@@ -346,8 +333,7 @@ def import_examinations_from_encounter(tx, encounter_id, examinations_list):
                 
             finding_query = """
             MATCH (ex:Examination {reportId: $reportId})
-            MERGE (c:Condition {name: $findingResult})
-            ON CREATE SET c.code = $findingCode
+            MATCH (c:Condition {name: $findingResult})
             MERGE (ex)-[r:HAS_FINDING]->(c)
             ON CREATE SET
                 r.bodyPart = $bodyPart,
@@ -356,7 +342,6 @@ def import_examinations_from_encounter(tx, encounter_id, examinations_list):
             tx.run(finding_query,
                    reportId=report_id,
                    findingResult=finding_result,
-                   findingCode=finding.get('diagnosisCode'),
                    bodyPart=finding.get('bodyPart'),
                    diagnosisId=finding.get('diagnosisId'))
 
@@ -446,7 +431,7 @@ def import_family_history(tx, patient_id, family_history_list):
 
         query = """
         MATCH (p:Patient {patientId: $patientId})
-        MERGE (c:Condition {name: $relativeDisease})
+        MATCH (c:Condition {name: $relativeDisease})
         MERGE (p)-[r:HAS_FAMILY_HISTORY]->(c)
         ON CREATE SET
             r.relationship = $relationship,

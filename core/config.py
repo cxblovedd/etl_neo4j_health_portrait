@@ -32,9 +32,9 @@ class Config:
     
     # 调度配置
     BATCH_SIZE = 100              # 批处理大小
-    MAX_WORKERS = 5              # 最大并发数（暂时串行，避免死锁）
-    RETRY_TIMES = 3              # 重试次数
-    RETRY_DELAY = 5              # 重试延迟（秒）
+    MAX_WORKERS = 10              # 最大并发数（已通过两阶段提交解决死锁问题）
+    RETRY_TIMES = 3               # 重试次数
+    RETRY_DELAY = 5               # 重试延迟（秒）
     
     # 超时配置
     CONNECTION_TIMEOUT = 30      # 数据库连接超时
@@ -70,7 +70,7 @@ class Config:
     SQL_UPDATE_TIME_COLUMN = "update_time" # ai_patients 表中表示更新时间的列名
     
     # ETL时间状态文件路径
-    STATE_FILE_PATH = os.path.join(CONFIG_DIR, "etl_state.json")
+    STATE_FILE_PATH = os.path.join(PROJECT_ROOT, "data", "state", "etl_state.json")
     
     @classmethod
     def validate_config(cls):

@@ -1,6 +1,7 @@
+import requests
 import pyodbc
-from config.settings import Config
-from etl.utils.logger import setup_logger
+from core.config import Config
+from core.logger import setup_logger
 
 logger = setup_logger('sqlserver')
 

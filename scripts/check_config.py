@@ -6,14 +6,15 @@
 
 import sys
 import os
+import traceback
 
 # 添加项目根目录到Python路径
-sys.path.append(os.path.dirname(__file__))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 def validate_basic_config():
     """验证基本配置项"""
     try:
-        from config.settings import Config
+        from core.config import Config
         
         print("🔍 验证配置项...")
         errors = Config.validate_config()
@@ -37,8 +38,8 @@ def test_imports():
         print("🔍 测试模块导入...")
         
         # 测试核心模块
-        from config.settings import Config
-        from etl.utils.logger import setup_logger
+        from core.config import Config
+        from core.logger import setup_logger
         from scheduler.job_manager import JobManager
         
         print("✅ 核心模块导入成功")
@@ -49,6 +50,7 @@ def test_imports():
         return False
     except Exception as e:
         print(f"❌ 模块导入异常：{e}")
+        traceback.print_exc()
         return False
 
 def main():

@@ -5,8 +5,8 @@ SQL Server连接诊断脚本
 """
 
 import pyodbc
-import sys
-from config.settings import Config
+import logging
+from core.config import Config
 
 def test_connection():
     """测试SQL Server连接"""

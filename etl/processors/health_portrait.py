@@ -1,9 +1,9 @@
 # etl/processors/health_portrait.py
 
-from ..utils.logger import setup_logger
-from ..utils.db import Neo4jConnection
+from core.logger import setup_logger
+from core.db import Neo4jConnection
 # 这里的星号导入已经包含了我们需要的 import_patient_data_from_json 函数
-from ..core.etl_patient import *
+from etl.core.etl_patient import *
 
 # 注意: 您项目中的日志记录器似乎有多个版本，这里保留您代码中的版本
 # 如果etl.utils.logger中的是health_portrait_logger，则使用 from ..utils.logger import health_portrait_logger as logger
@@ -13,6 +13,17 @@ class HealthPortraitProcessor:
     def __init__(self):
         # 这种方式也可以，但每次process都会创建一个新连接池，如果并发量大建议将db connection设为单例或在外部管理
         self.db = Neo4jConnection()
+    
+    def pre_process_conditions(self, conditions_list):
+        if not conditions_list:
+            return
+        try:
+            with self.db.get_session() as session:
+                session.execute_write(pre_create_conditions_tx, conditions_list)
+                logger.info(f"成功预创建 {len(conditions_list)} 个 Condition 节点")
+        except Exception as e:
+            logger.error(f"预创建 Condition 失败: {str(e)}")
+            raise e
     
     def process(self, patient_data):
         if not patient_data or not patient_data.get("patientId"):

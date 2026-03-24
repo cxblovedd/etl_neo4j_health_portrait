@@ -11,33 +11,33 @@
 
 ```
 etl_neo4j/
-├── main.py                    # 🎯 主入口：ETL单次执行
-├── app.py                     # 🌐 Web API服务入口  
-├── check_config.py            # ✅ 配置验证工具
-├── config/                    # ⚙️ 配置管理
-│   ├── settings.py           # 数据库、API、调度配置
-│   └── etl_state.json        # ETL增量状态追踪
-├── etl/                      # 🔄 ETL核心模块
-│   ├── core/
-│   │   └── etl_patient.py    # 患者数据处理核心逻辑
-│   ├── processors/
-│   │   └── health_portrait.py # 健康画像处理器
-│   └── utils/                # 🛠️ 工具类
-│       ├── api.py           # 大数据平台API调用封装
-│       ├── db.py            # Neo4j连接管理(线程安全)
-│       ├── sqlserver.py     # SQL Server连接(获取患者ID)
-│       └── logger.py        # 日志管理(防重复初始化)
-├── scheduler/               # 📅 调度管理
-│   ├── job_manager.py      # 作业管理器(批量处理)
-│   └── scheduler.py        # 定时调度器
-├── files/                  # 📄 测试数据文件
-├── templates/              # 🎨 HTML模板
-├── static/                 # 📦 静态资源
-├── tests/                  # 🧪 测试文件
-├── logs/                   # 📋 日志文件
-├── archive/                # 📦 归档文件(已清理)
-├── start.sh / start.bat    # 🚀 ETL启动脚本
-└── scheduler_start.sh/bat  # ⏰ 定时调度启动脚本
+├── run_api.py                       # ★ API 服务独立启动入口
+├── main.py                          # ★ ETL 主入口（增量执行、重试）
+├── core/                            # 全局通用组件
+│   ├── config.py                    # 全局配置（数据库、API、调度参数）
+│   ├── logger.py                    # 日志处理
+│   └── db.py                        # Neo4j 单例连接（线程安全）
+├── api/                             # REST API 包模块
+│   ├── __init__.py                  # Flask App 注册
+│   └── routes.py                    # API 路由节点实现
+├── etl/                             # 数据提取与转换逻辑
+│   ├── extractors/                  # 从外部抓取数据
+│   │   ├── health_portrait_api.py   # 大数据平台 HTTP 客户端
+│   │   └── sqlserver.py             # SQL Server 客户端
+│   ├── core/                        # ★ 图谱核心构建模块
+│   │   └── etl_patient.py           # 图谱节点/关系的 Cypher 写入逻辑 
+│   └── processors/                  
+│       └── health_portrait.py       # 协调 API 调用与事务提交
+├── scheduler/                       # 批处理调度
+│   ├── job_manager.py               # 批量调度 + 错误队列
+│   └── scheduler.py                 # 定时调度器
+├── data/                            # 动态产生与运行时数据
+│   ├── state/
+│   │   └── etl_state.json           # 增量记录（上次成功时间戳）
+│   └── samples/                     # 测试用 JSON 样例
+├── tests/                           # 单元与集成测试脚本集
+├── scripts/                         # 部署/环境验证运维工具
+└── docs/                            # 文档说明
 ```
 
 ## 🔄 数据流程
@@ -47,14 +47,14 @@ graph TD
     A[SQL Server<br/>ai_patients表] --> B[main.py<br/>获取患者ID列表]
     B --> C[JobManager<br/>批量处理]
     C --> D[大数据平台API<br/>获取健康画像数据]
-    D --> E[HealthPortraitProcessor<br/>数据处理验证]
-    E --> F[etl_patient.py<br/>图谱构建与存储]
+    D --> E[HealthPortraitProcessor<br/>数据预处理与构建]
+    E --> F[etl_patient.py<br/>图谱两阶段并发存储]
     F --> G[Neo4j图数据库<br/>健康知识图谱]
-    G --> H[app.py<br/>RESTful API服务]
+    G --> H[run_api.py<br/>RESTful API服务]
     H --> I[前端应用<br/>健康画像展示]
     
     J[scheduler.py<br/>定时调度] -.-> B
-    K[check_config.py<br/>配置验证] -.-> B
+    K[scripts/check_config.py<br/>配置验证] -.-> B
     
     style A fill:#e1f5fe
     style G fill:#c8e6c9
@@ -85,7 +85,7 @@ pip install -r requirements.txt
 
 ### 配置文件
 
-修改 `config/settings.py` 中的配置：
+修改 `core/config.py` 中的配置：
 
 ```python
 # Neo4j连接配置
@@ -115,7 +115,7 @@ RETRY_DELAY = 5          # 重试延迟(秒)
 
 ```bash
 # 验证配置是否正确
-python check_config.py
+python scripts/check_config.py
 
 # 或使用启动脚本选项
 start.bat config  # Windows
@@ -142,8 +142,8 @@ start.bat help      # 显示帮助
 
 ```bash
 # 启动ETL定时调度器 (默认24小时一次)
-./scheduler_start.sh      # Linux/Mac
-scheduler_start.bat       # Windows
+./scripts/scheduler_start.sh      # Linux/Mac
+scripts\scheduler_start.bat       # Windows
 
 # 或使用Python直接调用
 python -c "from scheduler.scheduler import ETLScheduler; scheduler = ETLScheduler(); scheduler.start(24)"
@@ -156,10 +156,10 @@ python -c "from scheduler.scheduler import ETLScheduler; scheduler = ETLSchedule
 
 ```bash
 # 启动Web API服务
-python app.py
+python run_api.py
 
 # 或使用Flask开发服务器
-flask --app app.py run --host=0.0.0.0 --port=5000
+flask --app run_api.py run --host=0.0.0.0 --port=5000
 ```
 
 服务启动后，访问 `http://localhost:5000/api/docs` 查看API文档。
@@ -291,26 +291,27 @@ SQL_UPDATE_TIME_COLUMN = "update_time"
 ### 核心文件
 
 - `main.py`: ETL单次执行入口，支持增量更新和错误重试
-- `app.py`: Web API服务入口，提供健康画像数据查询接口
-- `check_config.py`: 配置验证工具，验证环境配置和模块导入
-- `config/settings.py`: 项目配置文件，包含验证方法
-- `start.sh/start.bat`: 项目启动脚本，支持多种模式
-- `scheduler_start.sh/scheduler_start.bat`: 定时调度启动脚本
-- `requirements.txt`: Python依赖包列表
+- `run_api.py`: Web API服务独立启动入口，提供健康画像数据查询接口
+- `api/routes.py`: Flask路由与Neo4j单例业务绑定查询实现
+- `core/config.py`: 项目配置文件，包含环境参数及校验
+- `scripts/`: 项目部署与运维验证脚本（含 `check_config.py`, `start.*` 等）
 
 ### 模块说明
 
+#### `core/`
+- `config.py`: 全局唯一配置中心
+- `logger.py`: 全局日志防重初始化
+- `db.py`: Neo4j驱动单例线程池
+
 #### `etl/core/`
-- `etl_patient.py`: 患者数据处理核心逻辑，包含数据转换和图谱构建
+- `etl_patient.py`: 双阶段优化患者知识图谱写入核心逻辑
 
 #### `etl/processors/`
 - `health_portrait.py`: 健康画像数据处理器，负责协调API调用和数据验证
 
-#### `etl/utils/`
-- `api.py`: 大数据平台API调用封装，支持重试和超时处理
-- `db.py`: Neo4j连接管理，线程安全的单例模式
+#### `etl/extractors/`
+- `health_portrait_api.py`: 大数据平台API调用封装
 - `sqlserver.py`: SQL Server连接管理，获取患者ID列表
-- `logger.py`: 日志管理，防重复初始化，支持文件轮转
 
 #### `scheduler/`
 - `job_manager.py`: 作业管理器，负责批量处理和错误队列管理
@@ -318,7 +319,8 @@ SQL_UPDATE_TIME_COLUMN = "update_time"
 
 ### 其他文件夹
 
-- `files/`: 测试数据文件和样例数据
+- `data/samples/`: 测试数据文件和样例数据
+- `data/state/`: ETL基于时间的增量状态断点存放
 - `templates/`: Flask HTML模板文件
 - `static/`: 静态资源文件(CSS, JS, 图片等)
 - `tests/`: 单元测试和集成测试文件
@@ -409,7 +411,7 @@ git push origin feature/new-feature
 
 ### 状态监控
 
-- **ETL状态文件**：`config/etl_state.json` - 记录上次成功执行的时间戳
+- **ETL状态文件**：`data/state/etl_state.json` - 记录上次成功执行的时间戳
 - **日志监控**：查看 `logs/` 目录下的日志文件
   - `main.log`: 主程序日志
   - `api.log`: API调用日志  
@@ -524,6 +526,11 @@ set PYTHONIOENCODING=utf-8     # Windows
 - 🔧 配置优化
 
 ## 📄 更新日志
+
+### v3.0.0 (2026-03)
+- ✨ 彻底重构整个项目的工程架构，分为 `api`, `core`, `etl`, `scripts` 多层结构
+- ⚡ 引入两阶段写入设计（先写入 Condition 节点，后并发搭建关系），成功规避 Neo4j死锁并大幅度提升线程吞吐量
+- 🔒 修复 `etl_state.json` 原子化落盘等数据写入竞态条件
 
 ### v2.0.0 (2025-01-15)
 - ✨ 新增配置验证工具

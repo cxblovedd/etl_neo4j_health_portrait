@@ -1,7 +1,8 @@
-import logging
 import os
+import logging
+from logging.handlers import RotatingFileHandler
 from datetime import datetime
-from config.settings import Config
+from core.config import Config
 
 def setup_logger(name):
     logger = logging.getLogger(name)

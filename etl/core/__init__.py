@@ -1,6 +1,7 @@
 from .etl_patient import *
 
 __all__ = [
+    'pre_create_conditions_tx',
     'import_patient_core',
     'import_chronic_conditions',
     'import_personal_history',

@@ -1,5 +1,5 @@
 from neo4j import GraphDatabase
-from config.settings import Config
+from core.config import Config
 import threading
 
 class Neo4jConnection:

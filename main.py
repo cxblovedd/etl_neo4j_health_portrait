@@ -4,10 +4,10 @@ import os # 用于文件路径操作
 import time # 用于重试延迟
 from datetime import timezone, timedelta # 用于时区处理
 
-from config.settings import Config
+from core.config import Config
 from scheduler.job_manager import JobManager
-from etl.utils.logger import setup_logger
-from etl.utils.sqlserver import SQLServerConnection
+from core.logger import setup_logger
+from etl.extractors.sqlserver import SQLServerConnection
 
 logger = setup_logger('main')
 
@@ -49,9 +49,13 @@ def save_last_load_timestamp(timestamp):
         beijing_time = timestamp.astimezone(beijing_tz)
         beijing_time_str = beijing_time.strftime('%Y-%m-%d %H:%M:%S') + ' (Beijing)'
         
-        with open(STATE_FILE, 'w', encoding='utf-8') as f:
+        temp_file = STATE_FILE + '.tmp'
+        with open(temp_file, 'w', encoding='utf-8') as f:
             # 保存为北京时间格式的字符串
             json.dump({"last_successful_load_time": beijing_time_str}, f, ensure_ascii=False, indent=2)
+            
+        # 原子替换，防止写入中断导致文件损坏
+        os.replace(temp_file, STATE_FILE)
         logger.info(f"Saved current load timestamp to {STATE_FILE}: {beijing_time_str}")
     except IOError as e:
         logger.error(f"Could not write to state file {STATE_FILE}: {e}")

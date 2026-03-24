@@ -3,9 +3,9 @@ import sys
 import os
 sys.path.append(os.path.dirname(__file__))
 
-def test_logger_initialization():
-    """测试日志器初始化是否正确"""
-    from etl.utils.logger import setup_logger
+def test_setup_logger():
+    print("Testing setup_logger...")
+    from core.logger import setup_logger
     
     # 多次调用应该返回同一个logger实例
     logger1 = setup_logger('test')
