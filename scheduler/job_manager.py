@@ -5,6 +5,7 @@ from etl.utils.logger import setup_logger
 from etl.utils.api import HealthPortraitAPI
 from etl.processors.health_portrait import HealthPortraitProcessor
 import json
+import time
 
 logger = setup_logger('job_manager')
 

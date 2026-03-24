@@ -260,48 +260,62 @@ def import_encounters(tx, patient_id, encounters_list):
 
 def import_diagnoses_from_encounter(tx, encounter_id, diagnoses_list):
     """
-    导入诊断信息 (已修正 Cypher 语法错误)。
+    导入诊断信息 - 优化版：避免死锁
     """
+    # 【关键优化】先批量创建所有不存在的 Condition 节点
+    unique_conditions = {}
     for diagnosis in diagnoses_list:
-        disease_name = diagnosis.get('diagnosisName')
         disease_code = diagnosis.get('diagnosisNo')
-
-        if not disease_name and not disease_code:
-            logger.debug(f"Skipping diagnosis for encounter {encounter_id} due to missing name and code.")
-            continue
-
-        # Cypher 查询已修正
-        query = """
-        WITH $encounterId AS encounterId, $diseaseName AS dName, $diseaseCode AS dCode
-
-        OPTIONAL MATCH (c1:Condition {code: dCode}) WHERE dCode IS NOT NULL
-        OPTIONAL MATCH (c2:Condition {name: dName})
-        WITH encounterId, dName, dCode, COALESCE(c1, c2) as existingCondition
+        disease_name = diagnosis.get('diagnosisName')
+        if disease_code or disease_name:
+            key = disease_code or disease_name
+            unique_conditions[key] = {
+                'code': disease_code,
+                'name': disease_name
+            }
+    
+    # 批量创建 Condition 节点（避免并发冲突）
+    if unique_conditions:
+        batch_create_query = """
+        UNWIND $conditions AS cond
+        MERGE (c:Condition {code: cond.code})
+        ON CREATE SET c.name = cond.name
+        ON MATCH SET c.name = COALESCE(cond.name, c.name)
+        """
+        tx.run(batch_create_query, 
+               conditions=[v for v in unique_conditions.values() if v['code']])
         
-        FOREACH(ignored IN CASE WHEN existingCondition IS NOT NULL THEN [] ELSE [1] END |
-            CREATE (c:Condition)
-                SET c.code = dCode, c.name = dName
-        )
-        
-        WITH encounterId, dName, dCode
-        MATCH (c:Condition) WHERE (dCode IS NOT NULL AND c.code = dCode) OR (dCode IS NULL AND c.name = dName)
-        
-        SET c.name = dName
-        
-        // --- 错误修正：在这里添加 WITH 子句 ---
-        // 将变量 c 和 encounterId 传递给后续的 MATCH
-        WITH c, encounterId
-        
-        MATCH (e:Encounter {encounterId: encounterId})
-        
+        # 处理没有code的情况
+        name_only_query = """
+        UNWIND $conditions AS cond
+        MERGE (c:Condition {name: cond.name})
+        """
+        name_only_conditions = [v for v in unique_conditions.values() if not v['code']]
+        if name_only_conditions:
+            tx.run(name_only_query, conditions=name_only_conditions)
+    
+    # 【第二步】批量创建关系（此时节点已存在，无锁竞争）
+    relationships = []
+    for diagnosis in diagnoses_list:
+        disease_code = diagnosis.get('diagnosisNo')
+        disease_name = diagnosis.get('diagnosisName')
+        if disease_code or disease_name:
+            relationships.append({
+                'encounterId': encounter_id,
+                'code': disease_code,
+                'name': disease_name
+            })
+    
+    if relationships:
+        create_rel_query = """
+        UNWIND $rels AS rel
+        MATCH (e:Encounter {encounterId: rel.encounterId})
+        MATCH (c:Condition) 
+        WHERE (rel.code IS NOT NULL AND c.code = rel.code) 
+           OR (rel.code IS NULL AND c.name = rel.name)
         MERGE (e)-[:RECORDED_DIAGNOSIS]->(c)
         """
-        
-        tx.run(query,
-               encounterId=encounter_id,
-               diseaseName=disease_name,
-               diseaseCode=disease_code)
-
+        tx.run(create_rel_query, rels=relationships)
 def import_examinations_from_encounter(tx, encounter_id, examinations_list):
     """Imports examination reports and findings for an encounter."""
     for exam in examinations_list:

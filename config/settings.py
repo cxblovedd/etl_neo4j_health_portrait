@@ -31,8 +31,8 @@ class Config:
     BIGDATA_API_TIMEOUT = 10000
     
     # 调度配置
-    BATCH_SIZE = 50              # 批处理大小
-    MAX_WORKERS = 1              # 最大并发数（暂时串行，避免死锁）
+    BATCH_SIZE = 100              # 批处理大小
+    MAX_WORKERS = 5              # 最大并发数（暂时串行，避免死锁）
     RETRY_TIMES = 3              # 重试次数
     RETRY_DELAY = 5              # 重试延迟（秒）
     
