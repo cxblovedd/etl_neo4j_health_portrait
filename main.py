@@ -14,6 +14,23 @@ logger = setup_logger('main')
 # 定义状态文件的路径
 STATE_FILE = Config.STATE_FILE_PATH
 
+def _parse_state_timestamp(timestamp_str):
+    """兼容历史状态格式，统一返回带时区的 datetime。"""
+    if not timestamp_str:
+        return None
+
+    if ' (Beijing)' in timestamp_str:
+        beijing_tz = timezone(timedelta(hours=8))
+        clean_timestamp = timestamp_str.replace(' (Beijing)', '')
+        dt = datetime.datetime.strptime(clean_timestamp, '%Y-%m-%d %H:%M:%S')
+        return dt.replace(tzinfo=beijing_tz)
+
+    return datetime.datetime.fromisoformat(timestamp_str)
+
+def _serialize_state_timestamp(timestamp):
+    """统一使用 UTC ISO 8601 格式持久化状态。"""
+    return timestamp.astimezone(timezone.utc).isoformat(timespec='microseconds')
+
 def load_last_load_timestamp():
     """从状态文件加载上次成功加载的时间戳"""
     if os.path.exists(STATE_FILE):
@@ -22,21 +39,10 @@ def load_last_load_timestamp():
                 state = json.load(f)
                 timestamp_str = state.get("last_successful_load_time")
                 if timestamp_str:
-                    # 将北京时间格式的字符串转换回datetime对象
-                    # 支持两种格式：新的北京时间格式和旧的UTC格式（向后兼容）
                     try:
-                        # 尝试解析北京时间格式: 2025-09-23 17:53:31 (Beijing)
-                        if ' (Beijing)' in timestamp_str:
-                            beijing_tz = timezone(timedelta(hours=8))
-                            clean_timestamp = timestamp_str.replace(' (Beijing)', '')
-                            dt = datetime.datetime.strptime(clean_timestamp, '%Y-%m-%d %H:%M:%S')
-                            return dt.replace(tzinfo=beijing_tz)
-                        else:
-                            # 兼容旧的ISO格式
-                            return datetime.datetime.fromisoformat(timestamp_str)
+                        return _parse_state_timestamp(timestamp_str)
                     except ValueError:
-                        # 如果解析失败，尝试ISO格式
-                        return datetime.datetime.fromisoformat(timestamp_str)
+                        logger.warning(f"Invalid timestamp format in state file: {timestamp_str}")
         except (json.JSONDecodeError, IOError) as e:
             logger.warning(f"Could not read or parse state file {STATE_FILE}: {e}. Assuming no previous run.")
     return None
@@ -44,19 +50,15 @@ def load_last_load_timestamp():
 def save_last_load_timestamp(timestamp):
     """将当前成功加载的时间戳保存到状态文件"""
     try:
-        # 转换为北京时间格式
-        beijing_tz = timezone(timedelta(hours=8))
-        beijing_time = timestamp.astimezone(beijing_tz)
-        beijing_time_str = beijing_time.strftime('%Y-%m-%d %H:%M:%S') + ' (Beijing)'
+        timestamp_str = _serialize_state_timestamp(timestamp)
         
         temp_file = STATE_FILE + '.tmp'
         with open(temp_file, 'w', encoding='utf-8') as f:
-            # 保存为北京时间格式的字符串
-            json.dump({"last_successful_load_time": beijing_time_str}, f, ensure_ascii=False, indent=2)
+            json.dump({"last_successful_load_time": timestamp_str}, f, ensure_ascii=False, indent=2)
             
         # 原子替换，防止写入中断导致文件损坏
         os.replace(temp_file, STATE_FILE)
-        logger.info(f"Saved current load timestamp to {STATE_FILE}: {beijing_time_str}")
+        logger.info(f"Saved current load timestamp to {STATE_FILE}: {timestamp_str}")
     except IOError as e:
         logger.error(f"Could not write to state file {STATE_FILE}: {e}")
 
@@ -89,8 +91,7 @@ def main():
     
     # 获取当前时间，作为本次运行的"开始时间"
     # 如果所有操作都成功，这个时间将作为下次运行的 "last_load_timestamp"
-    beijing_tz: timezone = timezone(timedelta(hours=8))
-    current_run_start_time = datetime.datetime.now(tz=beijing_tz) # 使用北京时间
+    current_run_start_time = datetime.datetime.now(tz=timezone.utc)
 
     try:
         last_successful_run_time = load_last_load_timestamp()

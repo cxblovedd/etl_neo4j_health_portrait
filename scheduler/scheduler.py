@@ -12,6 +12,23 @@ from scheduler.job_manager import JobManager
 
 logger = setup_logger('scheduler')
 
+def _parse_state_timestamp(timestamp_str):
+    """兼容历史状态格式，统一返回带时区的 datetime。"""
+    if not timestamp_str:
+        return None
+
+    if ' (Beijing)' in timestamp_str:
+        beijing_tz = timezone(timedelta(hours=8))
+        clean_timestamp = timestamp_str.replace(' (Beijing)', '')
+        dt = datetime.datetime.strptime(clean_timestamp, '%Y-%m-%d %H:%M:%S')
+        return dt.replace(tzinfo=beijing_tz)
+
+    return datetime.datetime.fromisoformat(timestamp_str)
+
+def _serialize_state_timestamp(timestamp):
+    """统一使用 UTC ISO 8601 格式持久化状态。"""
+    return timestamp.astimezone(timezone.utc).isoformat(timespec='microseconds')
+
 class ETLScheduler:
     """ETL定时调度器，负责定时从SQL Server获取患者ID并触发ETL任务"""
     
@@ -24,42 +41,34 @@ class ETLScheduler:
         """从状态文件加载上次运行时间"""
         if os.path.exists(self.state_file_path):
             try:
-                with open(self.state_file_path, 'r') as f:
+                with open(self.state_file_path, 'r', encoding='utf-8') as f:
                     state = json.load(f)
                     timestamp_str = state.get("last_successful_load_time")
                     if timestamp_str:
                         try:
-                            if ' (Beijing)' in timestamp_str:
-                                beijing_tz = timezone(timedelta(hours=8))
-                                clean_timestamp = timestamp_str.replace(' (Beijing)', '')
-                                dt = datetime.datetime.strptime(clean_timestamp, '%Y-%m-%d %H:%M:%S')
-                                return dt.replace(tzinfo=beijing_tz)
-                            return datetime.datetime.fromisoformat(timestamp_str)
+                            return _parse_state_timestamp(timestamp_str)
                         except ValueError:
-                            return datetime.datetime.fromisoformat(timestamp_str)
+                            logger.warning(f"状态文件中的时间格式无效: {timestamp_str}")
 
                     # 向后兼容旧状态字段
                     legacy_last_run_time = state.get('last_run_time')
                     if legacy_last_run_time:
-                        return datetime.datetime.fromisoformat(legacy_last_run_time)
+                        return _parse_state_timestamp(legacy_last_run_time)
             except (json.JSONDecodeError, ValueError) as e:
                 logger.error(f"读取状态文件出错: {e}")
         return None
         
     def _save_last_run_time(self):
         """保存当前运行时间到状态文件"""
-        beijing_tz = timezone(timedelta(hours=8))
-        now = datetime.datetime.now(tz=beijing_tz)
-        beijing_time_str = now.strftime('%Y-%m-%d %H:%M:%S') + ' (Beijing)'
-        state = {
-            'last_successful_load_time': beijing_time_str,
-            # 向后兼容旧字段，便于旧逻辑读取
-            'last_run_time': now.isoformat()
-        }
+        now = datetime.datetime.now(tz=timezone.utc)
+        timestamp_str = _serialize_state_timestamp(now)
+        state = {'last_successful_load_time': timestamp_str}
         try:
-            with open(self.state_file_path, 'w') as f:
-                json.dump(state, f)
-            logger.info(f"已保存运行时间: {beijing_time_str}")
+            temp_file = self.state_file_path + '.tmp'
+            with open(temp_file, 'w', encoding='utf-8') as f:
+                json.dump(state, f, ensure_ascii=False, indent=2)
+            os.replace(temp_file, self.state_file_path)
+            logger.info(f"已保存运行时间: {timestamp_str}")
         except Exception as e:
             logger.error(f"保存状态文件出错: {e}")
             
