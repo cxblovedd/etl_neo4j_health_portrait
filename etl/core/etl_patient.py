@@ -719,6 +719,6 @@ def import_family_members(tx, main_patient_id, family_members_list):
                 "idType": id_type,
                 "idValue": id_value,
                 "properties": properties_to_set,
-                "relName": member.get("relationshipName", rel_type)
+                "relName": member.get("relationshipName") or rel_type
             }
             tx.run(final_query, **params)
