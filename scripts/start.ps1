@@ -6,6 +6,10 @@ param(
     [int]$Hours = 24
 )
 
+# Set working directory to the parent directory of this script (the project root)
+$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+Set-Location -Path "$scriptDir\.."
+
 Write-Host "======================================" -ForegroundColor Cyan
 Write-Host "    Health Portrait ETL Startup Script" -ForegroundColor Cyan  
 Write-Host "======================================" -ForegroundColor Cyan

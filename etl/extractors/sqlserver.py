@@ -90,11 +90,36 @@ class SQLServerConnection:
             self.conn = None
             raise
     
+    def get_connection(self):
+        """获取有效的数据库连接，若连接已关闭或失效，则自动重新连接"""
+        if not hasattr(self, 'conn') or not self.conn:
+            self._init_connection()
+        else:
+            try:
+                # 检查连接是否仍处于活跃状态
+                cursor = self.conn.cursor()
+                cursor.execute("SELECT 1")
+                cursor.close()
+            except Exception:
+                logger.warning("检测到 SQL Server 连接已失效，正在尝试重连...")
+                try:
+                    self.conn.close()
+                except Exception:
+                    pass
+                self.conn = None
+                self._init_connection()
+        return self.conn
+
     def close(self):
-        """关闭数据库连接"""
+        """关闭数据库连接并重置单例状态"""
         if hasattr(self, 'conn') and self.conn:
-            self.conn.close()
+            try:
+                self.conn.close()
+            except Exception:
+                pass
             logger.info("SQL Server连接已关闭")
+        self.conn = None
+        SQLServerConnection._instance = None
     
     def load_patient_ids(self, last_update_time=None):
         """
@@ -106,7 +131,8 @@ class SQLServerConnection:
         Returns:
             list: 患者ID列表
         """
-        if not self.conn:
+        conn = self.get_connection()
+        if not conn:
             logger.error("数据库连接不可用")
             return []
             
@@ -114,7 +140,7 @@ class SQLServerConnection:
         cursor = None
         
         try:
-            cursor = self.conn.cursor()
+            cursor = conn.cursor()
             
             query = f"SELECT DISTINCT {Config.SQL_PATIENT_ID_COLUMN} FROM {Config.SQL_AI_PATIENTS_TABLE}"
             params = []

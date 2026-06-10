@@ -2,6 +2,9 @@
 
 # ETL定时调度启动脚本
 
+# Change to project root directory
+cd "$(dirname "$0")/.."
+
 echo "======================================"
 echo "    ETL定时调度器"
 echo "======================================"

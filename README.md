@@ -259,7 +259,7 @@ SQL_USER = "health_portrait_user"
 SQL_PASSWORD = "Yiwenbhu_2025!"
 SQL_AI_PATIENTS_TABLE = "ai_patients"
 SQL_PATIENT_ID_COLUMN = "patient_id"
-SQL_UPDATE_TIME_COLUMN = "update_time"
+SQL_UPDATE_TIME_COLUMN = "hxgxsj"
 ```
 
 ## 🗄️ 数据模型

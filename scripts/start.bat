@@ -2,6 +2,9 @@
 chcp 65001 > nul
 setlocal enabledelayedexpansion
 
+rem Change to project root directory
+cd /d "%~dp0.."
+
 echo ======================================
 echo     Health Portrait ETL Startup Script
 echo ======================================

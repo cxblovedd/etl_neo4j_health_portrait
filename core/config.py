@@ -1,76 +1,61 @@
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 # CONFIG_DIR 就是 etl_neo4j/config/ 目录的绝对路径
 CONFIG_DIR = os.path.dirname(os.path.abspath(__file__))
 # 项目根目录
 PROJECT_ROOT = os.path.dirname(CONFIG_DIR)
 
-class Config:
-    # 本地Neo4j配置
-    # NEO4J_URI = "bolt://localhost:7687"
-    # NEO4J_USER = "neo4j"
-    # NEO4J_PASSWORD = "86862486"
-    # NEO4J_DATABASE = "neo4j"
+# 加载 .env 文件中的环境变量
+load_dotenv(os.path.join(PROJECT_ROOT, '.env'))
 
-    # 测试Neo4j配置
-    # NEO4J_URI = "bolt://10.55.108.31:7687"
-    # NEO4J_USER = "neo4j"
-    # NEO4J_PASSWORD = "hayymoni2018"
-    # NEO4J_DATABASE = "neo4j"
-    
-    # 正式Neo4j配置
-    NEO4J_URI = "bolt://neo4j.haxm.local:7687"
-    NEO4J_USER = "neo4j"
-    NEO4J_PASSWORD = "Weohgust_2025!"
-    NEO4J_DATABASE = "neo4j"
+class Config:
+    # API 调试模式
+    API_DEBUG = os.getenv("API_DEBUG", "True").lower() in ("true", "1", "yes")
+
+    # Neo4j配置
+    NEO4J_URI = os.getenv("NEO4J_URI", "bolt://neo4j.haxm.local:7687")
+    NEO4J_USER = os.getenv("NEO4J_USER", "neo4j")
+    NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD", "Weohgust_2025!")
+    NEO4J_DATABASE = os.getenv("NEO4J_DATABASE", "neo4j")
     
     # 大数平台API配置
-    # BIGDATA_API_BASE_URL = "http://10.51.28.117:7080" # 测试地址
-    BIGDATA_API_BASE_URL = "http://inside.whitelist.com:1115" # 正式地址
-    BIGDATA_API_TIMEOUT = 10000
+    BIGDATA_API_BASE_URL = os.getenv("BIGDATA_API_BASE_URL", "http://inside.whitelist.com:1115")
+    BIGDATA_API_TIMEOUT = int(os.getenv("BIGDATA_API_TIMEOUT", "10000"))
     
     # 调度配置
-    BATCH_SIZE = 100              # 批处理大小
-    MAX_WORKERS = 2              # 最大并发数（已通过两阶段提交解决死锁问题）
-    RETRY_TIMES = 3               # 重试次数
-    RETRY_DELAY = 5               # 重试延迟（秒）
+    BATCH_SIZE = int(os.getenv("BATCH_SIZE", "100"))              # 批处理大小
+    MAX_WORKERS = int(os.getenv("MAX_WORKERS", "2"))              # 最大并发数
+    RETRY_TIMES = int(os.getenv("RETRY_TIMES", "3"))              # 重试次数
+    RETRY_DELAY = int(os.getenv("RETRY_DELAY", "5"))              # 重试延迟（秒）
     
     # 超时配置
-    CONNECTION_TIMEOUT = 30      # 数据库连接超时
-    QUERY_TIMEOUT = 300          # 查询超时（5分钟）
+    CONNECTION_TIMEOUT = int(os.getenv("CONNECTION_TIMEOUT", "30"))      # 数据库连接超时
+    QUERY_TIMEOUT = int(os.getenv("QUERY_TIMEOUT", "300"))          # 查询超时（5分钟）
     
     # 日志配置
-    LOG_DIR = os.path.join(PROJECT_ROOT, "logs")  # 使用绝对路径
-    LOG_LEVEL = "INFO"
+    LOG_DIR = os.getenv("LOG_DIR", os.path.join(PROJECT_ROOT, "logs"))  # 使用绝对路径
+    LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
     LOG_FILE_ENCODING = "utf-8"  # 日志文件编码
     LOG_MAX_BYTES = 10 * 1024 * 1024  # 10MB
     LOG_BACKUP_COUNT = 5  # 保留最近5个旧日志文件
     
-    
-    # 测试PostgreSQL 连接配置（已弃用）
-    # PG_HOST = "10.52.200.1"  # 测试地址
-    # PG_HOST = "10.52.31.5" # 正式地址
-    # PG_PORT = "5432"    # 例如: "5432"
-    # PG_DATABASE = "HOSPITAL_HDW" # 例如: "HOSPITAL_HDW" 或包含 ai_patients 的数据库
-    # PG_USER = "gpadmin"      # 例如: "gpadmin"
-    # PG_PASSWORD = "wn@123"  # 例如: "wn@123"
-    # PG_AI_PATIENTS_TABLE = "ai_patients" # ai_patients 表名
-    # PG_PATIENT_ID_COLUMN = "patient_id" # ai_patients 表中表示患者ID的列名
-    # PG_UPDATE_TIME_COLUMN = "update_time" # 新增: ai_patients 表中表示更新时间的列名
-    
     # SQL Server 连接配置
-    SQL_HOST = "10.52.8.78"  # SQL Server IP地址
-    SQL_PORT = "1433"        # SQL Server 默认端口
-    SQL_DATABASE = "health_portrait" # 数据库名
-    SQL_USER = "health_portrait_user" # 用户名
-    SQL_PASSWORD = "Yiwenbhu_2025!" # 密码
-    SQL_AI_PATIENTS_TABLE = "ai_patients" # ai_patients 表名
-    SQL_PATIENT_ID_COLUMN = "patient_id" # ai_patients 表中表示患者ID的列名
-    SQL_UPDATE_TIME_COLUMN = "update_time" # ai_patients 表中表示更新时间的列名
+    SQL_HOST = os.getenv("SQL_HOST", "10.52.8.78")  # SQL Server IP地址
+    SQL_PORT = os.getenv("SQL_PORT", "1433")        # SQL Server 默认端口
+    SQL_DATABASE = os.getenv("SQL_DATABASE", "health_portrait") # 数据库名
+    SQL_USER = os.getenv("SQL_USER", "health_portrait_user") # 用户名
+    SQL_PASSWORD = os.getenv("SQL_PASSWORD", "Yiwenbhu_2025!") # 密码
+    SQL_AI_PATIENTS_TABLE = os.getenv("SQL_AI_PATIENTS_TABLE", "ai_patients") # ai_patients 表名
+    SQL_PATIENT_ID_COLUMN = os.getenv("SQL_PATIENT_ID_COLUMN", "patient_id") # ai_patients 表中表示患者ID的列名
+    SQL_UPDATE_TIME_COLUMN = os.getenv("SQL_UPDATE_TIME_COLUMN", "hxgxsj") # ai_patients 表中表示更新时间的列名
     
     # ETL时间状态文件路径
-    STATE_FILE_PATH = os.path.join(PROJECT_ROOT, "data", "state", "etl_state.json")
+    STATE_FILE_PATH = os.getenv("STATE_FILE_PATH", os.path.join(PROJECT_ROOT, "data", "state", "etl_state.json"))
+    
+    # ETL失败患者状态文件路径
+    FAILED_STATE_FILE_PATH = os.getenv("FAILED_STATE_FILE_PATH", os.path.join(PROJECT_ROOT, "data", "state", "etl_failed_patients.json"))
     
     @classmethod
     def validate_config(cls):

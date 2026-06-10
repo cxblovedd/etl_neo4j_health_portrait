@@ -62,6 +62,32 @@ def save_last_load_timestamp(timestamp):
     except IOError as e:
         logger.error(f"Could not write to state file {STATE_FILE}: {e}")
 
+def load_failed_patients():
+    """从状态文件加载上次失败的患者ID列表"""
+    file_path = Config.FAILED_STATE_FILE_PATH
+    if os.path.exists(file_path):
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                return data.get("failed_patient_ids", [])
+        except Exception as e:
+            logger.warning(f"Could not read failed patients file: {e}")
+    return []
+
+def save_failed_patients(failed_ids):
+    """将失败的患者ID列表保存到状态文件"""
+    file_path = Config.FAILED_STATE_FILE_PATH
+    try:
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        temp_file = file_path + '.tmp'
+        with open(temp_file, 'w', encoding='utf-8') as f:
+            json.dump({"failed_patient_ids": failed_ids}, f, ensure_ascii=False, indent=2)
+        # 原子替换，防止写入中断导致文件损坏
+        os.replace(temp_file, file_path)
+        logger.info(f"Saved {len(failed_ids)} failed EMPIs to {file_path}")
+    except IOError as e:
+        logger.error(f"Could not write to failed patients file {file_path}: {e}")
+
 def load_empi_list(last_load_timestamp=None):
     """
     从 SQL Server 数据库的 ai_patients 表中加载 patient_id 列表。
@@ -87,21 +113,31 @@ def load_empi_list(last_load_timestamp=None):
 
 def main():
     job_manager = JobManager()
-    all_batches_successful = True # 标志所有批次是否都成功处理（包括重试）
     
     # 获取当前时间，作为本次运行的"开始时间"
-    # 如果所有操作都成功，这个时间将作为下次运行的 "last_load_timestamp"
+    # 如果所有操作都成功，这个时间将作为下次运行 of "last_load_timestamp"
     current_run_start_time = datetime.datetime.now(tz=timezone.utc)
 
     try:
         last_successful_run_time = load_last_load_timestamp()
         
-        empi_list = load_empi_list(last_load_timestamp=last_successful_run_time)
+        # 1. 加载上次运行失败的患者ID以进行重试
+        previously_failed_ids = load_failed_patients()
+        if previously_failed_ids:
+            logger.info(f"Loaded {len(previously_failed_ids)} previously failed EMPIs to retry.")
+            
+        # 2. 从 SQL Server 加载增量更新的患者ID
+        new_empi_list = load_empi_list(last_load_timestamp=last_successful_run_time)
+        
+        # 3. 合并新老数据并去重
+        empi_set = set(previously_failed_ids) | set(new_empi_list)
+        empi_list = list(empi_set)
         
         if not empi_list:
-            logger.warning("EMPI list is empty. No new data to process since last run or no data at all.")
-            # 即使没有数据处理，也应该更新时间戳，表示我们检查过了
+            logger.warning("No new or failed EMPIs to process.")
+            # 即使没有数据处理，也应该更新时间戳，表示我们检查过了，同时清空失败文件记录
             save_last_load_timestamp(current_run_start_time)
+            save_failed_patients([])
             return
 
         total_batches = (len(empi_list) + Config.BATCH_SIZE - 1) // Config.BATCH_SIZE
@@ -134,35 +170,25 @@ def main():
                 logger.info(f"等待{Config.RETRY_DELAY}秒后进行下一次重试...")
                 time.sleep(Config.RETRY_DELAY)
         
-        # 检查最终结果
-        if not job_manager.error_queue.empty():
-            all_batches_successful = False
-            failed_count = job_manager.error_queue.qsize()
-            logger.error(f"{failed_count} EMPIs still failed after {retry_count} retries.")
+        # 收集最终失败的患者ID并保存，以防止后续运行遗漏，同时清空队列释放内存
+        final_failed_empis = []
+        while not job_manager.error_queue.empty():
+            final_failed_empis.append(job_manager.error_queue.get_nowait())
             
-            # 记录最终失败的EMPIs（可选）
-            if failed_count <= 10:  # 只记录少量失败记录，避免日志过长
-                failed_empis = []
-                temp_queue = []
-                while not job_manager.error_queue.empty():
-                    empi = job_manager.error_queue.get_nowait()
-                    failed_empis.append(empi)
-                    temp_queue.append(empi)
-                
-                # 重新放回队列
-                for empi in temp_queue:
-                    job_manager.error_queue.put(empi)
-                
-                logger.error(f"Final failed EMPIs: {failed_empis}")
+        if final_failed_empis:
+            logger.error(f"{len(final_failed_empis)} EMPIs still failed after all retries.")
+            if len(final_failed_empis) <= 10:
+                logger.error(f"Final failed EMPIs: {final_failed_empis}")
             else:
-                logger.error(f"Too many failed EMPIs ({failed_count}), not listing individually.")
-        
-        if all_batches_successful:
-            logger.info("All batches processed successfully (including retries).")
-            save_last_load_timestamp(current_run_start_time)
+                logger.error("Too many failed EMPIs, not listing individually.")
+            save_failed_patients(final_failed_empis)
         else:
-            logger.warning("Some EMPIs failed to process even after retries. Last load timestamp will not be updated.")
-            logger.info("运行完成，但有部分数据处理失败。请检查日志了解详情。")
+            logger.info("All EMPIs processed successfully.")
+            save_failed_patients([]) # 运行成功，清空历史失败记录
+            
+        # 无论本次运行是否有部分数据处理失败，由于失败患者ID已单独持久化在文件里，
+        # 我们可以安全地保存本次开始时间作为增量更新的 last_successful_load_time，防止大量已成功的患者重复拉取。
+        save_last_load_timestamp(current_run_start_time)
             
     except Exception as e:
         logger.error(f"程序执行错误: {str(e)}", exc_info=True) # 添加 exc_info=True 来记录堆栈跟踪
