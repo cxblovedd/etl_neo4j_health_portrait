@@ -309,60 +309,74 @@ def import_diagnoses_from_encounter(tx, encounter_id, diagnoses_list):
         tx.run(create_rel_query, rels=relationships)
 def import_examinations_from_encounter(tx, encounter_id, examinations_list):
     """Imports examination reports and findings for an encounter."""
+    exam_rows = []
+    finding_rows = []
+
     for exam in examinations_list:
         report_id = exam.get('reportId')
         if not report_id:
             logger.debug(f"Skipping examination for encounter {encounter_id} due to missing reportId. Record: {exam}")
             continue
-            
-        exam_query = """
-        MATCH (e:Encounter {encounterId: $encounterId})
-        MERGE (ex:Examination {reportId: $reportId})
-        ON CREATE SET 
-            ex.timestamp = $timestamp,
-            ex.fullReport = $fullReport
-        MERGE (e)-[:HAD_EXAMINATION]->(ex)
-        """
-        tx.run(exam_query,
-               encounterId=encounter_id,
-               reportId=report_id,
-               timestamp=parse_datetime(exam.get('timestamp')),
-               fullReport=exam.get('fullReport'))
-        
+
+        exam_rows.append({
+            'encounterId': encounter_id,
+            'reportId': report_id,
+            'timestamp': parse_datetime(exam.get('timestamp')),
+            'fullReport': exam.get('fullReport')
+        })
+
         for finding in exam.get('findings', []):
             finding_result = finding.get('diagnosisResult')
             if not finding_result:
                 logger.debug(f"Skipping examination finding for report {report_id} due to missing diagnosisResult. Record: {finding}")
                 continue
-                
-            finding_query = """
-            MATCH (ex:Examination {reportId: $reportId})
-            MATCH (c:Condition {name: $findingResult})
-            MERGE (ex)-[r:HAS_FINDING]->(c)
-            ON CREATE SET
-                r.bodyPart = $bodyPart,
-                r.diagnosisId = $diagnosisId
-            """
-            tx.run(finding_query,
-                   reportId=report_id,
-                   findingResult=finding_result,
-                   bodyPart=finding.get('bodyPart'),
-                   diagnosisId=finding.get('diagnosisId'))
+
+            finding_rows.append({
+                'reportId': report_id,
+                'findingResult': finding_result,
+                'bodyPart': finding.get('bodyPart'),
+                'diagnosisId': finding.get('diagnosisId')
+            })
+
+    if exam_rows:
+        exam_query = """
+        UNWIND $exams AS exam
+        MATCH (e:Encounter {encounterId: exam.encounterId})
+        MERGE (ex:Examination {reportId: exam.reportId})
+        ON CREATE SET
+            ex.timestamp = exam.timestamp,
+            ex.fullReport = exam.fullReport
+        MERGE (e)-[:HAD_EXAMINATION]->(ex)
+        """
+        tx.run(exam_query, exams=exam_rows)
+
+    if finding_rows:
+        finding_query = """
+        UNWIND $findings AS finding
+        MATCH (ex:Examination {reportId: finding.reportId})
+        MATCH (c:Condition {name: finding.findingResult})
+        MERGE (ex)-[r:HAS_FINDING]->(c)
+        ON CREATE SET
+            r.bodyPart = finding.bodyPart,
+            r.diagnosisId = finding.diagnosisId
+        """
+        tx.run(finding_query, findings=finding_rows)
 
 def import_lab_tests_from_encounter(tx, encounter_id, lab_tests_list):
     """Imports lab test reports and items for an encounter."""
+    report_rows = []
+    item_rows = []
+
     for lab_test in lab_tests_list:
         report_id = lab_test.get('reportId')
         if not report_id:
             logger.debug(f"Skipping lab test for encounter {encounter_id} due to missing reportId. Record: {lab_test}")
             continue
 
-        report_query = """
-        MATCH (e:Encounter {encounterId: $encounterId})
-        MERGE (ltr:LabTestReport {reportId: $reportId})
-        MERGE (e)-[:HAD_LAB_TEST]->(ltr)
-        """
-        tx.run(report_query, encounterId=encounter_id, reportId=report_id)
+        report_rows.append({
+            'encounterId': encounter_id,
+            'reportId': report_id
+        })
 
         for item in lab_test.get('items', []):
             item_name = item.get('labtestIndexName', '').strip()
@@ -370,32 +384,45 @@ def import_lab_tests_from_encounter(tx, encounter_id, lab_tests_list):
             if not item_name or not test_id:
                 logger.debug(f"Skipping lab test item for report {report_id} due to missing labtestIndexName or testId. Record: {item}")
                 continue
-            
-            item_query = """
-            MATCH (ltr:LabTestReport {reportId: $reportId})
-            MERGE (li:LabTestItem {name: $itemName})
-            ON CREATE SET li.code = $itemCode
-            MERGE (ltr)-[r:HAS_ITEM {testId: $testId}]->(li)
-            SET
-                r.value = $value,
-                r.textValue = $textValue,
-                r.unit = $unit,
-                r.referenceRange = $referenceRange,
-                r.interpretation = $interpretation,
-                r.timestamp = $timestamp
-            """
-            tx.run(item_query,
-                   reportId=report_id,
-                   itemName=item_name,
-                   itemCode=item.get('labtestIndexCode', '').strip(),
-                   testId=test_id,
-                   value=item.get('value'),
-                   textValue=item.get('textValue'),
-                   unit=item.get('unit'),
-                   referenceRange=item.get('referenceRange'),
-                   interpretation=item.get('interpretation'),
-                   timestamp=parse_datetime(item.get('timestamp'))
-                  )
+
+            item_rows.append({
+                'reportId': report_id,
+                'itemName': item_name,
+                'itemCode': item.get('labtestIndexCode', '').strip(),
+                'testId': test_id,
+                'value': item.get('value'),
+                'textValue': item.get('textValue'),
+                'unit': item.get('unit'),
+                'referenceRange': item.get('referenceRange'),
+                'interpretation': item.get('interpretation'),
+                'timestamp': parse_datetime(item.get('timestamp'))
+            })
+
+    if report_rows:
+        report_query = """
+        UNWIND $reports AS report
+        MATCH (e:Encounter {encounterId: report.encounterId})
+        MERGE (ltr:LabTestReport {reportId: report.reportId})
+        MERGE (e)-[:HAD_LAB_TEST]->(ltr)
+        """
+        tx.run(report_query, reports=report_rows)
+
+    if item_rows:
+        item_query = """
+        UNWIND $items AS item
+        MATCH (ltr:LabTestReport {reportId: item.reportId})
+        MERGE (li:LabTestItem {name: item.itemName})
+        ON CREATE SET li.code = item.itemCode
+        MERGE (ltr)-[r:HAS_ITEM {testId: item.testId}]->(li)
+        SET
+            r.value = item.value,
+            r.textValue = item.textValue,
+            r.unit = item.unit,
+            r.referenceRange = item.referenceRange,
+            r.interpretation = item.interpretation,
+            r.timestamp = item.timestamp
+        """
+        tx.run(item_query, items=item_rows)
 
 def import_allergies(tx, patient_id, allergy_list):
     """Imports allergy information for a patient."""

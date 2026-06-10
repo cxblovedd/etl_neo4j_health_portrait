@@ -32,7 +32,7 @@ class Config:
     
     # 调度配置
     BATCH_SIZE = 100              # 批处理大小
-    MAX_WORKERS = 10              # 最大并发数（已通过两阶段提交解决死锁问题）
+    MAX_WORKERS = 2              # 最大并发数（已通过两阶段提交解决死锁问题）
     RETRY_TIMES = 3               # 重试次数
     RETRY_DELAY = 5               # 重试延迟（秒）
     
