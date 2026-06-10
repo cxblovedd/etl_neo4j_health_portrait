@@ -90,7 +90,7 @@ def audit():
         "orphan_patients": [{"patientId": pid, "name": patients_in_neo4j.get(pid, "未知")} for pid in sorted(list(orphan_ids))]
     }
     
-    report_dir = os.path.join(Config.PROJECT_ROOT, "data", "state")
+    report_dir = os.path.dirname(Config.STATE_FILE_PATH)
     os.makedirs(report_dir, exist_ok=True)
     report_path = os.path.join(report_dir, "audit_report.json")
     with open(report_path, "w", encoding="utf-8") as f:
