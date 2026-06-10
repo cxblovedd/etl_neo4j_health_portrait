@@ -15,17 +15,40 @@ logger = setup_logger('main')
 STATE_FILE = Config.STATE_FILE_PATH
 
 def _parse_state_timestamp(timestamp_str):
-    """兼容历史状态格式，统一返回带时区的 datetime。"""
+    """兼容历史状态格式，统一返回带时区的 datetime。
+    支持：
+    1. "2026-06-10 12:00:00" (无时区，默认为北京时区)
+    2. "2026-06-10T12:00:00"
+    3. "2026-06-10T12:00:00+08:00" (标准 ISO 格式)
+    4. "2026-06-10 12:00:00 (Beijing)" (历史格式)
+    """
     if not timestamp_str:
         return None
 
+    # 1. 兼容历史带 "(Beijing)" 的字符串
     if ' (Beijing)' in timestamp_str:
         beijing_tz = timezone(timedelta(hours=8))
         clean_timestamp = timestamp_str.replace(' (Beijing)', '')
         dt = datetime.datetime.strptime(clean_timestamp, '%Y-%m-%d %H:%M:%S')
         return dt.replace(tzinfo=beijing_tz)
 
-    return datetime.datetime.fromisoformat(timestamp_str)
+    # 2. 尝试解析标准 ISO 格式
+    clean_str = timestamp_str.replace(' ', 'T')
+    try:
+        dt = datetime.datetime.fromisoformat(clean_str)
+        # 如果无时区信息，默认赋予北京时区 (+8)
+        if dt.tzinfo is None:
+            beijing_tz = timezone(timedelta(hours=8))
+            dt = dt.replace(tzinfo=beijing_tz)
+        return dt
+    except ValueError:
+        # 3. 兜底解析 "%Y-%m-%d %H:%M:%S" 格式
+        try:
+            dt = datetime.datetime.strptime(timestamp_str.strip(), '%Y-%m-%d %H:%M:%S')
+            beijing_tz = timezone(timedelta(hours=8))
+            return dt.replace(tzinfo=beijing_tz)
+        except ValueError:
+            raise ValueError(f"无法解析时间戳: {timestamp_str}")
 
 def _serialize_state_timestamp(timestamp):
     """统一使用 UTC ISO 8601 格式持久化状态。"""
